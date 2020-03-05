@@ -8,13 +8,13 @@
             <div class="route-contents-box">
                 <div>
                     <p class="route-name">오롯이 혼자즐기는 혼행!</p>
-                    <p class="route-write">asd</p>
+                    <p class="route-write">{{data.mb_nick}}</p>
                 </div>
                 <p class="route-text">
                     {{data.comment}}
                 </p>
             </div>
-            <a href="" class="link"></a>
+            <a href="#" class="link" @click="$router.push(`/route/${data.touridx}`)"></a>
         </div>
     </div>
 </template>

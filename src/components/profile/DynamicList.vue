@@ -1,21 +1,15 @@
 <template>
     <div>
         <component :is="component" :data="data" v-if="component"></component>
-        <!-- card more -->
-        <div class="card-more" v-show="type == 'mytravel' && count > this.listLimit" @click="showMoreList">
-            <p>경로 더보기{{count}}</p>
-        </div>
-        <!-- //card-more -->
     </div>
 </template>
 <script>
 export default {
     name : 'DynamicList',
-    props:['data','type', 'count'],
+    props:['data','type'],
     data(){
         return{
-            component: null,
-            listLimit: 30
+            component: null
         }
     },
     computed:{
@@ -24,11 +18,6 @@ export default {
                 return null
             }
             return() => import(`./templates/${this.type}/Index`)
-        }
-    },
-    methods: {
-        showMoreList(){
-            this.listLimit = this.listLimit + 30;
         }
     },
     mounted() {

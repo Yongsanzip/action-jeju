@@ -1,7 +1,7 @@
 <template>
     <div class="card-review-wrap">
         <!-- card -->
-        <div class="card-review">
+        <div class="card-review" @click="doView(data.company_idx)">
             <div class="review-image-box">
                 <img :src="`http://img.actionjeju.com/data/company_image${data.company_img}`" alt="">
             </div>
@@ -21,7 +21,9 @@
                     </p>
                 </div>
                 <div>
-                    <p class="review-text">{{data.comment}}</p>
+                    <p class="review-text" style="width: max-content;" ref="comment">{{data.comment}}</p>
+                    <p class="review-text" ref="commentView"></p>
+                    <a style="display: none;">더보기</a>
                 </div>
             </div>
         </div>
@@ -33,9 +35,33 @@ import "moment/locale/ko";
 export default {
     name: 'PlaceReview',
     props:['data'],
+    data(){
+        return {
+            reviewLines: 3,
+            isLong: false
+        }
+    },
     methods:{
+        doView(idx){
+            this.$router.push(`/map/${idx}`)
+        }
     },
     created() {
+    },
+    mounted() {
+        const reviewTextEl = this.$refs.comment;
+        const limitWidth = reviewTextEl.parentElement.offsetWidth;
+
+        if (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 60){
+            this.$refs.commentView.classList.add("has-overflow");
+            while (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 60) {
+                reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
+            }
+            this.isLong = true;
+            this.$refs.commentView.nextSibling.style.display = "block"
+        }
+        reviewTextEl.style.display = "none";
+        this.$refs.commentView.innerHTML = reviewTextEl.innerHTML.trim()
     }
 }
 </script>

@@ -43,9 +43,14 @@
                     <p style="font-size:13px;text-align: center;">{{noDataText}}</p>
                 </div>
                 <div class="list-contents" v-else>
-                    <div v-for="(item, idx) in profileList" :key="idx" :class="{photo__list : item.image_name}">
-                        <dynamic-list :data="item" :type="type" :count="profileList.length"></dynamic-list>
+                    <div v-for="(item, idx) in profileList.slice(0, this.listLimit)" :key="idx" :class="{photo__list : item.image_name}">
+                        <dynamic-list :data="item" :type="type"></dynamic-list>
                     </div>
+                    <!-- card more -->
+                    <div class="card-more" v-show="type != 'photolike' && profileList.length > this.listLimit" @click="showMoreList">
+                        <p>{{(type == 'zzimplace')? '장소' : (type == 'placereview')? '후기' : (type == 'reply')? '댓글' : '경로'}} 더보기</p>
+                    </div>
+                    <!-- //card-more -->
                     <modal-photo v-if="showPhotoModal"
                                  :photo-list="profileList"
                                  :idx="selectedPhotoIdx"
@@ -68,6 +73,12 @@ import ModalPhoto from "../popup/PhotoPopup";
 export default {
     name: 'MyProfile',
     components: {DynamicList, ModalPhoto},
+    props: {
+        originListLimit: {
+            type: Number,
+            default: 30
+        }
+    },
     data(){
         return{
             profile:[],
@@ -83,6 +94,7 @@ export default {
                 {text: '장소후기', type : 'placereview'},
                 {text: '경로댓글', type : 'reply'},
             ],
+            listLimit: this.originListLimit,
             showPhotoModal: false
         }
     },
@@ -104,6 +116,7 @@ export default {
         },
         getList(type){
             this.profileList = [];
+            this.listLimit = this.originListLimit;
             if (type) this.type = type;
             if (this.type === 'mytravel'){//나의 제주여행
                 const postData = new FormData();
@@ -176,8 +189,8 @@ export default {
                 })
             }
         },
-        showDetailImgView(photoIdx, listIdx){
-            console.log(photoIdx, listIdx);
+        showMoreList(){
+            this.listLimit = this.listLimit + this.originListLimit;
         }
     },
     created() {
