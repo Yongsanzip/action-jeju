@@ -101,7 +101,7 @@ export default {
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.tourIdx);
-            postData.append('replyIdx', (this.replyIdx == null)? '' : this.replyIdx);
+            postData.append('commentidx', (this.replyIdx == null)? '' : this.replyIdx);
             postData.append('comment', this.comment);
 
             if(this.replyIdx == null){
@@ -118,7 +118,7 @@ export default {
             }
             else{
                 // 수정
-                Route.modifyReply(postData).then(res => {
+                Route.writeReply(postData).then(res => {
                     console.log(res.data);
 
                     this.comment = null;

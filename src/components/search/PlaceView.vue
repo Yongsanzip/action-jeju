@@ -85,7 +85,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="surface">
+            <div class="surface" v-if="reviewImages != null && reviewImages.length > 0">
                 <p class="text">사진</p>
                 <div class="place-image-list">
                     <div class="place-image" v-for="(item, idx) in reviewImages.slice(0, 6)" :key="idx">

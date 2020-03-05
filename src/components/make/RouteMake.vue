@@ -173,13 +173,12 @@ export default {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
             Route.routeListDetail(postData).then(res => {
-                //console.log(res.data)
-                // this.tourInfo = res.data.tourInfo;
-                // this.days = res.data.days;
-
                 this.title = res.data.tourInfo.name;
                 this.ranges.start = new Date(res.data.days[0].date);
                 this.ranges.end = new Date(res.data.days[res.data.days.length - 1].date);
+
+                this.personnel[0].number = res.data.tourInfo.adult_cnt;
+                this.personnel[1].number = res.data.tourInfo.kids_cnt;
 
                 this.locationList = [];
                 res.data.days.forEach(function(item){
