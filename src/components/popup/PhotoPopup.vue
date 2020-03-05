@@ -1,0 +1,168 @@
+<template>
+    <section class="wrap modal">
+        <main class="container con-search">
+            <div class="image-detail-view">
+                <div class="detail-header" v-if="hasListView">
+                    <p class="name">{{title}}</p>
+                    <button class="btn-prev" @click="close">이전</button>
+                    <button class="btn-list" @click="isShowList=true" v-show="!isShowList">목록보기</button>
+                </div>
+                <div class="detail-header" v-else>
+                    <button class="btn-close" @click="close">닫기</button>
+                    <p class="writer-nick">{{writerNick}}</p>
+                </div>
+                <transition name="fade">
+                    <div class="image-viewer-block" v-show="!isShowList">
+                        <div class="detail-view">
+                            <swiper :options="visualOption" ref="imgSwiper" @slideChange="ChangeSwiperSlide">
+                                <swiper-slide v-for="(item, idx) in photoList" :key="idx">
+                                    <div class="place-slide" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${item.image_name})`}">
+                                        <!--<img :src="`http://img.actionjeju.com/data/user_route_after${item.image_name}`" alt="">-->
+                                    </div>
+                                </swiper-slide>
+                                <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+                                <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+                                <div class="swiper-pagination" style="display: none;"></div>
+                            </swiper>
+                        </div>x
+                        <div class="detail-footer">
+                            <label class="favorite">
+                                <input type="checkbox"
+                                       :checked="isChecked || allLike"
+                                       @change="setThisPhotoLike">
+                                <div class="shape"></div>
+                            </label>
+                            <p class="paginate">{{pageInfo.current}} / {{pageInfo.total}}</p>
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                <div class="image-list image-viewer-block" v-show="isShowList">
+                    <div class="image-item" v-for="(item, idx) in photoList" :key="idx">
+                        <img :src="'http://img.actionjeju.com/data/user_route_after/'+item.image_name" @click="showDetail(idx)"/>
+                        <label class="btn-like">
+                            <input type="checkbox" :class="'photoLike_'+item.idx"
+                                   :checked="item.checked || allLike"
+                                   @change="setPhotoLike(idx, item.idx)">
+                            <div class="shape"></div>
+                        </label>
+                    </div>
+                </div>
+                </transition>
+            </div>
+        </main>
+    </section>
+</template>
+<script>
+import {etc} from '@/api'
+import { EventBus } from "../../assets/event-bus";
+import {swiper, swiperSlide} from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+import {mapGetters} from 'vuex';
+
+export default {
+    name: 'PhotoPopup',
+    components: {
+        swiperSlide,
+        swiper
+    },
+    props:{
+        photoList: {
+            type: Array,
+            default() {
+                return []
+            },
+            require: true
+        },
+        title: {
+            type: String,
+        },
+        idx: {
+            type: Number,
+            default: 0
+        },
+        hasListView: {
+            type: Boolean,
+            default: true
+        },
+        allLike: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            isShowList: false,
+            showModal: false,
+            visualOption:{
+                initialSlide: (this.idx == null)? 0 : this.idx,
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                freeMode: false,
+                loop: false,
+                speed: 400,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev'
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    type: 'fraction',
+                },
+            },
+            pageInfo: {
+                current: this.idx+1,
+                total: this.photoList.length
+            },
+            writerNick: null,
+            isChecked: false,
+        }
+    },
+    computed: {
+        ...mapGetters(['GET_MB_ID'])
+    },
+    methods: {
+        close() {
+            EventBus.$emit("PlaceView", this.showModal, this.photoList);
+            EventBus.$emit('MyProfile', null);
+        },
+        ChangeSwiperSlide(){
+            this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;
+            this.writerNick = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].mb_nick;
+            this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked;
+        },
+        showDetail(idx){
+            this.$refs.imgSwiper.swiper.activeIndex = idx;
+            this.pageInfo.current = idx+1;
+            this.isShowList=false;
+        },
+        setPhotoLike(imgIdx, idx){
+            const postData = new FormData;
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('action', 'set');
+            postData.append('type', 'photo');
+            postData.append('idx', idx);
+            etc.like(postData).then(res => {
+                this.photoList[imgIdx].checked = (res.data.isLike == "N")? false : true;
+                // console.log(res.data)
+            }).catch(err => {
+                console.error(err);
+            })
+        },
+        setThisPhotoLike(){
+            const listIdx = this.$refs.imgSwiper.swiper.activeIndex;
+            const selectedPhoto = this.photoList[listIdx];
+            this.setPhotoLike(listIdx, selectedPhoto.image_idx);
+        }
+    },
+    created() {
+        if(this.idx == null){
+            this.isShowList=true;
+        }
+        else{
+            this.writerNick = this.photoList[this.idx].mb_nick;
+            this.isChecked = this.photoList[this.idx].checked;
+        }
+    }
+}
+</script>

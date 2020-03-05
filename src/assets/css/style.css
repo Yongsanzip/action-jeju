@@ -1,0 +1,577 @@
+@charset "UTF-8";
+.comment{
+  font-size:25px;
+  text-align: center;
+  padding: 15px 0;
+}
+.wrap {
+  max-width: 100%;
+  margin: auto;
+  color: #444444;
+}
+
+/* header */
+.header {
+  max-width: 100%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  background: white;
+  text-align: center;
+  height: 40px;
+  padding: 12px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.header .close {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  background-image: url("../images/ic-cross-gray.png");
+  background-repeat: no-repeat;
+  font-size: 0;
+}
+
+header .next {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  font-size: 14px;
+  height: 40px;
+  line-height:40px;
+}
+
+.header .header-menu {
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  height: 32px;
+}
+
+.header .header-menu li {
+  min-width: 28px;
+  height: 100%;
+  display: inline-block;
+  margin-left: 4px;
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.header .header-menu li:first-child {
+  margin-left: 0;
+}
+
+.header .header-menu .notice {
+  background-image: url("../images/svg/alarm-ico.svg");
+}
+
+.header .header-menu .notice .new {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f3645a;
+  position: absolute;
+  top: 8px;
+  right: 5px;
+}
+
+.header .header-menu .setting {
+  background-image: url("../images/svg/setting-ico.svg");
+}
+
+.header-mt {
+  margin-top: 40px;
+}
+
+/* navigaiton */
+.navigation {
+  position: fixed;
+  width: 100%;
+  max-width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 8px 0;
+  background: white;
+  z-index: 99;
+  -webkit-box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+          box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.16);
+}
+
+.navigation ul {
+  font-size: 0;
+  display: block;
+}
+
+.navigation ul li {
+  display: inline-block;
+  width: 20%;
+  vertical-align: top;
+  text-align: center;
+  font-size: 9px;
+}
+
+.navigation ul li > button {
+  display: inline-block;
+  font-size: 0;
+  min-width: 40px;
+  vertical-align: top;
+}
+
+.navigation ul li p {
+  font-size: 10px;
+  color: #aaaaaa;
+}
+
+.navigation ul li p::before {
+  position: relative;
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  margin: 4px auto 6px;
+  background-position:center;
+}
+
+.navigation ul li .active {
+  color: #555555;
+}
+
+.navigation ul li .nav-home::before {
+  background-image: url("../images/svg/ic-home.svg");
+  background-size:15px 17px;
+}
+
+.navigation ul li .nav-home.active::before {
+  background-image: url("../images/svg/ic-home_on.svg");
+}
+
+.navigation ul li .nav-route::before {
+  background-image: url("../images/svg/ic-route.svg");
+  background-size:17px;
+}
+
+.navigation ul li .nav-route.active::before {
+  background-image: url("../images/svg/ic-route_on.svg");
+  background-size:15px 18px;
+}
+
+.navigation ul li .nav-search::before {
+  background-image: url("../images/svg/ic-search.svg");
+}
+
+.navigation ul li .nav-search.active::before {
+  background-image: url("../images/svg/ic-search_on.svg");
+}
+
+.navigation ul li .nav-profile::before {
+  background-image: url("../images/svg/ic-profile.svg");
+  background-size:15px 17px;
+}
+
+.navigation ul li .nav-profile.active::before {
+  background-image: url("../images/svg/ic-profile_on.svg");
+}
+
+.navigation ul li .nav-write {
+  font-size: 0;
+  width: 40px;
+  height: 40px;
+  background-image: url("../images/svg/make-route.svg");
+}
+.navigation ul li .nav-write::before{
+  display: none;
+}
+
+/* button */
+.btn-green {
+  text-align: center;
+  background: #00c7c9;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: white;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  padding: 0 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-white {
+  text-align: center;
+  background: white;
+  border: 1px solid #dddddd;
+  outline: none;
+  font-size: 13px;
+  color: #777777;
+  height: 36px;
+  line-height: 36px;
+  border-radius: 5px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.btn-grey {
+  text-align: center;
+  background: #bbbbbb;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: white;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.btn-black {
+  text-align: center;
+  background: #474747;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: white;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+/* input */
+.input-text {
+  border: 1px solid #dddddd;
+  outline: none;
+  border-radius: 5px;
+  height: 40px;
+  padding: 8px 16px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 12px;
+  color: #555555;
+}
+
+.input-text::-webkit-input-placeholder {
+  color: #888888;
+}
+
+.input-text:-ms-input-placeholder {
+  color: #888888;
+}
+
+.input-text::-ms-input-placeholder {
+  color: #888888;
+}
+
+.input-text::placeholder {
+  color: #888888;
+}
+
+/* select-box */
+.select-box {
+  border: 1px solid #dddddd;
+  background: white;
+  outline: none;
+  border-radius: 5px;
+  height: 40px;
+  padding: 8px 16px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 12px;
+  color: #555555;
+  font-size: 14px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("../images/ic-triangle-down.png") no-repeat 96% 50%;
+}
+
+.checkbox {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.checkbox input {
+  display: none;
+}
+
+.checkbox .shape {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+}
+
+.checkbox input:checked ~ .shape::after {
+  content: '✓';
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  line-height: 14px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  color: #444444;
+}
+
+.switch {
+  display: inline-block;
+}
+
+.switch input {
+  display: none;
+}
+
+.switch .shape {
+  width: 40px;
+  height: 24px;
+  background-color: #aaaaaa;
+  border-radius: 12px;
+  -webkit-transition: background-color 0.4s;
+  transition: background-color 0.4s;
+}
+
+.switch .shape::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  -webkit-transition: left 0.4s;
+  transition: left 0.4s;
+}
+
+.switch input:checked ~ .shape {
+  background-color: #00c7c9;
+}
+
+.switch input:checked ~ .shape::after {
+  left: 18px;
+}
+
+.btn-like {
+  display: inline-block;
+}
+
+.btn-like input {
+  display: none;
+}
+
+.btn-like .shape {
+  width: 32px;
+  height: 32px;
+  background-size: 24px 24px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("../images/ic-heart-line-white.png");
+}
+
+.btn-like input:checked ~ .shape {
+  background-image: url("../images/ic-heart-fill-white.png");
+}
+
+/* hashtag */
+.hashtag {
+  display: inline-block;
+  font-size: 10px;
+  color: #999999;
+  text-align: center;
+  padding: 5px 8px;
+  background: #e5e5e5;
+  border-radius: 10px;
+}
+
+/* text */
+.text {
+  font-size: 13px;
+  color: #555555;
+  line-height: 19px;
+}
+
+.overline {
+  font-size: 12px;
+  color: #999999;
+}
+
+
+/* link */
+.link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* rating */
+.rating {
+  display: inline-block;
+  font-size: 0;
+}
+
+.rating .star {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-image: url("../images/ic-star-color.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.rating .half {
+  background-image: url("../images/ic-star-half.png");
+}
+
+.rating .none {
+  background-image: url("../images/ic-star-grey.png");
+}
+
+/* overlay */
+.overlay {
+  position: fixed;
+  max-width: 100%;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+}
+
+.overlay .overlay-menu {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 25px 25px 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.overlay .overlay-menu > li {
+  display: block;
+  padding: 8px 0;
+  color: #555555;
+  font-size: 14px;
+}
+
+.overlay .overlay-image {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay .overlay-image .overlay-image-header {
+  padding: 5px 12px;
+}
+
+.overlay .overlay-image .overlay-close {
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  background-image: url("../images/ic-cross-white.png");
+  background-repeat: no-repeat;
+}
+
+.overlay .overlay-image .writer {
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  display: inline-block;
+}
+
+.overlay .overlay-image .writer::before {
+  content: '@';
+}
+
+.overlay .overlay-image .image-slide {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.overlay .overlay-image .image-slide > img {
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  max-height: calc(100vh - 100px);
+}
+
+.overlay .overlay-image .image-slide .btn {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  font-size: 0;
+  background: no-repeat center;
+  border: none;
+  outline: none;
+}
+
+.overlay .overlay-image .image-slide .slide-prev {
+  left: 15px;
+  background-image: url("../images/ic-arrow-left-circle.png");
+}
+
+.overlay .overlay-image .image-slide .slide-next {
+  right: 15px;
+  background-image: url("../images/ic-arrow-right-circle.png");
+}
+
+.overlay .overlay-image .overlay-image-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 15px 10px;
+}
+
+.overlay .overlay-image .favorite {
+  display: inline-block;
+}
+
+.overlay .overlay-image .favorite input {
+  display: none;
+}
+
+.overlay .overlay-image .favorite .shape {
+  width: 32px;
+  height: 32px;
+  background: url("../images/ic-heart-line-white.png") no-repeat center;
+}
+
+.overlay .overlay-image .favorite input:checked ~ .shape {
+  background-image: url("../images/ic-heart-fill-white.png");
+}
+
+.overlay .overlay-image .paginate {
+  color: white;
+  font-size: 13px;
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+}

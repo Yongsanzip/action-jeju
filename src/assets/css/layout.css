@@ -1,0 +1,316 @@
+#app{
+    height: 100%;
+}
+.wrap{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.root.openSearch .wrap{
+    overflow-y: hidden;
+}
+.wrap .section-wrap{
+    width: 100%;
+    height: 100%;
+}
+.nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width: 100%;
+    z-index: 99;
+    height: 80px;
+    background-color:#e2e2e2;
+}
+
+.wrap > header{
+    position:fixed;
+    width: 100%;
+    left:0;
+    top:0;
+    height: 40px;
+    border-bottom: 1px solid #e2e2e2;
+    text-align: center;
+    background-color: #ffffff;
+    z-index: 99;
+}
+.wrap > header h1{
+    display: inline-block;
+    line-height: 40px;
+    position:absolute;
+    top:0;
+    left:50%;
+    transform: translateX(-50%);
+    font-size:17px;
+    font-weight: 400;
+}
+.wrap > header .back__btn{
+    position:absolute;
+    display: block;
+    top:0;
+    left:0;
+    line-height: 39px;
+    width: 40px;
+    height: 40px;
+    background-image: url("../images/svg/chevron-left-solid.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:10px auto;
+}
+
+.container{
+    padding-top: 40px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+}
+
+.checkbox-custom input{display: none;}
+.checkbox-custom input:checked + label::before{
+    background-image: url("../images/svg/check-solid.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size:10px auto;
+    text-align: center;
+    font-size:10px;
+    line-height: 15px;
+}
+.checkbox-custom label{
+    position:relative;
+    display: block;
+    font-size:12px;
+    line-height:16px;
+    color: rgb(204,204,204);
+    padding-left: 24px;
+}
+.checkbox-custom label::before{
+    content:"";
+    display: inline-block;
+    position:absolute;
+    left:0;
+    top:50%;
+    margin-top: -8px;
+    width: 16px;
+    height: 16px;
+    box-sizing: border-box;
+    border:1px solid #cccccc;
+    background-color: #ffffff;
+    border-radius: 3px;
+}
+.checkbox-custom label a{
+    display: inline-block;
+    color: rgb(204,204,204);
+    text-decoration: underline;
+}
+
+/* 공통 버튼 */
+.w160{
+    width: 160px;
+    margin: 0 auto;
+}
+.btn{
+    display: block;
+    border-radius: 5px;
+    width: 100%;
+    font-weight: 300;
+}
+.btn__md{
+    height: 40px;
+    line-height: 40px;
+    font-size:15px;
+}
+.btn__sm{
+    height: 35px;
+    line-height: 33px;
+    font-size:13px;
+}
+.skyblue{
+    color: #ffffff;
+    background-color: rgb(0,199,201);
+}
+.gray{
+    color: #ffffff;
+    background-color: rgb(187,187,187);
+}
+
+.basic{
+    color:rgb(119,119,119);
+    border:1px solid #dddddd;
+}
+
+
+/* list */
+.list-card .card {
+    background: #bbbbbb;
+    border-radius: 15px;
+    position:relative;
+}
+
+.list-card .card > div {
+    display: block;
+    background-size:cover;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    padding: 14px;
+    position: absolute;
+    z-index: 0;
+}
+
+/* link */
+.link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* rating */
+.rating {
+    display: inline-block;
+    font-size: 0;
+}
+
+.rating .star {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-image: url("../images/ic-star-color.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.rating .half {
+    background-image: url("../images/ic-star-half.png");
+}
+
+.rating .none {
+    background-image: url("../images/ic-star-grey.png");
+}
+
+
+.btn-like {
+    display: inline-block;
+}
+
+.btn-like input {
+    display: none;
+}
+
+.btn-like .shape {
+    width: 32px;
+    height: 32px;
+    background-size: 24px 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../images/ic-heart-line-white.png");
+}
+
+.btn-like input:checked ~ .shape {
+    background-image: url("../images/ic-heart-fill-white.png");
+}
+
+.vdp-datepicker__calendar{
+    width: 100% !important;
+}
+.vdp-datepicker__calendar header{
+    height: 40px;
+}
+
+.wrap.modal{
+    position:fixed;
+    width: 100%;
+    top:0;
+    left:0;
+    height: 100%;
+    z-index: 999;
+    background-color: #ffffff;
+}
+.wrap.modal .container{
+    background-color: #ffffff;
+}
+.search-result-list .photo__list{
+    display: inline-block;
+    width:33.333%;
+    font-size:0;
+    position:relative;
+    padding-top: 33.333%;
+    border:1px solid #ffffff;
+}
+.search-result-list .photo__list .img-list{
+    display: block;
+    position:absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-size:cover;
+}
+.search-result-list .photo__list:nth-child(3n){
+    border-right:0;
+}
+.search-result-list .photo__list:nth-child(3n+1){
+    border-left:0;
+}
+
+.star{display:inline-block;}
+.star_area{display:inline-block;font-size:0;}
+.star_area.m-star span{width:68px;height:12px;background-image:url("../images/star.png");background-position:0 -12px;background-repeat:no-repeat;background-size:auto 24px;}
+.star_area span.star span{display:block;background-position:left top;}
+
+.vc-h-full{width: 100%}
+
+ul.custom-check li{
+    display: inline-block;
+}
+
+ul.custom-check li input{
+    display: none;
+}
+
+ul.custom-check li label{
+    display: block;
+    width: 30px;
+    height: 30px;
+    position:relative;
+}
+ul.custom-check li label span{
+    display: block;
+    background-repeat:no-repeat;
+    background-position: center;
+    position:absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-size:25px auto;
+}
+
+ul.custom-check li.check_like label span{
+    background-image: url("../images/ic-heart-line-white.png");
+}
+ul.custom-check li.check_like input:checked ~ span{
+    background-image: url("../images/ic-heart-fill-white.png");
+}
+ul.custom-check li.check_favorite label span{
+    background-image: url("../images/ic-bookmark-white.png");
+}
+ul.custom-check li.check_favorite input:checked ~ span{
+    background-image: url("../images/ic-bookmark-fill-white.png");
+}
+
+.vc-reset [role=button], .vc-reset button{
+    position:relative;
+    border-radius: 50%;
+    border:1px solid #ddd;
+    background-color: #ffffff;
+}
+.vc-svg-icon[data-v-63f7b5ec]{
+    top:0;
+    left:0;
+}
