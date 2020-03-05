@@ -87,7 +87,10 @@ export default {
             console.log(this.tourIdx)
             Route.replyList(postData).then(res => {
                 //console.log(res.data)
-                if(res.data.replyList == null) return;
+                if(res.data.replyList == null){
+                    this.replyList = [];
+                    return;
+                }
 
                 this.replyList = res.data.replyList;
                 this.replyList.forEach(function(item){
@@ -151,24 +154,20 @@ export default {
         removeComment(){
             this.isMenu=false;
             this.$confirm("삭제하시겠습니까?").then(result=> {
-                console.log(result);
+                if(!result) return;
 
-                this.comment = null;
-                //삭제 API 명확치 않음
-                this.comment = null;
-                this.replyIdx = null;
-                this.selectedReply = null;
-                /*Route.removeReply(postData).then(res => {
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('commentidx', this.replyIdx);
+                Route.deleteReply(postData).then(res => {
                     console.log(res.data);
-
                     this.comment = null;
                     this.replyIdx = null;
                     this.selectedReply = null;
-
                     this.getReplyList();
                 }).catch(err => {
                     console.error(err);
-                })*/
+                })
             })
             .catch(error => {
                 console.log(error);

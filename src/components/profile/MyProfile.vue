@@ -83,7 +83,7 @@ export default {
         return{
             profile:[],
             profileList:[],
-            type:'mytravel',
+            type:null,
             el_Active: 0,
             noDataText:null,
             navList:[
@@ -115,6 +115,7 @@ export default {
             })
         },
         getList(type){
+            if(this.type == type) return;
             this.profileList = [];
             this.listLimit = this.originListLimit;
             if (type) this.type = type;

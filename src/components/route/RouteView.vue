@@ -244,8 +244,6 @@ export default {
                 for(let j=0; j<this.days[i].path.length; j++){
                     this.days[i].path[j].isLong = false;
                     this.days[i].path[j].showLongText = false;
-
-                    console.log(this.days[i].path[j]);
                 }
             }
         },
@@ -351,6 +349,16 @@ export default {
         },
         removeRout(){
             this.isShowMenu=false;
+
+            const postData = new FormData;
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('tour_idx', this.id);
+            Route.deleteRoute(postData).then(res => {
+                console.log(res.data)
+                history.back();
+            }).catch(err => {
+                console.error(err);
+            })
         }
     },
     created() {

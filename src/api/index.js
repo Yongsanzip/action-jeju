@@ -119,7 +119,15 @@ export const Route = {
             data
         })
     },
-    replyList(data) {//경로 댓글 목
+    deleteRoute(data){//경로 삭제
+        return api.request({
+            method: 'post',
+            url: '/deleteRoute.php',
+            data
+        })
+
+    },
+    replyList(data) {//경로 댓글 목록
         return api.request({
             method: 'post',
             url: '/replyList.php',
@@ -133,14 +141,14 @@ export const Route = {
             data
         })
     },
-    modifyReply(data) {//경로 댓글 등록/수정
+    deleteReply(data) {//경로 댓글 삭제
         return api.request({
             method: 'post',
-            url: '/modReply.php',
+            url: '/deleteReply.php',
             data
         })
     },
-    writeReview(data) {//경로 댓글 등록/수정
+    writeReview(data) {//장소 후기 등록/수정
         return api.request({
             method: 'post',
             url: '/writeReview.php',

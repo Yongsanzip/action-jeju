@@ -304,12 +304,12 @@ ul.custom-check li.check_favorite input:checked ~ span{
     background-image: url("../images/ic-bookmark-fill-white.png");
 }
 
-.vc-reset [role=button], .vc-reset button{
+/*.vc-reset [role=button], .vc-reset button{
     position:relative;
     border-radius: 50%;
     border:1px solid #ddd;
     background-color: #ffffff;
-}
+}*/
 .vc-svg-icon[data-v-63f7b5ec]{
     top:0;
     left:0;
