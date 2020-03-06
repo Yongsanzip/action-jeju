@@ -39,7 +39,7 @@
                             <label class="btn-like">
 <!--                                <input type="checkbox">-->
                                 <input type="checkbox" :class="'photoLike_'+item.idx"
-                                       :checked="item.user_like_point > 0"
+                                       :checked="false"
                                        @change="setRouteLike(idx, item.idx)">
                                 <div class="shape"></div>
                             </label>
