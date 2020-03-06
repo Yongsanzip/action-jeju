@@ -177,8 +177,9 @@ export default {
                 this.ranges.start = new Date(res.data.days[0].date);
                 this.ranges.end = new Date(res.data.days[res.data.days.length - 1].date);
 
-                this.personnel[0].number = res.data.tourInfo.adult_cnt;
-                this.personnel[1].number = res.data.tourInfo.kids_cnt;
+                this.personnel[0].number = Number(res.data.tourInfo.adult_cnt);
+                this.personnel[1].number = Number(res.data.tourInfo.kids_cnt);
+                this.num = this.personnel[0].number + this.personnel[1].number;
 
                 this.locationList = [];
                 res.data.days.forEach(function(item){
