@@ -33,7 +33,7 @@
                                     <img v-bind:src="photoItem.src" alt="">
                                 </div>
                             </div>
-                            <button class="btn-remove" @click="removeImage(idx)">사진삭제</button>
+                            <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
                         </div>
                     </div>
                     <!-- 입력완료시 active 클래스 추가 -->
