@@ -23,6 +23,10 @@
                         <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
                     </div>
                     <div class="review-image-list">
+                        <div class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                            이미지 추가
+                            <input type="file" style="display: none;" accept="image/*" />
+                        </div>
                         <div v-for="(photoItem, idx) in photoList" :class="'image-item add-image-'+idx" :key="idx">
                             <div class="image-box">
                                 <div class="centered">
@@ -30,10 +34,6 @@
                                 </div>
                             </div>
                             <button class="btn-remove" @click="removeImage(idx)">사진삭제</button>
-                        </div>
-                        <div class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
-                            이미지 추가
-                            <input type="file" style="display: none;" accept="image/*" />
                         </div>
                     </div>
                     <!-- 입력완료시 active 클래스 추가 -->
