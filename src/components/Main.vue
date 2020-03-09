@@ -32,9 +32,9 @@
                         <div class="inner-box">
                             <div>
                                 <ul>
-                                    <li class="heart-ico"><span>0</span></li>
-                                    <li class="like-ico"><span>0</span></li>
-                                    <li class="re-ico"><span>0</span></li>
+                                    <li class="heart-ico"><span>{{tourInfo.user_like_count}}</span></li>
+                                    <li class="like-ico"><span>{{tourInfo.zzim_count}}</span></li>
+                                    <li class="re-ico"><span>{{tourInfo.reply_count}}</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -50,8 +50,9 @@
                         <div class="slide-box">
                             <swiper class="swiper-container" :options="listSwiperOption" ref="mySwiper">
                                 <swiper-slide v-for="(item, idx) in tourDays" :key="idx">
-<!--                                    <img v-if="item.path[0].images === null" src="../assets/images/img-dummy.png" alt="">-->
-                                    <img :src="item.path.images" alt="">
+                                    <img v-if="item.path != null && item.path.length > 0 && item.path[0].images != null && item.path[0].images.length > 0"
+                                         :src="`http://img.actionjeju.com/data/user_route_after${item.path[0].images[0].name}`"
+                                         alt="">
                                 </swiper-slide>
                             </swiper>
                         </div>
@@ -63,7 +64,7 @@
                 <div class="con-main mt25">
                     <div class="list-card">
                         <h2 class="section-title">제주 동부지역 1인 식당</h2>
-                        <div class="card" v-for="(item, idx) in latestList" :key="idx" @click="doView(item.idx)">
+                        <div class="card" v-for="(item, idx) in latestList.slice(0, 30)" :key="idx" @click="doView(item.idx)">
                             <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image/${item.image}`}">
                                 <h3 class="card-title">{{item.name}}</h3>
                                 <label class="btn-like">
