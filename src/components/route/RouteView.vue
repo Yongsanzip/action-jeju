@@ -241,6 +241,7 @@ export default {
         },
         setReviewText(){
             for(let i=0; i<this.days.length; i++){
+                if(typeof this.days[i].path == "undefined") continue;
                 for(let j=0; j<this.days[i].path.length; j++){
                     this.days[i].path[j].isLong = false;
                     this.days[i].path[j].showLongText = false;
@@ -376,11 +377,15 @@ export default {
         let reviewText = null;
         let k = 0;
         for(let j=0; j<this.days.length; j++){
+            if(typeof this.days[j].path == "undefined") continue;
+            if(this.days[j].path.length < 1) continue;
+
             for(let i=0; i<this.days[j].path.length; i++){
                 //console.log(k, reviewTextBox[k], reviewTextBox[k].getElementsByClassName("short"));
                 if(reviewTextBox[k] == null) continue;
                 if(reviewTextBox[k].classList.value.indexOf("has-overflow") > -1) continue;
 
+                if(reviewTextBox[k].getElementsByClassName("short").length < 1) continue;
                 reviewText = reviewTextBox[k].getElementsByClassName("short")[0];
                 if (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 60){
                     reviewTextBox[k].classList.add("has-overflow");

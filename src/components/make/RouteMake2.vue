@@ -22,7 +22,7 @@
                     <div class="route-header">
                         <div>
                             <h3 class="route-title" v-if="isTitle">{{getTitle}}</h3>
-                            <button class="btn-edit-info" v-if="isTitle" @click="doEdit">여행정보 수정</button>
+                            <button class="btn-edit-info" v-if="isTitle" @click="doEditRouteInfo">여행정보 수정</button>
                             <input type="text" v-if="!isTitle" v-model="getTitle">
                             <button class="btn-edit-info" v-if="!isTitle" @click="doApply">여행정보 확인</button>
                         </div>
@@ -31,7 +31,7 @@
                                 {{$moment(edate).diff($moment(sdate), 'days')}}박 {{$moment(edate).diff($moment(sdate), 'days')+1}}일
                                 ({{sdate}} - {{this.$moment(edate).format('MM-DD')}})
                             </p>
-                            <button class="btn-edit-route">경로편집</button>
+                            <button class="btn-edit-route" @click="doEditRouteOrder">경로편집</button>
                         </div>
                     </div>
                     <div class="route-contents">
@@ -43,24 +43,37 @@
                                 <p class="travel-date">{{date.fulldate}}</p>
                             </div>
                             <ul class="travel-list">
-                                <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx">
-                                    <div class="place-number">1</div>
-                                    <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
-                                    <p class="place-time"></p>
-                                    <div class="travel-contents">
-                                        <!-- add travel this -->
-                                        <p class="review-text">
-                                            {{item.review}}
-                                        </p>
-                                        <div class="review-image-list" v-if="item.images != null && item.images.length > 0">
-                                            <div class="review-image" v-for="(imgItem, imgIdx) in item.images" :key="imgIdx">
-                                                <img :src="`http://img.actionjeju.com/data/user_route_after/${imgItem.name}`" alt="">
+                                <template v-if="!isEditRoute">
+                                    <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx">
+                                        <div class="place-number">{{idx+1}}</div>
+                                        <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
+                                        <p class="place-time"></p>
+                                        <div class="travel-contents">
+                                            <!-- add travel this -->
+                                            <p class="review-text">
+                                                {{item.review}}
+                                            </p>
+                                            <div class="review-image-list" v-if="item.images != null && item.images.length > 0">
+                                                <div class="review-image" v-for="(imgItem, imgIdx) in item.images" :key="imgIdx">
+                                                    <img :src="`http://img.actionjeju.com/data/user_route_after/${imgItem.name}`" alt="">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                </template>
+                                <template v-if="isEditRoute">
+                                    <draggable class="edit-route-block"  draggable=".edit-route-item">
+                                        <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx" :class="'edit-route-item '+date.date">
+                                            <div class="place-number">{{idx+1}}</div>
+                                            <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
+                                            <p class="place-time">약 1시간 55분 소요</p>
+                                            <button class="btn-close" @click="deletePlace($event, dateIdx, idx)">장소제거</button>
+                                        </li>
+                                    </draggable >
+                                </template>
+
                             </ul>
-                            <div class="btn-wrap">
+                            <div class="btn-wrap" v-if="!isEditRoute">
                                 <button class="btn-white" @click="addRoute(date.fulldate2)">장소추가</button>
                             </div>
                         </div>
@@ -91,12 +104,14 @@ import { EventBus } from "../../assets/event-bus";
 import { Route } from "@/api";
 import "moment/locale/ko";
 import ReviewPopup from "../popup/ReviewPopup";
+import draggable from 'vuedraggable'
 
 export default {
     name: 'Make2',
     components:{
         ModalSearch,
-        ReviewPopup
+        ReviewPopup,
+        draggable
     },
     props: {
         title: {
@@ -114,6 +129,8 @@ export default {
     },
     data(){
         return{
+            isDiff: false,
+            isEditRoute: false,
             isReview:false,
             showModal:false,
             getTitle:'',
@@ -147,17 +164,45 @@ export default {
             this.selectedDate = selectedDate;
             this.showModal = true;
         },
-        doEdit(){
-            // this.isTitle = false;
+        doEditRouteInfo(){
             console.log(this.touridx);
             console.log(this);
             this.$parent.isChk = false;
-            /*this.$router.push({
-                name: 'RouteMake',
-                params: {
-                    'idx': Number(this.touridx)
+        },
+        doEditRouteOrder(){
+            let locationOrder = null;
+            let routeItems = null;
+            if(this.isEditRoute){
+                if(this.dateList != null){
+                    this.dateList.forEach(function(date){
+                        routeItems = document.getElementsByClassName("edit-route-item "+date.date);
+                        if(routeItems.length < 1) return;
+
+                        locationOrder = [];
+                        routeItems.forEach(function(routeItem){
+                            locationOrder.push(this.locationList[date.fulldate2][routeItem.getAttribute("idx")]);
+                        }.bind(this));
+
+                        this.locationList[date.fulldate2] = locationOrder;
+                    }.bind(this))
+
+                    this.setRouteDetail();
                 }
-            });*/
+                // console.log(this.locationList);
+            }
+            this.isEditRoute=!this.isEditRoute;
+        },
+        deletePlace(e, dateIdx, locateIdx){
+            const editRouteItem = document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"]);
+            const locationList = this.locationList[this.dateList[dateIdx]["fulldate2"]];
+            let changedLocationList = [];
+            editRouteItem.forEach(function(el, i){
+                if(i != locateIdx) changedLocationList.push(locationList[el.getAttribute("idx")]);
+            });
+            this.locationList[this.dateList[dateIdx]["fulldate2"]] = changedLocationList;
+            this.$forceUpdate();
+            this.isDiff = true;
+            // document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"])[locateIdx].remove();
         },
         doApply(){
             if (this.getTitle.replace(/^\s+|\s+$/g, '' ) === "" || this.getTitle === ''){
@@ -168,7 +213,6 @@ export default {
             }
         },
         getDateList(){
-            console.log("getDateList called");
             // Usage
             let dt = this.sdate;
             const endDate = this.edate;
@@ -187,7 +231,6 @@ export default {
             }
         },
         getRouteDetail() {
-            console.log("getRouteDetail called");
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
             Route.routeListDetail(postData).then(res => {
@@ -197,11 +240,16 @@ export default {
 
                 this.getTitle = res.data.tourInfo.name;
                 this.locationList = [];
-                res.data.days.forEach(function(item){
-                    this.locationList[item.date] = item.path;
+
+                this.dateList.forEach(function(item){
+                    this.locationList[item.fulldate2] = [];
                 }.bind(this));
 
-                console.log(this.locationList);
+                if(res.data.days != null){
+                    res.data.days.forEach(function(item){
+                        this.locationList[item.date] = item.path;
+                    }.bind(this));
+                }
             }).catch(err => {
                 console.error(err);
             })
@@ -211,10 +259,12 @@ export default {
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.touridx);
 
+            console.log(this.locationList);
+
             let detailArr = [];
             this.dateList.forEach(function(dateItem){
-                for(var i=0; i<this.locationList[dateItem.fulldate2].length; i++){
-                    detailArr.push(dateItem.fulldate2+"/"+this.locationList[dateItem.fulldate2][i].company_idx);
+                for(let i=0; i<this.locationList[dateItem.fulldate2].length; i++){
+                    if(this.locationList[dateItem.fulldate2][i] != null) detailArr.push(dateItem.fulldate2+"/"+this.locationList[dateItem.fulldate2][i].company_idx);
                 }
             }.bind(this));
             //console.log("detailArr::", detailArr);
@@ -223,6 +273,7 @@ export default {
             Route.saveRouteDetail(postData).then(res => {
                 console.log(res.data);
                 this.getRouteDetail();
+                this.isDiff = false;
             }).catch(err => {
                 console.error(err);
             })
