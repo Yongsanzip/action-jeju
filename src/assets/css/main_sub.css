@@ -1620,9 +1620,33 @@
   display: block;
   margin-bottom: 24px;
 }
+.con-route .route-wrap .route-contents .route-item .travel-list > div> li.edit-route-item {
+  margin-bottom: 10px;
+}
+.con-route .route-wrap .route-contents .route-item .travel-list > div> li.edit-route-item {
+  display: block;
+  padding: 8px;
+  border: 1px dashed #cccccc;
+  border-radius: 10px;
+}
 
-.con-route .route-wrap .route-contents .route-item .travel-list > li > p, .con-route .route-wrap .route-contents .route-item .travel-list > li > div {
+.con-route .route-wrap .route-contents .route-item .travel-list > li > p, .con-route .route-wrap .route-contents .route-item .travel-list > li > div,
+.con-route .route-wrap .route-contents .route-item .travel-list > div > li > * {
   display: inline-block;
+}
+.con-route .route-wrap .route-contents .route-item .travel-list > div > li > .btn-close {
+  width: 20px;
+  height: 20px;
+  font-size: 0;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  background-image: url("../images/ic-cross-gray.png");
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 7px;
+  right: 12px;
+  vertical-align: middle;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list > li::after {
@@ -1634,6 +1658,9 @@
   background: #dddddd;
   left: 10px;
   bottom: -20px;
+}
+.con-route .route-wrap .route-contents .route-item .travel-list > div > li.edit-route-item::after {
+  display: none;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list > li:last-child::after {
@@ -1659,9 +1686,11 @@
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .place-time {
+  margin-left: 9px;
   font-size: 10px;
   color: #999999;
-  line-height: 20px;
+  line-height: 17px;
+  vertical-align: bottom;
 }
 
 
