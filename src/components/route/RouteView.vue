@@ -45,8 +45,8 @@
                                     <p class="place-name">{{path.company_name}}</p>
                                     <p class="place-time"></p>
                                     <div class="travel-contents">
-                                        <div class="review-text">
-                                            <p @click="doViewAllReviewText($event, idx, pathIdx)">{{path.review}}</p>
+                                        <div class="review-text" @click="doViewAllReviewText($event, idx, pathIdx)">
+                                            <p>{{path.review}}</p>
                                         </div>
                                         <div class="review-image-list" v-show="path.images != null">
                                             <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx">
@@ -106,8 +106,8 @@
                                     <p class="comment-time">{{item.getReg}}</p>
                                     <button class="btn-more">메뉴</button>
                                 </div>
-                                <div>
-                                    <p class="comment-text" @click="doViewReply($event)">
+                                <div @click="doViewReply($event, idx)">
+                                    <p class="comment-text">
                                         {{item.comment}}
                                     </p>
                                 </div>
@@ -259,11 +259,12 @@ export default {
             })
         },
         doViewAllReviewText(e, daysIdx, pathIdx){
-            if(e.target.parentElement.className.indexOf('has-overflow') >= 0){
-                e.target.innerHTML = this.days[daysIdx].path[pathIdx].review;
-                e.target.style.height = "auto";
-                e.target.style.display = "block";
-                e.target.parentElement.classList.remove("overflow2lines")
+            if(e.target.className.indexOf('has-overflow') >= 0){
+                const textEl = e.target.getElementsByTagName("p")[0];
+                textEl.innerHTML = this.days[daysIdx].path[pathIdx].review;
+                textEl.style.height = "auto";
+                textEl.style.display = "block";
+                e.target.classList.remove("overflow2lines")
             }
         },
         openMap(){
@@ -358,9 +359,15 @@ export default {
         doReply(){
             this.isReply = true;
         },
-        doViewReply(e){
-            // console.log(e);
-            if(e.target.parentElement.className.indexOf("overflow3lines") >= 0) this.doReply();
+        doViewReply(e, idx){
+            if(e.target.className.indexOf("overflow3lines") >= 0){
+                //this.doReply();
+                const textEl = e.target.getElementsByTagName("p")[0];
+                textEl.innerHTML = this.replyList[idx].comment;
+                textEl.style.height = "auto";
+                textEl.style.display = "block";
+                e.target.classList.remove("overflow3lines")
+            }
         },
         modifyRout(){
             this.isShowMenu=false;
