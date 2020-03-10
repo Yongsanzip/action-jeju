@@ -41,6 +41,9 @@
     </div>
 </template>
 <script>
+import { Route } from "@/api";
+import {mapGetters} from 'vuex';
+
 export default {
     name: 'MyTravel',
     props:['data'],
@@ -49,6 +52,9 @@ export default {
             selectedTourIdx: null,
             isShowMenu: false
         }
+    },
+    computed: {
+        ...mapGetters(['GET_MB_ID'])
     },
     methods: {
         doView(idx){
@@ -78,7 +84,16 @@ export default {
         },
         removeRout(){
             this.isShowMenu = false;
-            console.log(this.selectedTourIdx);
+
+            const postData = new FormData;
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('tour_idx', this.selectedTourIdx);
+            Route.deleteRoute(postData).then(res => {
+                console.log(res.data);
+                this.$forceUpdate();
+            }).catch(err => {
+                console.error(err);
+            })
         }
     }
 }

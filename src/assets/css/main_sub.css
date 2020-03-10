@@ -1713,9 +1713,10 @@
   font-size: 11px;
   line-height: 17px;
   height: 35px;
+  white-space: nowrap;
 }
-.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text  p.short {
-  overflow: hidden;
+.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.has-overflow p {
+  white-space: normal;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1724,11 +1725,11 @@
   overflow: hidden;
 
 }
-.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.has-overflow  p.short:after {
+.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.overflow2lines p:after {
   content: '...';
 }
-
-.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text a {
+.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.overflow2lines:after {
+  content: '더보기';
   position: absolute;
   right: 2px;
   top: 18px;
@@ -2254,6 +2255,9 @@
   font-size: 12px;
   color: #666666;
   line-height: 18px;
+}
+
+.con-route .comment-wrap .comment-list .comment-card .comment-box .has-overflow .comment-text {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -2262,10 +2266,21 @@
   word-wrap: break-word;
 }
 
-
-
-
-
+.con-route .comment-wrap .comment-list .comment-card .comment-box .overflow3lines .comment-text:after {
+  content: '...';
+}
+.con-route .comment-wrap .comment-list .comment-card .comment-box .overflow3lines:after {
+  content: '더보기';
+  position: absolute;
+  right: 19px;
+  top: 38px;
+  color: #ffffff;
+  font-size: 9px;
+  line-height: 13px;
+  background: #cccccc;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
 .con-route .overlay .place-review {
   background: white;
   position: absolute;
@@ -3804,12 +3819,34 @@
   font-size: 12px;
   color: #666666;
   line-height: 18px;
+}
+.con-route .post-comment-wrap .comment-list .comment-card .comment-box .noEllipsis .comment-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+}
+.con-route .post-comment-wrap .comment-list .comment-card .comment-box .has-overflow .comment-text {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
+}
+.con-route .post-comment-wrap .comment-list .comment-card .comment-box .has-overflow.overflow3lines .comment-text:after {
+  content: '...';
+}
+.con-route .post-comment-wrap .comment-list .comment-card .comment-box .has-overflow.overflow3lines:after {
+  content: '더보기';
+  position: absolute;
+  right: 19px;
+  top: 38px;
+  color: #ffffff;
+  font-size: 9px;
+  line-height: 13px;
+  background: #cccccc;
+  padding: 1px 7px;
+  border-radius: 10px;
 }
 
 .con-route .post-comment-wrap .comment-input {

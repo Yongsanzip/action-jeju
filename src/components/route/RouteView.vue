@@ -46,11 +46,9 @@
                                     <p class="place-time"></p>
                                     <div class="travel-contents">
                                         <div class="review-text">
-                                            <p class="short" style="white-space: nowrap;" v-show="path.showLongText === false">{{path.review}}</p>
-                                            <p class="long" style="overflow: inherit;" v-show="path.isLong === true && path.showLongText === true">{{path.review}}</p>
-                                            <a v-show="path.isLong === true && path.showLongText === false" @click="showLongReviewText($event, idx, pathIdx)">더보기</a>
+                                            <p @click="doViewAllReviewText($event, idx, pathIdx)">{{path.review}}</p>
                                         </div>
-                                        <div class="review-image-list">
+                                        <div class="review-image-list" v-show="path.images != null">
                                             <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx">
     <!--                                            <img src="../../assets/images/img-dummy.png" alt="">-->
                                                 <img :src="`http://img.actionjeju.com/data/user_route_after${image.name}`" alt="">
@@ -109,7 +107,7 @@
                                     <button class="btn-more">메뉴</button>
                                 </div>
                                 <div>
-                                    <p class="comment-text">
+                                    <p class="comment-text" @click="doViewReply($event)">
                                         {{item.comment}}
                                     </p>
                                 </div>
@@ -183,8 +181,9 @@
         </main>
         <div class="overlay" :style="(isShowMenu)? '' : 'display:none;'" @click.self="isShowMenu=false">
             <ul class="overlay-menu">
-                <li><a @click="modifyRout">이 여행경로 편집</a></li>
-                <li><a @click="removeRout">이 여행일정 삭제</a></li>
+                <li v-show="isMine"><a @click="modifyRout">이 여행경로 편집</a></li>
+                <li v-show="isMine"><a @click="removeRout">이 여행경로 삭제</a></li>
+                <li v-show="!isMine"><a @click="setFavorites">이 여행경로 찜하기</a></li>
                 <li><a href="">SNS 공유하기</a></li>
             </ul>
         </div>
@@ -209,18 +208,38 @@ export default {
         reviewLines: {
             type: Number,
             default: 2
+        },
+        commentLines: {
+            type: Number,
+            default: 3
         }
     },
     data(){
       return{
+          mapWidth: 400,
+          mapHeight: 150,
           tourInfo:[],
           days:[],
           isSticky: false,
+          isMine: true,
           isLike: false,
           isFavorites: false,
           isReply:false,
           replyList:[],
-          isShowMenu:false
+          isShowMenu:false,
+          mapMarkList: [],
+          polyLineList: null,
+          info: false,
+          map: null,
+          mapOptions: {
+              lat: 33.2411822578,
+              lng: 126.5935367973,
+              zoom: 9,
+              zoomControl: false,
+              mapTypeControl: false
+          },
+          polylineOpt: [],
+          initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
       }
     },
     computed: {
@@ -239,20 +258,13 @@ export default {
                 console.error(err);
             })
         },
-        setReviewText(){
-            for(let i=0; i<this.days.length; i++){
-                if(typeof this.days[i].path == "undefined") continue;
-                for(let j=0; j<this.days[i].path.length; j++){
-                    this.days[i].path[j].isLong = false;
-                    this.days[i].path[j].showLongText = false;
-                }
+        doViewAllReviewText(e, daysIdx, pathIdx){
+            if(e.target.parentElement.className.indexOf('has-overflow') >= 0){
+                e.target.innerHTML = this.days[daysIdx].path[pathIdx].review;
+                e.target.style.height = "auto";
+                e.target.style.display = "block";
+                e.target.parentElement.classList.remove("overflow2lines")
             }
-        },
-        showLongReviewText(envt, daysIdx, pathIdx){
-            this.days[daysIdx].path[pathIdx].showLongText = true;
-            envt.target.style.display="none";
-            envt.target.parentElement.getElementsByClassName("short")[0].style.display="none";
-            envt.target.parentElement.getElementsByClassName("long")[0].style.display="inline";
         },
         openMap(){
             this.isSticky = true;
@@ -296,6 +308,28 @@ export default {
                 console.error(err);
             })
         },
+        setFavorites(){
+            if(this.isShowMenu) this.isShowMenu=false;
+
+            const postData = new FormData;
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('action', 'set');
+            postData.append('type', 'route');
+            postData.append('idx', this.id);
+            etc.Favorites(postData).then(res => {
+                //console.log(res.data)
+                if(res.data.isZzim === 'N'){
+                    this.tourInfo.zzim_count--
+                    this.isFavorites = false
+                }
+                else {
+                    this.tourInfo.zzim_count++
+                    this.isFavorites = true
+                }
+            }).catch(err => {
+                console.error(err);
+            })
+        },
         getReplyList() {
             const postData = new FormData;
             postData.append('tour_idx', this.id);
@@ -321,21 +355,12 @@ export default {
                 console.error(err);
             })
         },
-        setFavorites(){
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'set');
-            postData.append('type', 'route');
-            postData.append('idx', this.id);
-            etc.Favorites(postData).then(res => {
-                //console.log(res.data)
-                res.data.isZzim === 'N' ? this.tourInfo.zzim_count-- : this.tourInfo.zzim_count++
-            }).catch(err => {
-                console.error(err);
-            })
-        },
         doReply(){
             this.isReply = true;
+        },
+        doViewReply(e){
+            // console.log(e);
+            if(e.target.parentElement.className.indexOf("overflow3lines") >= 0) this.doReply();
         },
         modifyRout(){
             this.isShowMenu=false;
@@ -361,6 +386,31 @@ export default {
                 console.error(err);
             })
         }
+        /*
+        ,shareLink(){
+            const snsCode = "vIconTw";
+            let cUrl;
+            switch(snsCode){
+                case"vIconTw":
+                    //트위터
+                    cUrl = 'https://twitter.com/intent/tweet?text=페이지제목:&url='+cUrl;
+                    break;
+                case"vIconTg":
+                    //텔레그램
+                    cUrl = 'https://telegram.me/share/url?url='+cUrl;
+                    break;
+                case"vIconFb":
+                    //페이스북
+                    cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+cUrl;
+                    break;
+                case"vIconKs":
+                    //카카오스토리
+                    cUrl = 'https://story.kakao.com/share?url='+cUrl;
+                    break;
+            }
+            window.open(cUrl,'','width=600,height=300,top=100,left=100,scrollbars=yes');
+        }
+        */
     },
     created() {
         window.scrollTo(0,0);
@@ -370,41 +420,37 @@ export default {
         this.getReplyList();
         EventBus.$on("RouteView", props => {
             this.isReply = props;
+            this.getRouteList();
+            this.getReplyList();
         });
     },
     updated() {
         const reviewTextBox = document.getElementsByClassName("review-text");
-        let reviewText = null;
-        let k = 0;
-        for(let j=0; j<this.days.length; j++){
-            if(typeof this.days[j].path == "undefined") continue;
-            if(this.days[j].path.length < 1) continue;
-
-            for(let i=0; i<this.days[j].path.length; i++){
-                //console.log(k, reviewTextBox[k], reviewTextBox[k].getElementsByClassName("short"));
-                if(reviewTextBox[k] == null) continue;
-                if(reviewTextBox[k].classList.value.indexOf("has-overflow") > -1) continue;
-
-                if(reviewTextBox[k].getElementsByClassName("short").length < 1) continue;
-                reviewText = reviewTextBox[k].getElementsByClassName("short")[0];
-                if (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 60){
-                    reviewTextBox[k].classList.add("has-overflow");
-                    this.days[j].path[i].isLong = true;
-                    if(reviewTextBox[k].getElementsByTagName("a") != null && reviewTextBox[k].getElementsByTagName("a").style != null) {
-                        reviewTextBox[k].getElementsByTagName("a").style.display = "block";
+        let reviewTextEl = null;
+        if(reviewTextBox.length >= 0){
+            reviewTextBox.forEach(function(boxEl){
+                reviewTextEl = boxEl.getElementsByTagName("p")[0];
+                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60){
+                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60) {
+                        reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
                     }
-                    if(reviewText.innerHTML.length > 150) reviewText.innerHTML.substring(0, 150);
-                    reviewTextBox[i].getElementsByTagName("a")[0].style.display = "block";
+                    boxEl.classList.add("overflow2lines");
                 }
-                while (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 60) {
-                    reviewText.innerHTML = reviewText.innerHTML.slice(0, -1);
-                }
-                reviewText.innerHTML = reviewText.innerHTML.trim();
-                reviewText.style['white-space'] = 'inherit';
-
-                k++;
-            }
+                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth) reviewTextEl.parentElement.classList.add("has-overflow");
+            }.bind(this))
         }
+
+        const commentTextEl = document.getElementsByClassName("comment-text");
+        if(commentTextEl.length < 1) return;
+        commentTextEl.forEach(function(el){
+            if (el.scrollWidth > el.offsetWidth * this.commentLines - 60){
+                while (el.scrollWidth > el.offsetWidth * this.commentLines - 60) {
+                    el.innerHTML = el.innerHTML.slice(0, -1);
+                }
+                el.parentElement.classList.add("overflow3lines");
+            }
+            if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
+        }.bind(this));
 
     }
 }

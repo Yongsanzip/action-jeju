@@ -22,7 +22,7 @@
                                 <button class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
                             </div>
                             <div>
-                                <p class="comment-text">
+                                <p class="comment-text" @click="doViewAllText($event, idx)">
                                     {{item.comment}}
                                 </p>
                             </div>
@@ -64,6 +64,10 @@ export default {
         },
         tourIdx:{
             type: String
+        },
+        commentLines:{
+            type: Number,
+            default: 3
         }
     },
     data(){
@@ -172,10 +176,30 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+        },
+        doViewAllText(e, idx){
+            if(e.target.parentElement.className.indexOf("has-overflow") >= 0){
+               e.target.innerHTML = this.replyList[idx].comment;
+                e.target.parentElement.classList.add("noEllipsis")
+                e.target.parentElement.classList.remove("has-overflow")
+            }
         }
     },
     created() {
         this.getReplyList();
+    },
+    updated() {
+        const commentTextEl = document.getElementsByClassName("comment-text");
+        if(commentTextEl.length < 1) return;
+        commentTextEl.forEach(function(el){
+            if (el.scrollWidth > el.offsetWidth * this.commentLines - 60){
+                while (el.scrollWidth > el.offsetWidth * this.commentLines - 60) {
+                    el.innerHTML = el.innerHTML.slice(0, -1);
+                }
+                el.parentElement.classList.add("overflow3lines");
+            }
+            if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
+        }.bind(this));
     }
 }
 </script>
