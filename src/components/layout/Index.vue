@@ -2,16 +2,14 @@
     <div class="root" :class="{openSearch: isActive}">
         <router-view :key="$route.fullPath"></router-view>
         <div class="con-search">
-            {{slideChk}}
+            <!--{{slideChk}}-->
             <div class="search-surface">
                 <div class="slide-drawer" v-if="slideChk === 0" v-hammer:swipe.down="closeSearch"></div>
                 <div class="slide-drawer" v-if="slideChk === 1" v-hammer:swipe.up="slideUp"></div>
                 <div class="slide-drawer" v-if="slideChk === 2" v-hammer:swipe.down="slidedown"></div>
-                <form @submit.prevent="doSearch()" ref="searchForm">
-                    <div class="search-form">
-                        <input type="text" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
-                    </div>
-                </form>
+                <div class="search-form">
+                    <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
+                </div>
                 <!-- search result -->
                 <div class="search-result-box" v-if="isSearch">
                     <p class="search-keyword">
@@ -119,7 +117,7 @@ export default {
                 this.isActive = true;
             }
         },
-        doSearch(type = 'route') {
+        clickSearch(type = this.tabList[this.el_Active].type){
             if (this.searchText === ""){
                 this.$alert("검색어를 입력해주세요");
                 return false;
@@ -128,36 +126,59 @@ export default {
                 this.loading = true;
                 this.searchList = [];
                 this.navActive = 3;
-                if (this.$route.path !== '/map'){
-                    this.$router.push('/map')
+
+                if (this.$route.fullPath.indexOf("/map") < 0){
+                    this.$router.push({
+                        name: 'mapComp',
+                        params: {
+                            searchText: this.searchText
+                        }
+                    });
                 }
+                else{
+                    this.doSearch(type);
+                }
+            }
+        },
+        doSearch(type = this.tabList[this.el_Active].type) {
+            if (this.searchText === ""){
+                this.$alert("검색어를 입력해주세요");
+                return false;
+            }
+            else{
+                if (type) this.type = type;
+                this.loading = true;
+                this.searchList = [];
+                this.navActive = 3;
 
-                if (this.type === 'route'){
+                const postData = new FormData();
+                postData.append('keyword', this.searchText);
+                postData.append('type', this.type);
+                if (this.type == 'route' || this.type =='photo' || this.type =='review'){
                     //console.log('여행경로')
-                    const postData = new FormData();
-                    postData.append('keyword', this.searchText);
-                    postData.append('type', 'route');
-
                     search.search(postData).then(res => {
-                        const getResult = res.data;
                         // console.log(getResult)
                         // console.log(getResult.result_code)
-                        if (getResult.searchList === null){
+                        if (res.data.searchList == null){
                             this.$alert("검색 결과가 없습니다");
                             this.isSearch = false;
                             this.loading = false;
                             this.slideChk = 0;
-                            return false
+                            this.el_Active = 0;
+                            //return false
                         }else{
+                            this.el_Active = this.tabList.findIndex(tab => tab.type == this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
                             this.slideChk = 1;
                         }
+                        this.setMapInformation();
                     }).catch(err => {
                         console.error(err);
                     })
-                }else if (this.type ==='place'){
+                }
+                else if (this.type =='place'){
                     //console.log('장소')
                     const postData = new FormData();
                     postData.append('keyword', this.searchText);
@@ -169,31 +190,7 @@ export default {
                             this.isSearch = false;
                             this.loading = false;
                             this.slideChk = 0;
-                            return false
-                        }else{
-                            this.searchList = res.data.searchList;
-                            this.isSearch = true;
-                            this.$nextTick(() => {
-                                EventBus.$emit("Map", this.searchList);
-                            });
-                            this.loading = false;
-                            this.slideChk = 1;
-                        }
-                    }).catch(err => {
-                        console.error(err);
-                    })
-                }else if (this.type ==='photo'){
-                    const postData = new FormData();
-                    postData.append('keyword', this.searchText);
-                    postData.append('type', 'photo');
-
-                    search.search(postData).then(res => {
-                        const getResult = res.data;
-                        if (getResult.searchList === null){
-                            this.$alert("검색 결과가 없습니다");
-                            this.slideChk = 0;
-                            this.isSearch = false;
-                            this.loading = false;
+                            this.el_Active = 0;
                             return false
                         }else{
                             this.searchList = res.data.searchList;
@@ -201,16 +198,20 @@ export default {
                             this.loading = false;
                             this.slideChk = 1;
                         }
+                        this.setMapInformation();
                     }).catch(err => {
                         console.error(err);
                     })
                 }
-
-
             }
         },
         doScrollToTarget(el){
             console.log(el);
+        },
+        setMapInformation(){
+            this.$nextTick(() => {
+                EventBus.$emit("Map", this.searchList);
+            });
         }
     },
     created() {
@@ -218,7 +219,7 @@ export default {
             this.searchText = hashName;
             this.type = type;
             this.isActive = isActive;
-            this.doSearch('route');
+            this.clickSearch('route');
         });
         EventBus.$on("scrollToTarget", (el) => {
            this.doScrollToTarget(el);

@@ -71,6 +71,9 @@ export default {
         },
         pathidx: {
             type: String,
+        },
+        review: {
+            type: String,
         }
     },
     data() {
@@ -148,6 +151,7 @@ export default {
         },
     },
     created() {
+        this.reviewText = this.review;
         this.pathidx = this.pathidx;
     }
 }

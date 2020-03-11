@@ -54,7 +54,7 @@
                 </div>
                 <ul class="place-menu-list">
                     <li class="route">경로추가</li>
-                    <li class="map">지도보기</li>
+                    <li class="map" @click="doViewMap">지도보기</li>
                     <li class="review" @click="doReview">후기쓰기</li>
                     <li class="share">공유하기</li>
                 </ul>
@@ -143,13 +143,13 @@
                     </div>
                     <!-- //review -->
                 </div>
-                <div class="review-more" v-if="reviews.length > 0 && reviews.length > reviewsLimit" @click="reviewsLimit = reviewsLimit+30">
+                <div class="review-more" v-if="reviews != null && reviews.length > 0 && reviews.length > reviewsLimit" @click="reviewsLimit = reviewsLimit+30">
                     <p>후기 더보기</p>
                 </div>
             </div>
         </div>
         <transition name="fade">
-            <review-modal v-if="showReview"
+            <modal-review v-if="showReview"
                           :pathidx="this.id"
                           :title="placeInfo.company_name"
             />
@@ -157,6 +157,12 @@
                          :photo-list="reviewImages"
                          :idx="reviewImageIdx"
                          :title="placeInfo.company_name"
+            />
+            <modal-map v-if="mapModal"
+                        :mapOptions = "mapModalOptions"
+                        :markPlace = "mapModalPlaceList"
+                        :isPopup = "true"
+                        style = "position: fixed;top: 0;z-index: 999;"
             />
         </transition>
     </section>
@@ -166,7 +172,8 @@ import {Route, etc} from '@/api'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import ModalPhoto from "../popup/PhotoPopup";
-import ReviewModal from "../popup/ReviewPopup";
+import ModalReview from "../popup/ReviewPopup";
+import ModalMap from "../search/Map";
 import { EventBus } from "../../assets/event-bus";
 import {mapGetters} from 'vuex';
 
@@ -183,10 +190,19 @@ export default {
         }
     },
     components: {
-        swiper, swiperSlide, ModalPhoto, ReviewModal
+        swiper, swiperSlide, ModalPhoto, ModalReview, ModalMap
     },
     data() {
         return {
+            mapModal: false,
+            mapModalOptions: {
+                lat: 0,
+                lng: 0,
+                zoom: 10,
+                zoomControl: false,
+                mapTypeControl: false
+            },
+            mapModalPlaceList: null,
             showReview:false,
             showModal:false,
             placeInfo:[],
@@ -218,6 +234,17 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        doViewMap(){
+            this.mapModalOptions.lat = this.placeInfo.latitude;
+            this.mapModalOptions.lng = this.placeInfo.longitude;
+            this.mapModalPlaceList = [];
+            this.mapModalPlaceList.push({
+                latitude: this.placeInfo.latitude,
+                longitude: this.placeInfo.longitude,
+                company_idx: this.id
+            });
+            this.mapModal = true;
+        },
         doReview(){
             this.showReview = true;
         },
@@ -302,6 +329,7 @@ export default {
             })
         },
         setReviewText(){
+            if(this.reviews == null) return false;
             for(let i=0; i<this.reviews.length; i++){
                 this.reviews.isLong = false;
                 this.reviews.showLongText = false;
@@ -342,6 +370,7 @@ export default {
             EventBus.$on("PlaceView", props => {
                 this.showModal = props;
                 this.showReview = props;
+                this.mapModal = props;
             });
             this.getLike();
             this.getFavorites();
@@ -352,6 +381,7 @@ export default {
     updated() {
         const reviewTextBox = document.getElementsByClassName("review-text");
         let reviewText = null;
+        if(this.reviews == null) return false;
         for(let i=0; i<this.reviews.length; i++){
 
             if(reviewTextBox[i] == null) continue;

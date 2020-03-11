@@ -11,7 +11,7 @@ export default {
     props:['data'],
     methods:{
         doView(idx){
-            this.$router.push(`/map/${idx}`).catch(err => {err})
+            this.$router.push(`/route/${idx}`).catch(err => {err})
         }
     }
 }

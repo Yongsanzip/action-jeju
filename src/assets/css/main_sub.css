@@ -1283,9 +1283,21 @@
 }
 
 .con-route .route-map {
-  height: 150px;
+  /*height: 150px;*/
   margin-top: 53px;
   background-color: #c9c9c9;
+  overflow: hidden;
+}
+
+.con-route .route-map .btn-map-size {
+  position: absolute;
+  bottom: 5px;
+  width: 35px;
+  height: 4px;
+  font-size: 0;
+  background-color: #fff;
+  left: calc(50% - 17px);
+  border-radius: 10px;
 }
 
 .con-route .sticky {
@@ -3018,6 +3030,72 @@
      object-fit: cover;
 }
 
+.con-search .search-surface .search-result-box .search-result-list .comment-card {
+  padding: 0 20px 20px;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card > div {
+  display: inline-block;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .profile {
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .profile > img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-contents {
+  width: calc(100% - 48px);
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .score-wrap .place-score {
+  display: inline-block;
+  color: #aaaaaa;
+  font-size: 14px;
+  line-height: 14px;
+  margin-left: 4px;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-writer {
+  display: inline-block;
+  font-size: 10px;
+  color: #999999;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-writer::before {
+  content: '@';
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-time {
+  display: inline-block;
+  font-size: 10px;
+  color: #cccccc;
+  padding-left: 18px;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-time::before {
+  content: '';
+  position: absolute;
+  width: 1px;
+  height: 13px;
+  background: #dddddd;
+  left: 8px;
+}
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-text p {
+  font-size: 12px;
+  color: #666666;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  white-space: inherit;
+}
 /* place */
 .con-place {
   background: whitesmoke;
@@ -3536,6 +3614,41 @@
   bottom:0;
   padding-top: 0;
 }
+.map-wrap .markerIcon {
+  margin: 0px;
+  padding: 0px;
+  border: 0px solid transparent;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  box-sizing: content-box !important;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 0px !important;
+  min-height: 0px !important;
+  position: absolute;
+  cursor: pointer;
+  left: -17px;
+  top: -20px;
+  width: 35px;
+  height: 39px;
+}
+.map-wrap .btn-map {
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  font-size: 10px;
+  padding: 4px 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  outline: none;
+  border: none;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+}
 
 /* image list */
 .image-viewer-block {
@@ -3900,6 +4013,55 @@
   font-weight: 500;
 }
 
+.markerContent {
+  position: absolute;
+  top: -25px;
+  left: -9px;
+  box-sizing: content-box !important;
+  overflow: visible;
+}
+.markerContent .routeMarker {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  min-width: 19px;
+  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.markerContent .routeMarker.day2 {
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+}
+.markerContent .routeMarker.day3 {
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+}
+.markerContent .routeMarker.day4 {
+  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+}
+.markerContent .routeMarker.day5 {
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+}
+.markerContent .routeMarker.day6 {
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+}
+.markerContent .routeMarker.day7 {
+  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+}
+.markerContent .routeMarker.day8 {
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+}
+.markerContent .routeMarker.day9 {
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+}
+.markerContent .routeMarker.day10 {
+  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+}
+.markerContent .routeMarker .order_number {
+  display: inline;
+  top: 1px;
+  color: #fff;
+  font-size: 12px;
+}
 @media screen and (max-width: 350px) {
   .con-route .route-wrap .amount-item {
     margin: 0 4px;

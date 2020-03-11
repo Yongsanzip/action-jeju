@@ -10,10 +10,13 @@
                 <naver-marker v-for="(item, idx) in placeList" :key="idx"
                               :lat="Number(item.latitude)"
                               :lng="Number(item.longitude)"
-                              @click="onMarkerClicked(item.company_idx)"
+                              @click="onMarkerClicked"
                               @load="onMarkerLoaded"
                 />
             </naver-maps>
+            <div v-if="isPopup">
+                <button class="btn-map" @click="close">지도접기 ▼</button>
+            </div>
         </div>
     </section>
 </template>
@@ -24,6 +27,29 @@ import customIconActive from '../../assets/images/map_02_on.png';
 
 export default {
     name: "Map",
+    props: {
+        mapOptions: {
+            type: Object,
+            default: function(){ return {
+                lat: 33.38,
+                lng: 126.56,
+                zoom: 6,
+                zoomControl: false,
+                mapTypeControl: false,
+            }}
+        },
+        markPlace: {
+            type: Array
+        },
+        isPopup: {
+            type: Boolean,
+            default: false
+        },
+        searchText: {
+            type: String,
+            default: null
+        }
+    },
     data(){
         return{
             placeList:[],
@@ -31,14 +57,8 @@ export default {
             icon: customIcon,
             iconActive: customIconActive,
             count: 1,
+            selectedMarker: null,
             marker: null,
-            mapOptions: {
-                lat: 33.38,
-                lng: 126.56,
-                zoom: 6,
-                zoomControl: false,
-                mapTypeControl: false,
-            },
             mapSettings:{
                 width:0,
                 height:0
@@ -46,28 +66,50 @@ export default {
         }
     },
     methods:{
-        onMarkerClicked(idx){
-            //EventBus.$emit("PlaceList", idx);
-            console.log(idx);
-        },
-        onMarkerLoaded(vue) {
-            const {marker} = vue;
-            //console.dir(marker.eventTarget)
-            marker.eventTarget.width = 32;
-            marker.eventTarget.height = 32;
-            this.marker = marker;
-            this.marker.setIcon({
-                url: this.icon,
-                size: {
-                    width: 32,
-                    height: 32
-                }
+        onMarkerClicked(evnt){
+            const markerIcon = document.createElement('img');
+            markerIcon.classList.add('markerIcon');
+            markerIcon.src = this.icon;
+
+            if(this.selectedMarker != null){
+                //선택해제
+                this.selectedMarker.setIcon({
+                    content: markerIcon
+                });
+            }
+
+            if(evnt == null) return false;
+            markerIcon.src = this.iconActive;
+            evnt.overlay.setIcon({
+                content: markerIcon
             });
+            this.selectedMarker = evnt.overlay;
+        },
+        onMarkerLoaded(marker) {
+            const markerIcon = document.createElement('img');
+            markerIcon.classList.add('markerIcon');
+            markerIcon.src = (this.isPopup)? this.iconActive : this.icon;
+
+            marker.setIcon({
+                content: markerIcon
+            });
+            marker.setCursor('');
+        },
+        close(){
+            EventBus.$emit("PlaceView", false);
         }
     },
     created() {
         this.mapSettings.width = window.innerWidth;
         this.mapSettings.height = (window.innerHeight - 60);
+
+        if(this.markPlace != null){
+            this.placeList = this.markPlace;
+        }
+
+        if(this.searchText != null){
+            EventBus.$emit("Index", this.searchText, 'route', true);
+        }
 
         EventBus.$on("Map", (getList) => {
             this.placeList = getList;

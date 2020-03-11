@@ -78,8 +78,10 @@ export const router = new VueRouter({
             component: Layout,
             children:[
                 {
+                    name: 'mapComp',
                     path: '',
                     component: Map,
+                    props:true
                 },
                 {
                     path: ':id',
