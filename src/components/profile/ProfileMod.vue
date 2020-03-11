@@ -191,6 +191,7 @@ export default {
             profile.profile(postData).then(res => {
                 const getResult = res.data;
                 this.profile = getResult;
+                this.user.name = this.profile.nick;
                 this.user.phone = this.profile.phone;
                 this.user.state = this.profile.state;
                 this.user.age = this.profile.age;
@@ -208,9 +209,19 @@ export default {
         },
         doModify(){
             this.submitted = true;
-            if (!this.nicksubmit){
-                this.$alert('아이디 중복체크 해주세요');
+            if (!this.nicksubmit && this.user.name != this.profile.nick){
+                this.$alert('닉네임 중복검사를 진행해 주세요.');
                 return
+            }
+            else if(this.user.password != ""){
+                if(this.user.password.length < 8){
+                    this.$alert('비밀번호는 최소8자이상 사용해주세요.');
+                    return
+                }
+                else if(this.user.password != this.user.confirmPassword){
+                    this.$alert('비밀번호가 일치하지 않습니다.다시 입력해 주세요!');
+                    return
+                }
             }
             // if (this.$v.$invalid) {
             //     return;
@@ -241,11 +252,11 @@ export default {
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('nick', nick);
-            postData.append('mb_password', mb_password);
-            postData.append('phone', phone);
-            postData.append('state', state);
-            postData.append('age', age);
-            postData.append('sex', sex);
+            if(mb_password != "") postData.append('mb_password', mb_password);
+            if(phone != "") postData.append('phone', phone);
+            if(state != "") postData.append('state', state);
+            if(age != "") postData.append('age', age);
+            if(sex != "") postData.append('sex', sex);
             postData.append('agree_email', chkEmail ? "Y" : "N");
             postData.append('agree_sms', chkSMS ? "Y" : "N");
 

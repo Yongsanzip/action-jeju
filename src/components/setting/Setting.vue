@@ -71,23 +71,44 @@
                         <p class="setting-name">로그아웃</p>
                     </li>
                     <li>
-                        <p class="setting-name">탈퇴</p>
-                        <a href="" class="link"></a>
+                        <p class="setting-name" @click="leave">탈퇴</p>
                     </li>
                 </ul>
             </main>
         </div>
+        <modal-leave v-if="isLeave"/>
     </section>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
+import { EventBus } from "../../assets/event-bus";
+import ModalLeave from "../popup/LeavePopup";
+
 export default {
     name: "Setting",
+    computed:{
+        ...mapGetters(['GET_MB_ID'])
+    },
+    components: {ModalLeave},
+    data() {
+        return {
+            isLeave: false
+        }
+    },
     methods:{
         logOut(){
             this.$store.dispatch('SAVE_MB_ID', null);
             this.$router.push('/')
+        },
+        leave(){
+            this.isLeave = true;
         }
+    },
+    created() {
+        EventBus.$on("Setting", prop => {
+            this.isLeave = prop;
+        });
     }
 }
 </script>

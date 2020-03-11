@@ -28,6 +28,13 @@ export const user = {
             url: '/changePW.php',
             data
         })
+    },
+    leave(data) { //회원탈퇴
+        return api.request({
+            method: 'post',
+            url: '/leave.php',
+            data
+        })
     }
 };
 

@@ -3614,6 +3614,72 @@
   bottom:0;
   padding-top: 0;
 }
+.wrap.modal.leave {
+  background: transparent;
+}
+.wrap.modal.leave .container.con-leave{
+  bottom: 0;
+  padding-top: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.wrap.modal .container.con-leave .leave-prompt{
+  position: absolute;
+  top: calc(50% - 45px);
+  left: 0;
+  right: 0;
+  margin: auto;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 350px;
+  background-color: rgba(242, 242, 242, 0.8);
+  border-radius: 14px;
+}
+.wrap.modal .container.con-leave .leave-prompt .title{
+  color: #000;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 22px;
+  margin: 15px 0;
+}
+.wrap.modal .container.con-leave .leave-prompt > div {
+  width: 100%;
+  padding: 0 15px;
+}
+.wrap.modal .container.con-leave .leave-prompt div > textarea {
+  width: 100%;
+  height: 85px;
+  margin-bottom: 10px;
+}
+.wrap.modal .container.con-leave .leave-prompt div.personal {
+  margin-bottom: 15px;
+}
+.wrap.modal .container.con-leave .leave-prompt div.personal input {
+  width: 15px;
+  height: 15px;
+}
+.wrap.modal .container.con-leave .leave-prompt div.personal span {
+  margin-left: 5px;
+  color: #777;
+  font-size: 11px;
+  text-align: left;
+}
+.wrap.modal .container.con-leave .leave-prompt div.leave-btns {
+  padding: 0;
+}
+.wrap.modal .container.con-leave .leave-prompt div.leave-btns > * {
+  width: 50%;
+  border-top: rgba(0, 0, 0, 0.4) solid 1px;
+  border-right: rgba(0, 0, 0, 0.4) solid 1px;
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+  padding: 10px 0;
+}
+.wrap.modal .container.con-leave .leave-prompt div.leave-btns > *:last-child {
+  border-right: 0;
+}
+
 .map-wrap .markerIcon {
   margin: 0px;
   padding: 0px;
