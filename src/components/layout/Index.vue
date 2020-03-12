@@ -4,9 +4,9 @@
         <div class="con-search">
             <!--{{slideChk}}-->
             <div class="search-surface">
-                <div class="slide-drawer" v-if="slideChk === 0" v-hammer:swipe.down="closeSearch"></div>
-                <div class="slide-drawer" v-if="slideChk === 1" v-hammer:swipe.up="slideUp"></div>
-                <div class="slide-drawer" v-if="slideChk === 2" v-hammer:swipe.down="slidedown"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:pan.down="closeSearch"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:pan.up="slideUp"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:pan.down="slidedown"></div>
                 <div class="search-form">
                     <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
                 </div>
@@ -93,12 +93,15 @@ export default {
             }else{
                 this.slideChk = 0;
             }
+            this.$forceUpdate();
         },
         slideUp(){
           this.slideChk = 2;
+            this.$forceUpdate();
         },
         slidedown(){
             this.slideChk = 1;
+            this.$forceUpdate();
         },
         doNavAction(nav){
             const idx = this.navList.indexOf(nav);

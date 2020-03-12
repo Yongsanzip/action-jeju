@@ -1283,21 +1283,37 @@
 }
 
 .con-route .route-map {
-  /*height: 150px;*/
+  height: 159px;
   margin-top: 53px;
   background-color: #c9c9c9;
   overflow: hidden;
 }
-
-.con-route .route-map .btn-map-size {
+.con-route .route-map.middle {
+  height: 370px;
+  transition: all .4s;
+}
+.con-route .route-map.full {
+  height: 547px;
+  transition: all .4s;
+}
+.con-route .route-map .slide-drawer {
   position: absolute;
-  bottom: 5px;
-  width: 35px;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+}
+.con-route .route-map .slide-drawer::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 36px;
   height: 4px;
-  font-size: 0;
-  background-color: #fff;
-  left: calc(50% - 17px);
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 2px;
+  left: 50%;
+  top: 50%;
+  margin-left: -18px;
+  margin-top: -2px;
 }
 
 .con-route .sticky {
@@ -1604,6 +1620,14 @@
   margin-right: 5px;
 }
 
+.con-route .route-wrap .route-contents .route-item:nth-child(3n) .travel-day {
+  background-color: #f3645a;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(3n+1) .travel-day {
+  background-color: #5899fb;
+}
+
 .con-route .route-wrap .route-contents .route-item .travel-title {
   display: inline-block;
   line-height: 28px;
@@ -1618,14 +1642,6 @@
   line-height: 28px;
   font-size: 10px;
   color: #999999;
-}
-
-.con-route .route-wrap .route-contents .route-item:nth-child(3n+2) .travel-day {
-  background-color: #f3645a;
-}
-
-.con-route .route-wrap .route-contents .route-item:nth-child(3n) .travel-day {
-  background-color: #5899fb;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list > li {

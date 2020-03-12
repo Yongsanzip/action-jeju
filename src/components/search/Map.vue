@@ -36,6 +36,12 @@ export default {
                 zoom: 6,
                 zoomControl: false,
                 mapTypeControl: false,
+                scaleControl: false,
+                logoControl: true,
+                logoControlOptions: {
+                    position: -10
+                },
+                mapDataControl: false
             }}
         },
         markPlace: {

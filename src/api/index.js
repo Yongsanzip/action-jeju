@@ -105,6 +105,13 @@ export const Route = {
             data
         })
     },
+    routeDrivePath(data){
+        return api.request({
+            method: 'post',
+            url: '/lines.php',
+            data
+        })
+    },
     place(data) {
         return api.request({
             method: 'post',

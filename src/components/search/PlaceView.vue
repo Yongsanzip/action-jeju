@@ -200,7 +200,13 @@ export default {
                 lng: 0,
                 zoom: 10,
                 zoomControl: false,
-                mapTypeControl: false
+                scaleControl: false,
+                logoControl: true,
+                logoControlOptions: {
+                    position: -10
+                },
+                mapTypeControl: false,
+                mapDataControl: false
             },
             mapModalPlaceList: null,
             showReview:false,

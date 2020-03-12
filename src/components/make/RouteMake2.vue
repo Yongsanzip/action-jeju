@@ -146,7 +146,13 @@ export default {
                 lng: 126.56,
                 zoom: 6,
                 zoomControl: false,
+                scaleControl: false,
+                logoControl: true,
+                logoControlOptions: {
+                    position: -10
+                },
                 mapTypeControl: false,
+                mapDataControl: false
             },
             mapSettings:{
                 width:0,
