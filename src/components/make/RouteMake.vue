@@ -41,7 +41,7 @@
                                 v-model="ranges"
                                 mode="range"
                                 color="red"
-                                :min-date='new Date()'
+
                                 is-inline
                                 is-expanded
                                 :theme-styles='themeStyles'
