@@ -6,15 +6,16 @@
                     :height="mapSettings.height"
                     :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'BYCYCLE', 'CADASTRAL', 'CTT', 'HIKING_TRAIL', 'PANORAMA', 'POI_KOREAN', 'TRANSIT']"
                     :mapOptions="mapOptions"
+                    @load="onLoadMap"
             >
-                <naver-marker v-for="(item, idx) in placeList" :key="idx"
+                <naver-marker v-for="(item, idx) in mapMarkerList" :key="idx"
                               :lat="Number(item.latitude)"
                               :lng="Number(item.longitude)"
                               @click="onMarkerClicked"
                               @load="onMarkerLoaded"
                 />
             </naver-maps>
-            <div v-if="isPopup">
+            <div v-if="isPopup" class="btn-map-block">
                 <button class="btn-map" @click="close">지도접기 ▼</button>
             </div>
         </div>
@@ -58,13 +59,14 @@ export default {
     },
     data(){
         return{
+            map: null,
+            mapMarkerList: [],
             placeList:[],
             info: false,
             icon: customIcon,
             iconActive: customIconActive,
             count: 1,
             selectedMarker: null,
-            marker: null,
             mapSettings:{
                 width:0,
                 height:0
@@ -72,6 +74,10 @@ export default {
         }
     },
     methods:{
+        onLoadMap(vue){
+            this.map = vue;
+            this.mapMarkerList = this.placeList;
+        },
         onMarkerClicked(evnt){
             const markerIcon = document.createElement('img');
             markerIcon.classList.add('markerIcon');
@@ -119,6 +125,9 @@ export default {
 
         EventBus.$on("Map", (getList) => {
             this.placeList = getList;
+            if(this.map != null){
+                this.mapMarkerList = this.placeList;
+            }
         })
     }
 }

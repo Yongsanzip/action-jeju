@@ -68,7 +68,7 @@
                     <li class="call" v-if="placeInfo.company_tel === ''">-</li>
                     <li class="call" v-else>
                         {{placeInfo.company_tel}}
-                        <button class="btn-call">전화하기</button>
+                        <button class="btn-call" @click="callToPlace(placeInfo.company_tel)">전화하기</button>
                     </li>
                     <li class="intro" v-if="placeInfo.company_desc === ''">-</li>
                     <li class="intro" v-else>
@@ -333,6 +333,12 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
+        },
+        callToPlace(phoneNumb){
+            if(phoneNumb == null){
+                alert("전화번호가 등록되지 않은 업체입니다.")
+            }
+            location.href="tel:"+phoneNumb;
         },
         setReviewText(){
             if(this.reviews == null) return false;

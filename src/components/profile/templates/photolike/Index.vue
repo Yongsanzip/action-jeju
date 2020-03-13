@@ -34,7 +34,7 @@ export default {
             })
         },
         showDetailImgView(idx){
-            EventBus.$emit('MyProfile', idx);
+            EventBus.$emit('MyProfile', "photo", idx);
         }
     }
 }

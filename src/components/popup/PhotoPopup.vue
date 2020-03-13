@@ -124,7 +124,7 @@ export default {
     methods: {
         close() {
             EventBus.$emit("PlaceView", this.showModal, this.photoList);
-            EventBus.$emit('MyProfile', null);
+            EventBus.$emit('MyProfile', "photo", null);
         },
         ChangeSwiperSlide(){
             this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;

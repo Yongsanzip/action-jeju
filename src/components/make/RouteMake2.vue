@@ -1,6 +1,6 @@
 <template>
     <section class="wrap">
-        <header class="header sub-header">
+        <header class="header sub-header" style="z-index: 1;">
             <router-link to="/main" class="close">이전</router-link>
             <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>
             <button type="button" class="next" @click="complete">완료</button>

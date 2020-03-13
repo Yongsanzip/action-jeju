@@ -43,6 +43,7 @@
 <script>
 import { Route } from "@/api";
 import {mapGetters} from 'vuex';
+import { EventBus } from "@/assets/event-bus";
 
 export default {
     name: 'MyTravel',
@@ -90,6 +91,7 @@ export default {
             postData.append('tour_idx', this.selectedTourIdx);
             Route.deleteRoute(postData).then(res => {
                 console.log(res.data);
+                EventBus.$emit('MyProfile', "myTravel");
                 this.$forceUpdate();
             }).catch(err => {
                 console.error(err);

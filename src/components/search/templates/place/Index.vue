@@ -1,9 +1,9 @@
 <template>
-    <div class="place-card" @click="doView(data.company_idx)">
+    <div class="place-card" @click="doView($event, data.company_idx)">
         <div>
             <p class="place-name">{{data.company_name}}</p>
             <p class="place-distance">2.5km</p>
-            <div class="place-call">전화하기</div>
+            <div class="place-call" @click.self="callToPlace(data.company_tel)">전화하기</div>
         </div>
         <div>
             <p class="place-score">{{data.star_point}}</p>
@@ -32,12 +32,20 @@ export default {
       }
     },
     methods:{
-        doView(idx){
+        doView(e, idx){
+            if(e.target.className.indexOf("place-call") > -1) return false;
+
             const path = `/map/${idx}`;
             if (this.$route.path !== path) this.$router.push(path).catch(err => {console.error(err)})
         },
         doScroll(){
             EventBus.$emit('scrollToTarget', this.$parent.$el)
+        },
+        callToPlace(phoneNumb){
+            if(phoneNumb == null){
+                alert("전화번호가 등록되지 않은 업체입니다.")
+            }
+            location.href="tel:"+phoneNumb;
         }
     },
     created() {

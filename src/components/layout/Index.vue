@@ -130,7 +130,8 @@ export default {
                 this.searchList = [];
                 this.navActive = 3;
 
-                if (this.$route.fullPath.indexOf("/map") < 0){
+                if (this.$route.fullPath.indexOf("/map") < 0 ||
+                    (this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null)){
                     this.$router.push({
                         name: 'mapComp',
                         params: {

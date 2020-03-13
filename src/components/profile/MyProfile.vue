@@ -114,8 +114,8 @@ export default {
                 console.error(err);
             })
         },
-        getList(type){
-            if(this.type == type) return;
+        getList(type, isReload = false){
+            if(this.type == type && !isReload) return;
             this.profileList = [];
             this.listLimit = this.originListLimit;
             if (type) this.type = type;
@@ -197,22 +197,27 @@ export default {
     created() {
         this.getProfile();
         this.getList(this.navList[this.el_Active].type);
-        EventBus.$on("MyProfile", idx => {
-            if(idx == null){
-                this.showPhotoModal = false;
-                document.getElementsByClassName("container")[0].style['z-index'] = 1;
+        EventBus.$on("MyProfile", (type, idx) => {
+            if(type == "myTravel"){
+                this.getList("mytravel", true);
             }
-            else{
-                let selectedPhotoIdx = null;
-                this.profileList.filter(function(item, i){
-                   if(item.image_idx == idx){
-                       selectedPhotoIdx = i;
-                       return i;
-                   }
-                });
-                this.showPhotoModal = true;
-                this.selectedPhotoIdx = selectedPhotoIdx;
-                document.getElementsByClassName("container")[0].style['z-index'] = 999;
+            else if(type == "photo"){
+                if(idx == null){
+                    this.showPhotoModal = false;
+                    document.getElementsByClassName("container")[0].style['z-index'] = 1;
+                }
+                else{
+                    let selectedPhotoIdx = null;
+                    this.profileList.filter(function(item, i){
+                        if(item.image_idx == idx){
+                            selectedPhotoIdx = i;
+                            return i;
+                        }
+                    });
+                    this.showPhotoModal = true;
+                    this.selectedPhotoIdx = selectedPhotoIdx;
+                    document.getElementsByClassName("container")[0].style['z-index'] = 999;
+                }
             }
         });
     }

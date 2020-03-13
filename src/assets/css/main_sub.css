@@ -1387,21 +1387,32 @@
   content: '@';
 }
 
-.con-route .post-cover .btn-map {
+.btn-map-block {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  height: 30px;
+  margin-left: 50%;
+}
+.btn-map-block .btn-map {
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
   border-radius: 5px 5px 0 0;
   font-size: 10px;
-  padding: 4px 10px;
+  padding: 4px 15px;
   position: absolute;
   bottom: 0;
-  left: 0;
   outline: none;
   border: none;
-  right: 0;
-  margin: auto;
   z-index: 1;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: center;
+  object-position: center;
+  -webkit-transform: translate(-50%,0);
+  -ms-transform: translate(-50%,0);
+  transform: translate(-50%,0);
 }
 
 .con-route .all-route-wrap{
@@ -2310,16 +2321,19 @@
   border-radius: 10px;
 }
 .con-route .overlay .place-review {
-  background: white;
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   height: calc(100vh - 45px);
-  background: white;
-  padding: 25px 15px 15px;
+  background: #fff;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+}
+.con-route .overlay .place-review .input-place-review-block {
+  padding: 25px 15px 15px;
+  height: calc(100% - 40px);
+  min-height: 420px;
 }
 
 .con-route .overlay .place-review .review-header {
@@ -2392,7 +2406,9 @@
 }
 
 .con-route .overlay .place-review .review-textarea {
-  padding: 16px 0;
+  height: calc(100% - 220px);
+  padding-top: 16px;
+  min-height: 160px;
 }
 
 .con-route .overlay .place-review .review-textarea textarea {
@@ -2424,13 +2440,9 @@
 }
 
 .con-route .overlay .place-review .review-image-list {
-  position: absolute;
-  bottom: 80px;
-  left: 0;
   width: 100%;
-  white-space: nowrap;
-  overflow: auto;
-  padding: 10px 15px;
+  height: 105px;
+  padding: 20px 0;
   font-size: 0;
 }
 
@@ -2549,16 +2561,12 @@
 }
 
 .con-route .overlay .place-review .review-complate {
-  position: absolute;
-  bottom: 0;
   width: 100%;
-  display: block;
   text-align: center;
   background: #aaaaaa;
   height: 40px;
   color: white;
   line-height: 40px;
-  margin-left: -15px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -2983,6 +2991,11 @@
   -webkit-transform: translate(5px, 2px);
           transform: translate(5px, 2px);
   background-size:contain;
+}
+.con-search .search-surface .search-result-box .search-result-list .place-card .place-call a {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-score {
@@ -3714,22 +3727,6 @@
   top: -20px;
   width: 35px;
   height: 39px;
-}
-.map-wrap .btn-map {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  text-align: center;
-  border-radius: 5px 5px 0 0;
-  font-size: 10px;
-  padding: 4px 20px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  outline: none;
-  border: none;
-  right: 0;
-  margin: auto;
-  z-index: 1;
 }
 
 /* image list */

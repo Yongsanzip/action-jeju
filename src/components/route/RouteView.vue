@@ -13,7 +13,9 @@
                         <button class="btn-more" @click="isShowMenu=true">메뉴</button>
                     </div>
                     <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}`}">
-                        <button class="btn-map" @click="openMap">지도보기 ▲</button>
+                        <div class="btn-map-block">
+                            <button class="btn-map" @click="openMap">지도보기 ▲</button>
+                        </div>
                         <h2 class="post-title">{{tourInfo.name}}</h2>
                         <p class="post-date">{{tourInfo.days-1}}박 {{tourInfo.days}}일 여행</p>
                         <p class="post-write">{{tourInfo.nick}}</p>
@@ -33,15 +35,13 @@
                                 <naver-marker v-for="(path, pathIdx) in pathList" :otherOptions="path" :key="idx + '-' + pathIdx" :lat="path.lat" :lng="path.lng" @load="onMarkerLoaded">
                                 </naver-marker>
                             </template>
-                            <template v-if="polylineList != null && polylineList.length > 0">
-                                <div class="polylinelength">{{polylineList.length}}</div>
-                                <naver-polyline v-for="(polyline, idx) in polylineList" :path="polyline" :tour-day="polylineOrder[idx].tour_day" :key="'polyline_'+idx" @load="onPolylineLoaded" />
+
+                            <template v-for="(polyline, idx) in polylineList">
+                                <naver-polyline :path="polyline" :tour-day="polylineOrder[idx]" :key="'polyline_'+idx" @load="onPolylineLoaded" />
                             </template>
 
-<!--                            <naver-polyline :path="polylineList" :tour-day="polylineOrder[idx].tour_day" @load="onPolylineLoaded" />-->
 
                         </naver-maps>
-<!--                        <button class="btn-map-size" @click="changeMapSize">지도</button>-->
                         <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:swipe.down="slidedown"></div>
                         <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe.up="slideUp" v-hammer:swipe.down="slidedown"></div>
                         <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe.up="slideUp"></div>
@@ -128,7 +128,7 @@
                                 <div>
                                     <p class="comment-name">{{item.mb_nick}}</p>
                                     <p class="comment-time">{{item.getReg}}</p>
-                                    <button class="btn-more">메뉴</button>
+<!--                                    <button class="btn-more">메뉴</button>-->
                                 </div>
                                 <div @click="doViewReply($event, idx)">
                                     <p class="comment-text">
@@ -273,6 +273,7 @@ export default {
               mapTypeControl: false,
               mapDataControl: false
           },
+          polylineList: [],
           polylineOrder: [],
           initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
       }
@@ -304,7 +305,6 @@ export default {
                 //console.log(res.data)
                 this.tourInfo = res.data.tourInfo;
                 this.days = res.data.days;
-                if(this.days != null) this.drawMapMarker();
             }).catch(err => {
                 console.error(err);
             })
@@ -323,18 +323,21 @@ export default {
             this.isSticky = true;
             this.slideChk = 0;
         },
+        onLoadMap(vue){
+            this.map = vue;
+           if(this.days != null) this.drawMapMarker();
+        },
         drawMapMarker(){
-            this.polylineList = [];
             let polylineData = {};
             this.days.forEach(function(day, dayIdx){
-                let pathList = [];
-                if(typeof day.path == "undefined" || day.path == null || day.path.length < 1){
+                let markerList = [];
+                if(day.path == null){
                     console.log("no path in "+day.date);
                 }
                 else{
                     day.path.forEach(function(path, pathIdx){
                         polylineData.tour_day = dayIdx;
-                        pathList.push({
+                        markerList.push({
                             day: dayIdx + 1,
                             title: pathIdx,
                             lat: Number(path.lat),
@@ -369,16 +372,12 @@ export default {
                     }.bind(this));
                 }
 
-                this.mapMarkList.push(pathList);
+                this.mapMarkList.push(markerList);
             }.bind(this));
         },
         getPolyLine(data){
-            this.polylineOrder.push({
-                "tour_day": data.tour_day
-            });
-            const polylineListIdx = this.polylineList.length;
-            this.polylineList.push(null);
             const postData = new FormData;
+            postData.append('tour_day', data.tour_day);
             postData.append('s_lat', data.start.lat);
             postData.append('s_lon', data.start.lng);
             postData.append('e_lat', data.end.lat);
@@ -388,13 +387,11 @@ export default {
                 points.forEach(function(point){
                     point.lng = point.lon;
                 });
-                this.polylineList[polylineListIdx] = points;
+                this.polylineList.push(points);
+                this.polylineOrder[this.polylineList.length-1] = postData.get("tour_day");
             }).catch(err => {
                 console.error(err);
             })
-        },
-        onLoadMap(vue){
-            this.map = vue;
         },
         onMarkerLoaded(marker){
             const markerIcon = document.createElement('div');
@@ -416,7 +413,6 @@ export default {
             marker.setCursor('');
         },
         onPolylineLoaded(polyline){
-            // console.log(polyline);
             const tourDay = Number(polyline.$el.getAttribute("tour-day")) % 3;
             let strokeColor = '#00c7c9';
             switch (tourDay) {
@@ -431,8 +427,10 @@ export default {
                     break;
             }
             polyline.setOptions({
+                strokeWeight: '3',
                 strokeColor: strokeColor
             });
+            polyline.map = this.map;
         },
         changeMapSize(){
             let idx = this.mapHeights.indexOf(this.mapHeight) + 1;
