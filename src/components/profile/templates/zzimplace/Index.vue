@@ -3,7 +3,7 @@
         <div style="display:inline">
             <p class="place-name">{{data.name}}</p>
             <p class="place-distance">2.5km</p>
-            <div class="place-call" @click="call">전화하기</div>
+            <div class="place-call" @click="call(data.tel)">전화하기</div>
         </div>
         <div>
             <p class="place-score">{{data.star}}</p>
@@ -43,8 +43,12 @@ export default {
             if(this.isClickPlace) this.$router.push(`/map/${idx}`);
             this.isClickPlace = true;
         },
-        call(){
+        call(phoneNumb){
             this.isClickPlace = false;
+            if(phoneNumb == null){
+                alert("전화번호가 등록되지 않은 업체입니다.")
+            }
+            location.href="tel:"+phoneNumb;
         },
         disZzim(idx, e){
             this.isClickPlace = false;

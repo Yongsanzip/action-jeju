@@ -110,7 +110,7 @@
                                 <p>공유하기</p>
                             </li>
                         </ul>
-                        <a href="" class="btn-get-route">경로 가져오기</a>
+                        <button @click="copyRoute" class="btn-get-route">경로 가져오기</button>
                     </div>
                 </div>
                 <div class="comment-wrap" v-if="tourInfo.reply_count > 0">
@@ -432,12 +432,6 @@ export default {
             });
             polyline.map = this.map;
         },
-        changeMapSize(){
-            let idx = this.mapHeights.indexOf(this.mapHeight) + 1;
-            if(idx == this.mapHeights.length) idx = 0;
-            this.mapHeight = this.mapHeights[idx];
-            document.getElementsByClassName("route-map")[0].style.height = this.mapHeight+"px";
-        },
         getLike(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -536,6 +530,51 @@ export default {
                 textEl.style.display = "block";
                 e.target.classList.remove("overflow3lines")
             }
+        },
+        copyRoute(){
+            const postData = new FormData();
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('tourname', this.tourInfo.name);
+            postData.append('tourimg', null);
+            postData.append('adult_cnt', Number(this.tourInfo.adult_cnt));
+            postData.append('kids_cnt', Number(this.tourInfo.kids_cnt));
+            postData.append('sdate', this.days[0].date);
+            postData.append('edate', this.days[this.days.length - 1].date);
+
+            Route.saveRoute(postData).then(res => {
+                console.log(res.data);
+                this.touridx = Number(res.data.touridx);
+
+                const postData = new FormData();
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('touridx', this.touridx);
+
+                let detailArr = [];
+                this.days.forEach(function(dateItem){
+                    if(dateItem.path != null && dateItem.path.length > 0){
+                        dateItem.path.forEach(function(location){
+                            detailArr.push(dateItem.date + "/" + location.company_idx);
+                        })
+                    }
+                }.bind(this));
+
+                postData.append('details', detailArr.join("&"));
+
+                Route.saveRouteDetail(postData).then(res => {
+                    console.log(res.data);
+                    this.$router.push({
+                        name: 'RouteMake',
+                        params: {
+                            'idx': Number(this.touridx),
+                            'isChk_flag': false
+                        }
+                    });
+                }).catch(err => {
+                    console.error(err);
+                })
+            }).catch(err => {
+                console.error(err);
+            })
         },
         modifyRout(){
             this.isShowMenu=false;
