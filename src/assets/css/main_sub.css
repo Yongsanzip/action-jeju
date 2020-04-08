@@ -19,7 +19,7 @@
 }
 
 .con-main .list-card {
-  padding: 0 20px 80px;
+  /*padding: 0 20px 80px;*/
 }
 
 .con-main .list-card .section-title {
@@ -53,7 +53,7 @@
 }
 
 .con-main .list-card .card .list-hashtag {
-  font-size: 10px;
+  font-size: 11px;
   margin-top: 4px;
   color: white;
 }
@@ -67,7 +67,7 @@
 }
 
 .con-main .list-card .card .list-info {
-  font-size: 10px;
+  font-size: 11px;
   color: white;
   position: absolute;
   bottom: 14px;

@@ -124,7 +124,7 @@ header .next {
 }
 
 .navigation ul li p {
-  font-size: 10px;
+  font-size: 11px;
   color: #aaaaaa;
 }
 
@@ -391,6 +391,7 @@ header .next {
   color: #999999;
   text-align: center;
   padding: 5px 8px;
+  margin-right: 5px;
   background: #e5e5e5;
   border-radius: 10px;
 }
@@ -451,6 +452,7 @@ header .next {
   z-index: 999;
   background: rgba(0, 0, 0, 0.4);
   top: 0;
+  left: 0;
 }
 
 .overlay .overlay-menu {

@@ -2,7 +2,7 @@
     <section class="wrap">
         <!--    <button v-if="$store.getters.getUser">로그아웃</button>-->
         <div class="section-wrap section-wrap__main">
-            <div class="container">
+            <div class="container" style="margin:0;">
                 <!-- 상단 슬라이드 -->
                 <div class="header-slide">
                     <swiper class="swiper-container__top" :options="topSwiperOption" ref="topSwiper">
