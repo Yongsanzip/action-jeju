@@ -130,10 +130,12 @@ export default {
             postData.append('comment', this.reviewText);
 
             const images = [];
-            let src;
+            // let src;
             this.photoList.forEach(function (item) {
-                src = item.src.split("/");
-                images.push('/'+src.pop());
+                // src = item.src.split("/");
+                // images.push('/'+src.pop());
+
+                images.push('/'+item.src);
             });
             postData.append('images', images.join('&'));
 

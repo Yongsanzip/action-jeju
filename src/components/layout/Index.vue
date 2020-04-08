@@ -7,7 +7,7 @@
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:pan.down="closeSearch"></div>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:pan.up="slideUp"></div>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:pan.down="slidedown"></div>
-                <div class="search-form">
+                <div class="search-form" v-show="slideChk < 2">
                     <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
                 </div>
                 <!-- search result -->
