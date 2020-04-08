@@ -38,14 +38,14 @@
                         <!-- route item -->
                         <div class="route-item" v-for="(date, dateIdx) in dateList" :idx="dateIdx" :key="dateIdx">
                             <div class="travel-header">
-                                <div class="travel-day">D-{{dateIdx+1}}</div>
+                                <div class="travel-day noto-sans">D-{{dateIdx+1}}</div>
                                 <p class="travel-title">여행 {{dateIdx+1}}일차</p>
-                                <p class="travel-date">{{date.fulldate}}</p>
+                                <p class="travel-date noto-sans">{{date.fulldate}}</p>
                             </div>
                             <ul class="travel-list">
                                 <template v-if="!isEditRoute">
                                     <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx">
-                                        <div class="place-number">{{idx+1}}</div>
+                                        <div class="place-number noto-sans">{{idx+1}}</div>
                                         <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
                                         <p class="place-time"></p>
                                         <div class="travel-contents">

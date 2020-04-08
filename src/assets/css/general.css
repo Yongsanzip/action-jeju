@@ -5,3 +5,7 @@
 @import url(main.css);
 @import url(main_sub.css);
 @import url(style.css);
+@font-face {
+    font-family: 'SCDream';
+    src: url("../fonts/S-Core_Dream/SCDream4.otf")
+}

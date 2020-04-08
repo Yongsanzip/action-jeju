@@ -59,13 +59,13 @@
                         <!-- route item -->
                         <div class="route-item" v-for="(item, idx) in days" :key="idx">
                             <div class="travel-header">
-                                <div class="travel-day">D-{{item.day}}</div>
+                                <div class="travel-day noto-sans">D-{{item.day}}</div>
                                 <p class="travel-title">여행 {{item.day}}일차</p>
-                                <p class="travel-date">{{item.date}}</p>
+                                <p class="travel-date noto-sans">{{item.date}}</p>
                             </div>
                             <ul class="travel-list">
                                 <li v-for="(path, pathIdx) in item.path" :key="pathIdx">
-                                    <div class="place-number">{{pathIdx+1}}</div>
+                                    <div class="place-number noto-sans">{{pathIdx+1}}</div>
                                     <p class="place-name">{{path.company_name}}</p>
                                     <p class="place-time"></p>
                                     <div class="travel-contents">

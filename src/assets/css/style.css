@@ -577,3 +577,7 @@ header .next {
   right: 20px;
   bottom: 15px;
 }
+
+.noto-sans{
+  font-family:'Noto Sans KR', sans-serif;
+}
