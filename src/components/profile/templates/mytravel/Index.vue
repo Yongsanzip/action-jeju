@@ -91,6 +91,7 @@ export default {
             postData.append('tour_idx', this.selectedTourIdx);
             Route.deleteRoute(postData).then(res => {
                 console.log(res.data);
+                alert(res.data.resultMsg);
                 EventBus.$emit('MyProfile', "myTravel");
                 this.$forceUpdate();
             }).catch(err => {
