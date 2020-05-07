@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic-mappin-grey</title>
+    <defs>
+        <polygon id="path-1" points="0 0.0005 10.9999 0.0005 10.9999 14.6665 0 14.6665"></polygon>
+    </defs>
+    <g id="ic-mappin-grey" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(2.500000, 0.500000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Clip-2"></g>
+            <path d="M5.4999,7.7918 C6.7659,7.7918 7.7919,6.7658 7.7919,5.4998 C7.7919,4.2338 6.7659,3.2078 5.4999,3.2078 C4.2339,3.2078 3.2079,4.2338 3.2079,5.4998 C3.2079,6.7658 4.2339,7.7918 5.4999,7.7918 M4.9359,14.3708 C0.7729,8.3368 -0.0001,7.7178 -0.0001,5.4998 C-0.0001,2.4628 2.4629,-0.0002 5.4999,-0.0002 C8.5379,-0.0002 10.9999,2.4628 10.9999,5.4998 C10.9999,7.7178 10.2279,8.3368 6.0649,14.3708 C5.8489,14.6838 5.4199,14.7608 5.1069,14.5438 C5.0399,14.4968 4.9809,14.4378 4.9359,14.3708" id="Fill-1" fill="#999999" mask="url(#mask-2)"></path>
+        </g>
+    </g>
+</svg>

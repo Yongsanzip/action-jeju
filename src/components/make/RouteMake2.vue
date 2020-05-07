@@ -11,7 +11,7 @@
                 <naver-maps
                         :width="mapSettings.width"
                         :height="mapSettings.height"
-                        :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'BYCYCLE', 'CADASTRAL', 'CTT', 'HIKING_TRAIL', 'PANORAMA', 'POI_KOREAN', 'TRANSIT']"
+                        :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']"
                         :mapOptions="mapOptions"
                 >
                 </naver-maps>
@@ -142,9 +142,9 @@ export default {
             selectedDate:null,
             dataArr:[],
             mapOptions: {
-                lat: 33.38,
-                lng: 126.56,
-                zoom: 6,
+                lat: 33.2411822578,
+                lng: 126.5935367973,
+                zoom: 9,
                 zoomControl: false,
                 scaleControl: false,
                 logoControl: true,
@@ -156,7 +156,7 @@ export default {
             },
             mapSettings:{
                 width:0,
-                height:0
+                height:159
             },
             selectedLocation: null
         }

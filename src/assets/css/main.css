@@ -7,6 +7,7 @@
     display: block;
     line-height: 59px;
     font-size:19px;
+    font-weight: 500;
     color: rgb(165,165,165);
 }
 
@@ -45,10 +46,14 @@
     top:0;
     left:0;
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
+    height: calc(100% + 40px);
 }
 .section-wrap__main .container .main-content .content-box__top .swiper-container{
-    border-radius: 40px;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    /*border-radius: 40px;*/
 }
 .section-wrap__main .container .main-content .content-box__top .swiper-container .swiper-button-prev{
     left:0;
@@ -64,11 +69,31 @@
     /*background-color: rgba(0,0,0,.2);*/
     background-size:auto 22px;
 }
+.section-wrap__main .container .main-content .content-box__top .swiper-container .swiper-button-prev:after,
+.section-wrap__main .container .main-content .content-box__top .swiper-container .swiper-button-next:after{
+    font-size: 25px !important;
+}
 .section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide>div{
     height: 100%;
     background-position: center;
     background-size:cover;
 }
+/*.section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide>div:first-child{*/
+/*    width: calc(100% - 40px);*/
+/*}*/
+/*.section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide>div:nth-child(2){*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: calc(100% - 40px);*/
+/*    border-bottom-right-radius: 40px;*/
+/*}*/
+/*.section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide>div:last-child{*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*}*/
 .section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide>div:after{
     content: '.';
     font-size: 0;
@@ -81,6 +106,17 @@
 .section-wrap__main .container .main-content .content-box__top .swiper-container__box .swiper-slide > img{
     width: 100%;
     height: 100%;
+}
+.section-wrap__main .container .main-content .content-box__top:after {
+    content: ".";
+    font-size: 0;
+    background-image: url("../images/svg/ic-radius.svg");
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 40px;
+    height: 40px;
 }
 .section-wrap__main .container .main-content .content-box__icon{
     position:absolute;
@@ -167,6 +203,8 @@
     color: #ffffff;
     font-weight: 200;
     font-family: 'SCDream';
+    margin-top: 3px;
+    margin-bottom: 11px;
 }
 .section-wrap__main .container .main-content .content-box__bottom .title-box p{
     height: 25px;
@@ -221,7 +259,7 @@
 }
 
 .section-wrap__main .route-main{
-    padding-left:23px;
+    /*padding-left:23px;*/
 }
 .section-wrap__main .route-main .swiper-slide{
     width: 253px;

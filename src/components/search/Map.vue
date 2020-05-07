@@ -1,22 +1,28 @@
 <template>
-    <section class="wrap" style="height:100%">
-        <div class="map-wrap">
-            <naver-maps
-                    :width="mapSettings.width"
-                    :height="mapSettings.height"
-                    :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'BYCYCLE', 'CADASTRAL', 'CTT', 'HIKING_TRAIL', 'PANORAMA', 'POI_KOREAN', 'TRANSIT']"
-                    :mapOptions="mapOptions"
-                    @load="onLoadMap"
-            >
-                <naver-marker v-for="(item, idx) in mapMarkerList" :key="idx"
-                              :lat="Number(item.latitude)"
-                              :lng="Number(item.longitude)"
-                              @click="onMarkerClicked"
-                              @load="onMarkerLoaded"
-                />
-            </naver-maps>
-            <div v-if="isPopup" class="btn-map-block">
-                <button class="btn-map" @click="close">지도접기 ▼</button>
+    <section class="wrap con-map">
+        <div class="post-wrap">
+            <div class="post-header">
+                <a @click="close" class="prev">이전</a>
+                <button class="btn-more">메뉴</button>
+            </div>
+            <div class="map-wrap">
+                <naver-maps
+                        :width="mapSettings.width"
+                        :height="mapSettings.height"
+                        :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'BYCYCLE', 'CADASTRAL', 'CTT', 'HIKING_TRAIL', 'PANORAMA', 'POI_KOREAN', 'TRANSIT']"
+                        :mapOptions="mapOptions"
+                        @load="onLoadMap"
+                >
+                    <naver-marker v-for="(item, idx) in mapMarkerList" :key="idx"
+                                  :lat="Number(item.latitude)"
+                                  :lng="Number(item.longitude)"
+                                  @click="onMarkerClicked"
+                                  @load="onMarkerLoaded"
+                    />
+                </naver-maps>
+                <div v-if="isPopup" class="btn-map-block">
+                    <button class="btn-map" @click="close">지도접기 <img src="../../assets/images/svg/ic-triangle-down-white.svg"></button>
+                </div>
             </div>
         </div>
     </section>
@@ -24,7 +30,7 @@
 <script>
 import { EventBus } from "../../assets/event-bus";
 import customIcon from '../../assets/images/svg/marker.svg';
-import customIconActive from '../../assets/images/map_02_on.png';
+import customIconActive from '../../assets/images/svg/map/map_marker02.svg';
 
 export default {
     name: "Map",
@@ -32,9 +38,9 @@ export default {
         mapOptions: {
             type: Object,
             default: function(){ return {
-                lat: 33.38,
-                lng: 126.56,
-                zoom: 6,
+                lat: 33.0811822578,
+                lng: 126.5585367973,
+                zoom: 9,
                 zoomControl: false,
                 mapTypeControl: false,
                 scaleControl: false,

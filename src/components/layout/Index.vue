@@ -1,6 +1,7 @@
 <template>
     <div class="root" :class="{openSearch: isActive}">
         <router-view :key="$route.fullPath"></router-view>
+<!--        <div v-if="isSearch" style="width: 100%; height: 100%;position: absolute;top: 0;"></div>-->
         <div class="con-search">
             <!--{{slideChk}}-->
             <div class="search-surface">
@@ -88,6 +89,9 @@ export default {
         closeSearch(){
             this.isActive = false;
             this.slideChk = 0;
+            this.isSearch = false;
+            this.searchText = '';
+            this.type = 'route';
             if (this.isSearch){
                 this.slideChk = 1;
             }else{
@@ -154,6 +158,8 @@ export default {
                 this.loading = true;
                 this.searchList = [];
                 this.navActive = 3;
+                event.preventDefault();
+                document.getElementsByClassName("search-field")[0].blur();
 
                 const postData = new FormData();
                 postData.append('keyword', this.searchText);
@@ -165,10 +171,10 @@ export default {
                         // console.log(getResult.result_code)
                         if (res.data.searchList == null){
                             this.$alert("검색 결과가 없습니다");
-                            this.isSearch = false;
+                            this.searchList = [];
+                            this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 0;
-                            this.el_Active = 0;
+                            this.slideChk = 1;
                             //return false
                         }else{
                             this.el_Active = this.tabList.findIndex(tab => tab.type == this.type);
@@ -191,10 +197,10 @@ export default {
                         const getResult = res.data;
                         if (getResult.searchCnt === 0){
                             this.$alert("검색 결과가 없습니다");
-                            this.isSearch = false;
+                            this.searchList = [];
+                            this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 0;
-                            this.el_Active = 0;
+                            this.slideChk = 1;
                             return false
                         }else{
                             this.searchList = res.data.searchList;

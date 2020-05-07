@@ -30,7 +30,7 @@
   position: absolute;
   left: 12px;
   top: 8px;
-  background-image: url("../images/ic-cross-gray.png");
+  background-image: url("../images/svg/ic-cross-gray.svg");
   background-repeat: no-repeat;
   font-size: 0;
 }
@@ -132,8 +132,8 @@ header .next {
   position: relative;
   content: '';
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 21px;
   background-repeat: no-repeat;
   margin: 4px auto 6px;
   background-position:center;
@@ -292,7 +292,7 @@ header .next {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url("../images/ic-triangle-down.png") no-repeat 96% 50%;
+  background: url("../images/svg/ic-triangle-down.svg") no-repeat 96% 50%;
 }
 
 .checkbox {
@@ -309,6 +309,7 @@ header .next {
   height: 16px;
   border: 1px solid #cccccc;
   border-radius: 2px;
+  margin-top: 2px;
 }
 
 .checkbox input:checked ~ .shape::after {

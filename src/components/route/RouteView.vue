@@ -14,7 +14,7 @@
                     </div>
                     <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}`}">
                         <div class="btn-map-block">
-                            <button class="btn-map" @click="openMap">지도보기 ▲</button>
+                            <button class="btn-map" @click="openMap">지도보기 <img src="../../assets/images/svg/ic-triangle-up-white.svg"></button>
                         </div>
                         <h2 class="post-title">{{tourInfo.name}}</h2>
                         <p class="post-date">{{tourInfo.days-1}}박 {{tourInfo.days}}일 여행</p>
@@ -66,14 +66,14 @@
                             <ul class="travel-list">
                                 <li v-for="(path, pathIdx) in item.path" :key="pathIdx">
                                     <div class="place-number noto-sans">{{pathIdx+1}}</div>
-                                    <p class="place-name">{{path.company_name}}</p>
+                                    <p class="place-name" @click="doViewPlace(path)">{{path.company_name}}</p>
                                     <p class="place-time"></p>
                                     <div class="travel-contents">
                                         <div class="review-text" @click="doViewAllReviewText($event, idx, pathIdx)">
                                             <p>{{path.review}}</p>
                                         </div>
                                         <div class="review-image-list" v-show="path.images != null">
-                                            <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx">
+                                            <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx" @click="showPhotoModal(image)">
     <!--                                            <img src="../../assets/images/img-dummy.png" alt="">-->
                                                 <img :src="`http://img.actionjeju.com/data/user_route_after${image.name}`" alt="">
                                             </div>
@@ -128,7 +128,7 @@
                                 <div>
                                     <p class="comment-name">{{item.mb_nick}}</p>
                                     <p class="comment-time">{{item.getReg}}</p>
-<!--                                    <button class="btn-more">메뉴</button>-->
+                                    <button class="btn-more">메뉴</button>
                                 </div>
                                 <div @click="doViewReply($event, idx)">
                                     <p class="comment-text">
@@ -200,7 +200,16 @@
             <transition name="fade">
                 <ReplyPopup v-if="isReply"
                             :tourIdx="id"
-                            :tour-info="tourInfo"/>
+                            :tour-info="tourInfo"
+                            :idx="replyIdx"
+                            :highlight="(showReplyCnt < 1 && replyIdx != null)? true : false"
+                />
+                <modal-photo v-if="isPhoto"
+                             :photo-list="imageList"
+                             :idx="selectedPhotoIdx"
+                             :hasListView="false"
+                             :fullScreen="true"
+                />
             </transition>
         </main>
         <div class="overlay" :style="(isShowMenu)? '' : 'display:none;'" @click.self="isShowMenu=false">
@@ -218,11 +227,12 @@ import {Route, etc} from '@/api';
 import {mapGetters} from 'vuex';
 import { EventBus } from "../../assets/event-bus";
 import ReplyPopup from "../popup/ReplyPopup";
+import ModalPhoto from "../popup/PhotoPopup";
 
 export default {
     name:'RouteView',
     components:{
-        ReplyPopup
+        ReplyPopup, ModalPhoto
     },
     props: {
         id: {
@@ -240,10 +250,19 @@ export default {
         mapHeights: {
             type: Array,
             default: function() { return [159, 370, 547]; }
+        },
+        showReply: {
+            type: Boolean,
+            default: false
+        },
+        replyIdx: {
+            type: String,
+            default: null
         }
     },
     data(){
       return{
+          showReplyCnt: 0,
           mapWidth: 400,
           mapHeight: this.mapHeights[0],
           slideChk: 0,
@@ -253,6 +272,9 @@ export default {
           isMine: true,
           isLike: false,
           isFavorites: false,
+          isPhoto: false,
+          imageList: [],
+          imageDataList: [],
           isReply:false,
           replyList:[],
           isShowMenu:false,
@@ -261,8 +283,8 @@ export default {
           info: false,
           map: null,
           mapOptions: {
-              lat: 33.2411822578,
-              lng: 126.5935367973,
+              lat: 33.3811822578,
+              lng: 126.5585367973,
               zoom: 9,
               zoomControl: false,
               scaleControl: false,
@@ -305,9 +327,36 @@ export default {
                 //console.log(res.data)
                 this.tourInfo = res.data.tourInfo;
                 this.days = res.data.days;
+                this.setImageList();
+
+                if(this.showReply && this.showReplyCnt < 1){
+                    this.doReply();
+                }
             }).catch(err => {
                 console.error(err);
             })
+        },
+        setImageList(){
+            this.imageList = [];
+            this.days.forEach(function(day){
+                if(day.path == null || day.path.length < 1) return;
+                day.path.forEach(function(path){
+                    if(path.images == null || path.images.length < 1) return;
+                    path.images.forEach(function(img){
+                        this.imageDataList.push(img);
+                        this.imageList.push({
+                            image_name: img.name
+                        });
+                    }.bind(this));
+                }.bind(this));
+            }.bind(this));
+        },
+        showPhotoModal(imgData){
+            this.selectedPhotoIdx = this.imageDataList.findIndex(function(img){ return img.idx == imgData.idx; });
+            this.isPhoto = true;
+        },
+        doViewPlace(path){
+            this.$router.push('/map/'+path.company_idx).catch(err => {console.error(err)})
         },
         doViewAllReviewText(e, daysIdx, pathIdx){
             if(e.target.className.indexOf('has-overflow') >= 0){
@@ -523,7 +572,6 @@ export default {
         },
         doViewReply(e, idx){
             if(e.target.className.indexOf("overflow3lines") >= 0){
-                //this.doReply();
                 const textEl = e.target.getElementsByTagName("p")[0];
                 textEl.innerHTML = this.replyList[idx].comment;
                 textEl.style.height = "auto";
@@ -633,7 +681,9 @@ export default {
         this.getFavorites();
         this.getReplyList();
         EventBus.$on("RouteView", props => {
+            this.isPhoto = props;
             this.isReply = props;
+            this.showReplyCnt++;
             this.getRouteList();
             this.getReplyList();
         });

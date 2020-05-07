@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic-arrow-right-circle</title>
+    <defs>
+        <polygon id="path-1" points="0 0 28.9999 0 28.9999 28.9998 0 28.9998"></polygon>
+    </defs>
+    <g id="ic-arrow-right-circle" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-8" transform="translate(1.500000, 1.500000)">
+            <g id="Group-3">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M14.4999,-0.0002 C22.5079,-0.0002 28.9999,6.4918 28.9999,14.4998 C28.9999,22.5088 22.5079,28.9998 14.4999,28.9998 C6.4919,28.9998 -0.0001,22.5088 -0.0001,14.4998 C-0.0001,6.4918 6.4919,-0.0002 14.4999,-0.0002" id="Fill-1" fill="#000000" opacity="0.4" mask="url(#mask-2)"></path>
+            </g>
+            <line x1="18.246" y1="14.6365" x2="11.715" y2="8.4685" id="Stroke-4" stroke="#FFFFFF" stroke-linecap="round"></line>
+            <line x1="18.246" y1="14.6365" x2="11.715" y2="21.5315" id="Stroke-6" stroke="#FFFFFF" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

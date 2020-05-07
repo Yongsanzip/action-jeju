@@ -20,16 +20,7 @@
                         </div>
                         <button class="btn-white" @click="doSelect(item)">선택</button>
                     </li>
-<!--                    <li>-->
-<!--                        <div class="place-icon"></div>-->
-<!--                        <div class="place-info">-->
-<!--                            <p class="place-name">애월 더 선셋</p>-->
-<!--                            <p class="place-adress">제주특별차지도 제주시 애월읍 일주서로 6111 A동 지하1층</p>-->
-<!--                        </div>-->
-<!--                        <button class="btn-white">선택</button>-->
-<!--                    </li>-->
                 </ul>
-                <infinite-loading @infinite="infiniteHandler"></infinite-loading>
             </div>
         </div>
     </section>
@@ -37,12 +28,10 @@
 <script>
 import { EventBus } from "../../assets/event-bus";
 import { search } from "@/api";
-import InfiniteLoading from 'vue-infinite-loading'
 
 export default {
     name: 'SearchPopup',
     components:{
-        InfiniteLoading
     },
     data() {
         return {

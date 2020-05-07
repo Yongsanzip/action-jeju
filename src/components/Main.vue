@@ -23,6 +23,7 @@
                         <swiper class="swiper-container__box" :options="boxSwiperOption" ref="boxSwiper">
                             <swiper-slide v-for="(item, index) in hotList" :key="index">
                                 <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>
+<!--                                <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>-->
                             </swiper-slide>
                             <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
                             <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -90,7 +91,7 @@
 
 <script>
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/css/swiper.css'
 import {etc, Route} from '@/api';
 import { EventBus } from "../assets/event-bus";
 
@@ -115,9 +116,6 @@ export default {
                 speed: 400,
             },
             boxSwiperOption: {
-                slidesPerView: 1,
-                slidesPerGroup: 1,
-                loop: false,
                 speed: 500,
                 autoplay: {
                     delay: 3000,
@@ -125,11 +123,6 @@ export default {
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev'
-                },
-                on: {
-                    init: function (){
-
-                    },
                 }
             },
             listSwiperOption:{

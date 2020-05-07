@@ -43,13 +43,11 @@
             <div class="surface">
                 <div class="center">
                     <h3 class="place-name">{{ placeInfo.company_name }}</h3>
-                    <div class="score-box">
-                        <p class="place-score">{{ placeInfo.star_point }}</p>
-                        <div class="star_area m-star">
+                    <p class="place-score">{{ placeInfo.star_point }}</p>
+                    <div class="star_area m-star">
                             <span class="star_rating star">
                                 <span :style="{width: `${(placeInfo.star_point*20)}%`}"></span>
                             </span>
-                        </div>
                     </div>
                 </div>
                 <ul class="place-menu-list">
@@ -162,7 +160,7 @@
                         :mapOptions = "mapModalOptions"
                         :markPlace = "mapModalPlaceList"
                         :isPopup = "true"
-                        style = "position: fixed;top: 0;z-index: 999;"
+                        style = "position: fixed;top: 0;z-index: 98;"
             />
         </transition>
     </section>
@@ -170,7 +168,7 @@
 <script>
 import {Route, etc} from '@/api'
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/css/swiper.css'
 import ModalPhoto from "../popup/PhotoPopup";
 import ModalReview from "../popup/ReviewPopup";
 import ModalMap from "../search/Map";
@@ -356,6 +354,7 @@ export default {
     },
     async created() {
         try {
+            window.scrollTo(0,0);
             const postData = new FormData();
             postData.append('place_idx', this.id);
             await Route.place(postData)

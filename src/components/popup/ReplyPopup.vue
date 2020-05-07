@@ -11,7 +11,7 @@
             <div class="post-comment-wrap">
                 <div class="comment-list">
                     <!-- card -->
-                    <div class="comment-card" v-for="(item, idx) in replyList" :key="idx">
+                    <div v-for="(item, index) in replyList" :key="index" :class="item.idx == idx && highlight? 'comment-card elementToFadeInAndOut' : 'comment-card'">
                         <div class="comment-profile">
                             <img src="../../assets/images/img-dummy.png" alt="">
                         </div>
@@ -19,10 +19,10 @@
                             <div>
                                 <p class="comment-name">{{item.mb_nick}}</p>
                                 <p class="comment-time">{{item.getReg}}</p>
-                                <button class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
+                                <button class="btn-more" @click="showReplyMenu(index)">메뉴</button>
                             </div>
                             <div>
-                                <p class="comment-text" @click="doViewAllText($event, idx)">
+                                <p class="comment-text" @click="doViewAllText($event, index)">
                                     {{item.comment}}
                                 </p>
                             </div>
@@ -68,6 +68,13 @@ export default {
         commentLines:{
             type: Number,
             default: 3
+        },
+        highlight: {
+            type: Boolean,
+            default: false
+        },
+        idx:{
+            type: String
         }
     },
     data(){
@@ -88,7 +95,6 @@ export default {
         getReplyList() {
             const postData = new FormData;
             postData.append('tour_idx', this.tourIdx);
-            console.log(this.tourIdx)
             Route.replyList(postData).then(res => {
                 //console.log(res.data)
                 if(res.data.replyList == null){
@@ -100,6 +106,15 @@ export default {
                 this.replyList.forEach(function(item){
                     item.getReg = this.$moment(new Date(item.regdt)).fromNow();
                 }.bind(this));
+
+                this.$forceUpdate();
+
+                this.$nextTick(function(){
+                    if(document.getElementsByClassName("elementToFadeInAndOut").length > 0){
+                        console.log(document.getElementsByClassName("elementToFadeInAndOut")[0].offsetTop);
+                        document.getElementsByClassName("modal")[0].scrollTo({top:document.getElementsByClassName("elementToFadeInAndOut")[0].offsetTop, left:0, behavior:'smooth'});
+                    }
+                })
             }).catch(err => {
                 console.error(err);
             })
@@ -203,3 +218,14 @@ export default {
     }
 }
 </script>
+<style>
+    .elementToFadeInAndOut {
+        opacity: 1;
+        animation: fade 2s linear;
+    }
+    @keyframes fade {
+        0%,100% { opacity: 1 }
+        50% { opacity: 0.5 }
+    }
+
+</style>

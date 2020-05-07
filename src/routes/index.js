@@ -122,6 +122,7 @@ export const router = new VueRouter({
                     component: RouteList
                 },
                 {
+                    name: 'RouteView',
                     path: ':id',
                     component: RouteView,
                     props: true

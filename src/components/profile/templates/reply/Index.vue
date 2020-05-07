@@ -14,13 +14,27 @@
                     {{data.comment}}
                 </p>
             </div>
-            <a href="#" class="link" @click="$router.push(`/route/${data.touridx}`)"></a>
+            <a href="#" class="link" @click="viewReply"></a>
         </div>
     </div>
 </template>
 <script>
 export default {
     name: 'Review',
-    props:['data']
+    props:['data'],
+    methods: {
+        viewReply() {
+            console.log(this.data.idx);
+            // return;
+            this.$router.push({
+                name: 'RouteView',
+                params: {
+                    'id': this.data.touridx,
+                    'showReply': true,
+                    'replyIdx': this.data.idx
+                }
+            });
+        }
+    }
 }
 </script>

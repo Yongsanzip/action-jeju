@@ -33,7 +33,7 @@
     border-bottom: 1px solid #e2e2e2;
     text-align: center;
     background-color: #ffffff;
-    z-index: 99;
+    z-index: 98;
 }
 .wrap > header h1{
     display: inline-block;
@@ -271,7 +271,7 @@
 
 .star{display:inline-block;}
 .star_area{display:inline-block;font-size:0;}
-.star_area.m-star span{width:68px;height:12px;background-image:url("../images/star.png");background-position:0 -12px;background-repeat:no-repeat;background-size:auto 24px;}
+.star_area.m-star span{width:67px;height:12px;background-image:url("../images/star.png");background-position:0 -12px;background-repeat:no-repeat;background-size:auto 24px;}
 .star_area span.star span{display:block;background-position:left top;}
 
 .vc-h-full{width: 100%}
@@ -303,16 +303,16 @@ ul.custom-check li label span{
 }
 
 ul.custom-check li.check_like label span{
-    background-image: url("../images/ic-heart-line-white.png");
+    background-image: url("../images/svg/ic-heart-line-white.svg");
 }
 ul.custom-check li.check_like input:checked ~ span{
     background-image: url("../images/ic-heart-fill-white.png");
 }
 ul.custom-check li.check_favorite label span{
-    background-image: url("../images/ic-bookmark-white.png");
+    background-image: url("../images/svg/ic-bookmark-white.svg");
 }
 ul.custom-check li.check_favorite input:checked ~ span{
-    background-image: url("../images/ic-bookmark-fill-white.png");
+    background-image: url("../images/svg/ic-bookmark-fill-white.svg");
 }
 
 /*.vc-reset [role=button], .vc-reset button{

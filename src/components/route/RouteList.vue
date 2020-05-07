@@ -65,7 +65,7 @@
 </template>
 <script>
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/css/swiper.css'
 import {etc, Route} from '@/api';
 import { EventBus } from "../../assets/event-bus";
 import {mapGetters} from 'vuex';

@@ -9,7 +9,7 @@
                     <div class="new"></div>
                 </li>
                 <li class="setting">
-                    <router-link to="/setting" class="link"></router-link>>
+                    <router-link to="/setting" class="link"></router-link>
                 </li>
             </ul>
         </header>
@@ -57,6 +57,7 @@
                                  :hasListView="false"
                                  :writerNick="profileList[selectedPhotoIdx].mb_nick"
                                  :allLike="true"
+                                 :fullScreen="true"
                     />
                 </div>
             </div>

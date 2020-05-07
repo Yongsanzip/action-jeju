@@ -11,7 +11,7 @@
                 <label class="upload-cover">
                     <input type="file" ref="myfile" @change="previewFile">
                 </label>
-                <img v-if="url === null" src="../../assets/images/img-dummy.png" alt="">
+                <img v-if="url === null" :src="`http://img.actionjeju.com/data/user_route_image/visit_jeju${randomIdx}.jpg`" alt="">
                 <img v-if="url" :src="url" alt="">
             </div>
             <div class="route-wrap">
@@ -40,8 +40,8 @@
                                 class='v-date-picker'
                                 v-model="ranges"
                                 mode="range"
+                                :masks="masks"
                                 color="red"
-
                                 is-inline
                                 is-expanded
                                 :theme-styles='themeStyles'
@@ -71,7 +71,7 @@
 <script>
 import vDatePicker from 'v-calendar/lib/components/date-picker.umd'
 import {mapGetters} from 'vuex';
-import { Route } from "@/api";
+import { profile, Route } from "@/api";
 import RouteMake2 from "./RouteMake2";
 
 export default {
@@ -86,6 +86,7 @@ export default {
     },
     data(){
         return{
+            profile: null,
             ranges:{
                 start: new Date(),
                 end: new Date(),
@@ -99,11 +100,20 @@ export default {
                 {text: '어린이' , number: 0},
             ],
             num:0,
-            title:'',
+            title: "",
             isChk:false,
             themeStyles:{
                 border:'0'
-            }
+            },
+            masks: {
+                title: 'YYYY MMMM',
+                weekdays: 'W',
+                navMonths: 'MMM',
+                input: ['L', 'YYYY-MM-DD', 'YYYY/MM/DD'],
+                dayPopover: 'WWW, MMM D, YYYY',
+                data: ['L', 'YYYY-MM-DD', 'YYYY/MM/DD'],
+            },
+            randomIdx: this.getRandomNumb()
         }
     },
     computed: {
@@ -164,9 +174,27 @@ export default {
                 console.error(err);
             })
 
+        },
+        getRandomNumb(){
+            var numb = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+            if(Number(numb) >= 10) numb = numb - 1;
+            if(Number(numb) < 10) numb = "0" + numb;
+
+            return numb;
         }
     },
     created() {
+        const postData = new FormData();
+        postData.append('mb_id', this.GET_MB_ID);
+
+        profile.profile(postData).then(res => {
+            this.profile = res.data;
+            if(this.title == "") this.title = this.profile.nick + "님의 액션제주";
+            // console.log(getResult.result_code)
+        }).catch(err => {
+            console.error(err);
+        })
+
         if(this.idx != null){
             this.touridx = this.idx;
 

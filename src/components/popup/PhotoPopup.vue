@@ -1,6 +1,6 @@
 <template>
     <section class="wrap modal">
-        <main class="container con-search">
+        <main class="container" :style="fullScreen? 'height: 100%; margin-top: 0;' : ''">
             <div class="image-detail-view">
                 <div class="detail-header" v-if="hasListView">
                     <p class="name">{{title}}</p>
@@ -9,7 +9,7 @@
                 </div>
                 <div class="detail-header" v-else>
                     <button class="btn-close" @click="close">닫기</button>
-                    <p class="writer-nick">{{writerNick}}</p>
+                    <p class="writer-nick" v-if="writerNick != null">{{writerNick}}</p>
                 </div>
                 <transition name="fade">
                     <div class="image-viewer-block" v-show="!isShowList">
@@ -24,7 +24,7 @@
                                 <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
                                 <div class="swiper-pagination" style="display: none;"></div>
                             </swiper>
-                        </div>x
+                        </div>
                         <div class="detail-footer">
                             <label class="favorite">
                                 <input type="checkbox"
@@ -57,7 +57,7 @@
 import {etc} from '@/api'
 import { EventBus } from "../../assets/event-bus";
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+import 'swiper/css/swiper.css'
 import {mapGetters} from 'vuex';
 
 export default {
@@ -86,6 +86,10 @@ export default {
             default: true
         },
         allLike: {
+            type: Boolean,
+            default: false
+        },
+        fullScreen: {
             type: Boolean,
             default: false
         }
@@ -125,6 +129,7 @@ export default {
         close() {
             EventBus.$emit("PlaceView", this.showModal, this.photoList);
             EventBus.$emit('MyProfile', "photo", null);
+            EventBus.$emit('RouteView', this.showModal);
         },
         ChangeSwiperSlide(){
             this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;

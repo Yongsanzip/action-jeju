@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>ic-telephone</title>
+    <defs>
+        <polygon id="path-1" points="0.000295506321 -0.0002 10.9805262 -0.0002 10.9805262 10.9888 0.000295506321 10.9888"></polygon>
+    </defs>
+    <g id="ic-telephone" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(2.500000, 2.500000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <g id="Clip-2"></g>
+            <path d="M0.3993,0.5301 L2.6303,0.0121 C2.8743,-0.0419 3.1223,0.0841 3.2203,0.3131 L4.2513,2.7131 C4.3403,2.9241 4.2803,3.1681 4.1033,3.3131 L2.8023,4.3831 C3.5903,6.0511 4.9333,7.3951 6.6033,8.1821 L7.6683,6.8831 C7.8123,6.7061 8.0573,6.6451 8.2683,6.7351 L10.6683,7.7641 C10.8973,7.8651 11.0233,8.1131 10.9673,8.3571 L10.4533,10.5891 C10.3993,10.8221 10.1923,10.9881 9.9533,10.9891 C4.4563,10.9861 0.0013,6.5301 0.000295506321,1.0331 C-0.0007,0.7931 0.1653,0.5841 0.3993,0.5301" id="Fill-1" fill="#999999" mask="url(#mask-2)"></path>
+        </g>
+    </g>
+</svg>
