@@ -116,6 +116,8 @@ export default {
                 speed: 400,
             },
             boxSwiperOption: {
+                slidesPerView: 'auto',
+                slidesPerGroup: 1,
                 speed: 500,
                 autoplay: {
                     delay: 3000,

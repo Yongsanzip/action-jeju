@@ -80,12 +80,6 @@
                         <!-- //route item -->
                     </div>
                 </div>
-                <transition name="fade">
-                    <ReviewPopup v-if="isReview"
-                                 :title="selectedLocation.company_name"
-                                 :review="selectedLocation.review"
-                                 :pathidx="selectedLocation.idx"/>
-                </transition>
                 <div>
                     <!-- 입력완료시 active 클래스 추가 -->
                     <a class="btn-step active" @click="complete">
@@ -94,7 +88,13 @@
                 </div>
             </div>
         </div>
-        <modal-search v-if="showModal" :date="selectedDate"/>
+        <transition name="fade">
+            <modal-search v-if="showModal" :date="selectedDate"/>
+            <ReviewPopup v-if="isReview"
+                         :title="selectedLocation.company_name"
+                         :review="selectedLocation.review"
+                         :pathidx="selectedLocation.idx"/>
+        </transition>
     </section>
 </template>
 <script>
