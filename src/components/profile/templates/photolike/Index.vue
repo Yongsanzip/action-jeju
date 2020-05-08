@@ -16,6 +16,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * setPhotoLike
+        * 사진 좋아요
+         */
         setPhotoLike(idx, e){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -33,6 +37,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * showDetailImgView
+        * 이미지 크게 보기
+         */
         showDetailImgView(idx){
             EventBus.$emit('MyProfile', "photo", idx);
         }

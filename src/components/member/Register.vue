@@ -89,6 +89,10 @@ export default {
         }
     },
     methods:{
+        /*
+        * doCheckNick
+        * 닉네임 사용가능 여부 확인
+         */
         doCheckNick() {
             const postData = new FormData();
             if( this.user.name.search(/\s/) !== -1){
@@ -114,6 +118,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * sendPost
+        * 회원가입 버튼 선택
+         */
         sendPost() {
             this.submitted = true;
             if (!this.nicksubmit){

@@ -39,10 +39,18 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * doPlace
+        * 장소 화면 이동
+         */
         doPlace(idx){
             if(this.isClickPlace) this.$router.push(`/map/${idx}`);
             this.isClickPlace = true;
         },
+        /*
+        * call
+        * 전화걸기
+         */
         call(phoneNumb){
             this.isClickPlace = false;
             if(phoneNumb == null){
@@ -50,6 +58,10 @@ export default {
             }
             location.href="tel:"+phoneNumb;
         },
+        /*
+        * disZzim
+        * 찜 취소
+         */
         disZzim(idx, e){
             this.isClickPlace = false;
             const postData = new FormData;

@@ -304,6 +304,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * slideUp
+        * 지도 크기 크게
+         */
         slideUp(){
             if(this.slideChk <= 0) return true;
             this.slideChk = this.slideChk - 1;
@@ -312,6 +316,10 @@ export default {
                 height: this.mapHeights[this.slideChk]
             });
         },
+        /*
+        * slideUp
+        * 지도 크기 작게
+         */
         slidedown(){
             if(this.slideChk > 1) return true;
             this.slideChk = this.slideChk + 1;
@@ -320,6 +328,10 @@ export default {
                 height: this.mapHeights[this.slideChk]
             });
         },
+        /*
+        * getRouteList
+        * 여행경로 상세정보 조회
+         */
         getRouteList() {
             const postData = new FormData;
             postData.append('tour_idx', this.id);
@@ -336,6 +348,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setImageList
+        * 여행경로 장소 후기 이미지 목록 셋팅
+         */
         setImageList(){
             this.imageList = [];
             this.days.forEach(function(day){
@@ -351,13 +367,25 @@ export default {
                 }.bind(this));
             }.bind(this));
         },
+        /*
+        * showPhotoModal
+        * 이미지 선택 시 해당 이미지 크게보기
+         */
         showPhotoModal(imgData){
             this.selectedPhotoIdx = this.imageDataList.findIndex(function(img){ return img.idx == imgData.idx; });
             this.isPhoto = true;
         },
+        /*
+        * doViewPlace
+        * 장소명 선택 시 장소 화면 이동
+         */
         doViewPlace(path){
             this.$router.push('/map/'+path.company_idx).catch(err => {console.error(err)})
         },
+        /*
+        * doViewAllReviewText
+        * 장소 후기 더보기 버튼 선택. 전체 후기 텍스트 표시
+         */
         doViewAllReviewText(e, daysIdx, pathIdx){
             if(e.target.className.indexOf('has-overflow') >= 0){
                 const textEl = e.target.getElementsByTagName("p")[0];
@@ -367,15 +395,27 @@ export default {
                 e.target.classList.remove("overflow2lines")
             }
         },
+        /*
+        * openMap
+        * 지도보기 버튼 선택
+         */
         openMap(){
             this.mapWidth = document.body.offsetWidth;
             this.isSticky = true;
             this.slideChk = 0;
         },
+        /*
+        * onLoadMap
+        * 네이버 지도 컴포넌트 로드 완료 시 마커 표시
+         */
         onLoadMap(vue){
             this.map = vue;
            if(this.days != null) this.drawMapMarker();
         },
+        /*
+        * drawMapMarker
+        * 여행 일정 별 장소 정보와 이동 동선 정보를 얻어 마커 표시 및 폴리라인 조회 위한 데이터 준비
+         */
         drawMapMarker(){
             let polylineData = {};
             this.days.forEach(function(day, dayIdx){
@@ -424,6 +464,10 @@ export default {
                 this.mapMarkList.push(markerList);
             }.bind(this));
         },
+        /*
+        * getPolyLine
+        * 폴리라인 목록 조회
+         */
         getPolyLine(data){
             const postData = new FormData;
             postData.append('tour_day', data.tour_day);
@@ -442,6 +486,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * onMarkerLoaded
+        * 이동 장소 별 마커 로드 완료 시 해당 장소의 여행일, 동선 순서 순으로 마커 이미지 표시
+         */
         onMarkerLoaded(marker){
             const markerIcon = document.createElement('div');
             markerIcon.classList.add('markerContent');
@@ -461,6 +509,10 @@ export default {
             });
             marker.setCursor('');
         },
+        /*
+        * onPolylineLoaded
+        * 폴리라인 로드 완료 시 여행일자 별 색상 표시
+         */
         onPolylineLoaded(polyline){
             const tourDay = Number(polyline.$el.getAttribute("tour-day")) % 3;
             let strokeColor = '#00c7c9';
@@ -481,6 +533,10 @@ export default {
             });
             polyline.map = this.map;
         },
+        /*
+        * getLike
+        * 해당 여행경로 좋아요 여부 조회
+         */
         getLike(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -494,6 +550,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setLike
+        * 해당 여행경로 좋아요 설정
+         */
         setLike(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -507,6 +567,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getFavorites
+        * 해당 여행경로 찜하기 여부 조회
+         */
         getFavorites(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -520,6 +584,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setFavorites
+        * 해당 여행경로 찜하기 설정
+         */
         setFavorites(){
             if(this.isShowMenu) this.isShowMenu=false;
 
@@ -542,6 +610,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getReplyList
+        * 댓글 목록 조회. 최대 3개까지 화면에 표시
+         */
         getReplyList() {
             const postData = new FormData;
             postData.append('tour_idx', this.id);
@@ -567,9 +639,17 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * doReply
+        * 댓글 팝업 표시
+         */
         doReply(){
             this.isReply = true;
         },
+        /*
+        * doViewReply
+        * 댓글 더보기 버튼 선택
+         */
         doViewReply(e, idx){
             if(e.target.className.indexOf("overflow3lines") >= 0){
                 const textEl = e.target.getElementsByTagName("p")[0];
@@ -579,6 +659,10 @@ export default {
                 e.target.classList.remove("overflow3lines")
             }
         },
+        /*
+        * copyRoute
+        * 경로 가져오기 버튼 선택. 해당 여행경로의 일정을 복사해 로그인한 사용자의 새로운 여행경로 저장
+         */
         copyRoute(){
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
@@ -624,6 +708,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * modifyRout
+        * 여행경로 편집
+         */
         modifyRout(){
             this.isShowMenu=false;
 
@@ -635,6 +723,10 @@ export default {
                 }
             });
         },
+        /*
+        * removeRout
+        * 여행경로 삭제
+         */
         removeRout(){
             this.isShowMenu=false;
 

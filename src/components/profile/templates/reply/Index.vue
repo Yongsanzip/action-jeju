@@ -23,9 +23,11 @@ export default {
     name: 'Review',
     props:['data'],
     methods: {
+        /*
+        * viewReply
+        * 댓글 위치로 이동
+         */
         viewReply() {
-            console.log(this.data.idx);
-            // return;
             this.$router.push({
                 name: 'RouteView',
                 params: {

@@ -184,6 +184,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * getProfile
+        * 프로필 정보 조회
+         */
         getProfile(){
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
@@ -203,10 +207,18 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * previewFile
+        * 프로필 이미지 변경 후 미리보기
+         */
         previewFile(e){
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file)
         },
+        /*
+        * doModify
+        * 프로필 변경
+         */
         doModify(){
             this.submitted = true;
             if (!this.nicksubmit && this.user.name != this.profile.nick){
@@ -273,6 +285,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * doCheckNick
+        * 닉네임 사용가능 여부 확인
+         */
         doCheckNick(){
             const postData = new FormData();
             if(this.user.name.search(/\s/) !== -1){

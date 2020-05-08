@@ -34,6 +34,10 @@ export default {
         }
     },
     methods:{
+        /*
+        * getNoticeList
+        * 공지사항 목록 조회
+         */
         getNoticeList() {
             const postData = new FormData();
             postData.append('request_code', 'noticeList');
@@ -46,6 +50,10 @@ export default {
         totalPages() {
             return Math.ceil( this.noticeList.length / 5);
         },
+        /*
+        * doView
+        * 공지사항 상세보기
+         */
         doView(idx) {
             this.$router.push(`/notice/${idx}`)
         },

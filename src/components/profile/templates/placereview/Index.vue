@@ -42,6 +42,10 @@ export default {
         }
     },
     methods:{
+        /*
+        * doView
+        * 장소 화면 이동
+         */
         doView(idx){
             this.$router.push(`/map/${idx}`)
         }

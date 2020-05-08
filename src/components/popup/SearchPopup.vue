@@ -31,8 +31,6 @@ import { search } from "@/api";
 
 export default {
     name: 'SearchPopup',
-    components:{
-    },
     data() {
         return {
             showModal: false,
@@ -45,6 +43,10 @@ export default {
         }
     },
     methods: {
+        /*
+        * doSearch
+        * 검색 버튼 선택
+         */
         doSearch() {
             const postData = new FormData();
             postData.append('keyword', this.searchText);
@@ -97,9 +99,17 @@ export default {
                 });
             }
         },
+        /*
+        * doSelect
+        * 선택 버튼 선택
+         */
         doSelect(item){
             EventBus.$emit("Make2", 'place', item, this.showModal);
         },
+        /*
+        * close
+        * 닫기 버튼 선택
+         */
         close() {
             EventBus.$emit("Make2", 'place', null, this.showModal);
         }

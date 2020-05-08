@@ -32,6 +32,10 @@ export default {
         }
     },
     methods:{
+        /*
+        * leave
+        * 탈퇴하기 버튼 선택
+         */
         leave() {
             if(this.message == null || this.message == ""){
                 this.$alert('탈퇴사유를 입력해주세요.');
@@ -50,6 +54,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * cancel
+        * 취소 버튼 선택
+         */
         cancel() {
             EventBus.$emit("Setting", false);
             // console.log("cancel");

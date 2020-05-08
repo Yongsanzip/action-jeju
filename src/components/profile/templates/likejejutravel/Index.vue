@@ -38,6 +38,11 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * getHashList
+        * 해쉬태그 조회
+        * 후에 여행경로 별 해쉬태그로 변경 필요
+         */
         getHashList() {
             const postData = new FormData;
             postData.append('request_code', 'hashList');
@@ -48,9 +53,17 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * doView
+        * 선택한 여행경로 상세보기
+         */
         doView(idx){
             this.$router.push(`/route/${idx}`)
         },
+        /*
+        * disZzim
+        * 찜하기 취소
+         */
         disZzim(idx, e){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);

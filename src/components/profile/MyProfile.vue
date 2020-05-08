@@ -103,6 +103,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * close
+        * 닫기 버튼 선택
+         */
         getProfile(){
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
@@ -115,6 +119,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getList
+        * 선택된 탭 별 목록 조회
+         */
         getList(type, isReload = false){
             if(this.type == type && !isReload) return;
             this.profileList = [];
@@ -191,6 +199,10 @@ export default {
                 })
             }
         },
+        /*
+        * showMoreList
+        * 목록 더보기
+         */
         showMoreList(){
             this.listLimit = this.listLimit + this.originListLimit;
         }

@@ -23,8 +23,6 @@
                         <div>
                             <h3 class="route-title" v-if="isTitle">{{getTitle}}</h3>
                             <button class="btn-edit-info" v-if="isTitle" @click="doEditRouteInfo">여행정보 수정</button>
-                            <input type="text" v-if="!isTitle" v-model="getTitle">
-                            <button class="btn-edit-info" v-if="!isTitle" @click="doApply">여행정보 확인</button>
                         </div>
                         <div>
                             <p class="route-date">
@@ -165,16 +163,27 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * addRoute
+        * 장소추가 버튼 선택
+         */
         addRoute(selectedDate){
-            console.log("selectedDate::", selectedDate);
+            // console.log("selectedDate::", selectedDate);
             this.selectedDate = selectedDate;
             this.showModal = true;
         },
+        /*
+        * doEditRouteInfo
+        * RouteMake.vue 화면으로 이동 (여행경로 제목, 인원수, 여행일자 수정 화면)
+         */
         doEditRouteInfo(){
-            console.log(this.touridx);
-            console.log(this);
             this.$parent.isChk = false;
         },
+        /*
+        * doEditRouteOrder
+        * 경로편집 버튼 선택
+        * 일정 순서 변경 가능 상태 토글
+         */
         doEditRouteOrder(){
             let locationOrder = null;
             let routeItems = null;
@@ -198,6 +207,10 @@ export default {
             }
             this.isEditRoute=!this.isEditRoute;
         },
+        /*
+        * deletePlace
+        * 장소 제거
+         */
         deletePlace(e, dateIdx, locateIdx){
             const editRouteItem = document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"]);
             const locationList = this.locationList[this.dateList[dateIdx]["fulldate2"]];
@@ -210,14 +223,10 @@ export default {
             this.isDiff = true;
             // document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"])[locateIdx].remove();
         },
-        doApply(){
-            if (this.getTitle.replace(/^\s+|\s+$/g, '' ) === "" || this.getTitle === ''){
-                this.$alert('제목을 입력해 주세요.')
-                return false
-            }else{
-                this.isTitle = true;
-            }
-        },
+        /*
+        * getDateList
+        * 여행 기간 정보 셋팅
+         */
         getDateList(){
             // Usage
             let dt = this.sdate;
@@ -236,6 +245,10 @@ export default {
                 dt = this.$moment(dt_date).format('YYYY-MM-DD');
             }
         },
+        /*
+        * getRouteDetail
+        * 여행경로 상세 정보 셋팅
+         */
         getRouteDetail() {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
@@ -260,6 +273,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setRouteDetail
+        * 여행경로 상세 정보 저장
+         */
         setRouteDetail(){
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
@@ -284,11 +301,19 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * writeReview
+        * 장소 후기 작성 팝업 표시
+         */
         writeReview(date, location){
             // console.log(date, location);
             this.isReview = true;
             this.selectedLocation = location;
         },
+        /*
+        * complete
+        * 완료 버튼 선택
+         */
         complete() {
             this.$router.push("/route/" + this.touridx);
         }
@@ -297,13 +322,16 @@ export default {
         this.mapSettings.width = window.innerWidth;
         this.mapSettings.height = window.innerHeight;
 
+        /*
+        * 장소 검색 및 후기 작성 팝업 닫을 때 여행경로 상세 정보 재조회
+         */
         EventBus.$on("Make2", (path, item, props) => {
             if(path == 'place'){
                 this.showModal = props;
                 if(item != null){
                     if(this.locationList[this.selectedDate] != null && item != null){
                         this.locationList[this.selectedDate].push(item);
-                        console.log(3, this.locationList);
+                        // console.log(3, this.locationList);
                     }
                     this.setRouteDetail();
                     return;

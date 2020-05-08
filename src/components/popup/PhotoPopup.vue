@@ -126,21 +126,37 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * close
+        * 닫기 버튼 선택
+         */
         close() {
             EventBus.$emit("PlaceView", this.showModal, this.photoList);
             EventBus.$emit('MyProfile', "photo", null);
             EventBus.$emit('RouteView', this.showModal);
         },
+        /*
+        * ChangeSwiperSlide
+        * 이미지 넘길 때 등록자명과 체크여부 확인
+         */
         ChangeSwiperSlide(){
             this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;
             this.writerNick = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].mb_nick;
             this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked;
         },
+        /*
+        * showDetail
+        * 이미지 목록에서 크게보기로 이동
+         */
         showDetail(idx){
             this.$refs.imgSwiper.swiper.activeIndex = idx;
             this.pageInfo.current = idx+1;
             this.isShowList=false;
         },
+        /*
+        * setPhotoLike
+        * 사진 좋아요
+         */
         setPhotoLike(imgIdx, idx){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -154,6 +170,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setThisPhotoLike
+        * 크게보기 화면에서의 사진 좋아요
+         */
         setThisPhotoLike(){
             const listIdx = this.$refs.imgSwiper.swiper.activeIndex;
             const selectedPhoto = this.photoList[listIdx];

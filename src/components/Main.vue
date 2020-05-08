@@ -142,6 +142,10 @@ export default {
         }
     },
     methods: {
+        /*
+        * getHashList
+        * 해쉬태그 목록 조회
+         */
         getHashList() {
             const postData = new FormData;
             postData.append('request_code', 'hashList');
@@ -152,6 +156,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getHotList
+        * 상단 이미지 목록 조회
+         */
         getHotList() {
             const postData = new FormData;
             postData.append('type', 'hot');
@@ -163,7 +171,10 @@ export default {
                 console.error(err);
             })
         },
-        //최신순 리스트
+        /*
+        * getLatest
+        * 가장 최근 작성된 여행경로 조회
+         */
         getLatest() {
             const postData = new FormData;
             postData.append('type', 'latest');
@@ -177,6 +188,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getLatestDetail
+        * 가장 최근 작성된 여행경로 상세 조회
+         */
         getLatestDetail() {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
@@ -189,9 +204,17 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * doEvent
+        * 해시태그 검색
+         */
         doEvent(hashName, type, isActive) {
             EventBus.$emit("Index", hashName, type, isActive);
         },
+        /*
+        * doView
+        * 선택한 여행경로 상세보기 이동
+         */
         doView(idx) {
             this.$router.push(`/route/${idx}`)
         }

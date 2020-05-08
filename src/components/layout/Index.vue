@@ -86,6 +86,22 @@ export default {
       }
     },
     methods:{
+        /*
+        * openSearch
+        * 검색 화면 표시
+         */
+        openSearch(navActive){
+            //this.isActive = !this.isActive;
+            if (navActive !== 3){
+                this.isActive = !this.isActive;
+            }else{
+                this.isActive = true;
+            }
+        },
+        /*
+        * closeSearch
+        * 검색 화면 숨김
+         */
         closeSearch(){
             this.isActive = false;
             this.slideChk = 0;
@@ -99,31 +115,10 @@ export default {
             }
             this.$forceUpdate();
         },
-        slideUp(){
-          this.slideChk = 2;
-            this.$forceUpdate();
-        },
-        slidedown(){
-            this.slideChk = 1;
-            this.$forceUpdate();
-        },
-        doNavAction(nav){
-            const idx = this.navList.indexOf(nav);
-            //console.log(idx);
-            if (idx === 3){
-                (this.isActive) ? this.isActive = false : this.isActive = true
-            }else{
-                if(nav.path && nav.path !== this.$route.fullPath) this.$router.push(nav.path)
-            }
-        },
-        openSearch(navActive){
-            //this.isActive = !this.isActive;
-            if (navActive !== 3){
-                this.isActive = !this.isActive;
-            }else{
-                this.isActive = true;
-            }
-        },
+        /*
+        * clickSearch
+        * 선택한 검색 탭 적용
+         */
         clickSearch(type = this.tabList[this.el_Active].type){
             if (this.searchText === ""){
                 this.$alert("검색어를 입력해주세요");
@@ -148,6 +143,10 @@ export default {
                 }
             }
         },
+        /*
+        * doSearch
+        * 입력한 검색어를 선택된 검색 탭에서 검색
+         */
         doSearch(type = this.tabList[this.el_Active].type) {
             if (this.searchText === ""){
                 this.$alert("검색어를 입력해주세요");
@@ -215,9 +214,39 @@ export default {
                 }
             }
         },
-        doScrollToTarget(el){
-            console.log(el);
+        /*
+        * slideUp
+        * 검색 화면 사이즈 up
+         */
+        slideUp(){
+          this.slideChk = 2;
+            this.$forceUpdate();
         },
+        /*
+        * slidedown
+        * 검색 화면 사이즈 down
+         */
+        slidedown(){
+            this.slideChk = 1;
+            this.$forceUpdate();
+        },
+        /*
+        * doNavAction
+        * 선택한 하단 메뉴 화면으로 이동
+         */
+        doNavAction(nav){
+            const idx = this.navList.indexOf(nav);
+            //console.log(idx);
+            if (idx === 3){
+                (this.isActive) ? this.isActive = false : this.isActive = true
+            }else{
+                if(nav.path && nav.path !== this.$route.fullPath) this.$router.push(nav.path)
+            }
+        },
+        /*
+        * setMapInformation
+        * 현재 검색 결과 지도화면에 적용
+         */
         setMapInformation(){
             this.$nextTick(() => {
                 EventBus.$emit("Map", this.searchList);
@@ -230,9 +259,6 @@ export default {
             this.type = type;
             this.isActive = isActive;
             this.clickSearch('route');
-        });
-        EventBus.$on("scrollToTarget", (el) => {
-           this.doScrollToTarget(el);
         });
     },
 

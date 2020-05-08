@@ -16,7 +16,6 @@
                                              :star-size="28"
                                              :show-rating="false"
                                              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
-                                             @current-rating="showCurrentRating"
                                              @rating-selected="setCurrentSelectedRating"
                                 ></star-rating>
                                 <p class="rate-text">좋아요. 추천해요!</p>
@@ -90,6 +89,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * addImage
+        * 이미지 추가
+         */
         addImage(idx){
             const addImgEl = document.getElementsByClassName('add-image-'+idx)[0];
             const imgInput = addImgEl.getElementsByTagName("input");
@@ -106,6 +109,10 @@ export default {
             imgInput[0].addEventListener('change', imgChangeEvnt);
             imgInput[0].click();
         },
+        /*
+        * removeImage
+        * 이미지 제거
+         */
         removeImage(idx){
             const imgItem = this.photoList.find(function(item) {
                 return item.idx === idx;
@@ -113,15 +120,20 @@ export default {
             const imgItemIdx = this.photoList.indexOf(imgItem);
             if (imgItemIdx > -1) this.photoList.splice(imgItemIdx, 1);
         },
-        showCurrentRating(rating){
-            this.currentRating = (rating === 0) ? this.currentSelectedRating : "Click to select " + rating + " stars";
-            console.log(this.pathidx);
-        },
+        /*
+        * setCurrentSelectedRating
+        * 별점 선택.
+        * 별점 하단 문구 변경
+         */
         setCurrentSelectedRating: function(rating) {
             this.currentSelectedRating = "You have Selected: " + rating + " stars";
             this.stars = rating;
             console.log(rating)
         },
+        /*
+        * save
+        * 후기 저장
+         */
         save() {
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -149,6 +161,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * close
+        * 닫기 버튼 선택
+         */
         close() {
             EventBus.$emit("Make2", 'review', null, this.showReview);
             EventBus.$emit("PlaceView", this.showReview);

@@ -58,10 +58,18 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * doView
+        * 선택한 여행경로 상세보기
+         */
         doView(idx){
             if(this.isShowMenu) return;
             this.$router.push(`/route/${idx}`)
         },
+        /*
+        * showMenu
+        * 선택한 여행경로 메뉴보기
+         */
         showMenu(flag, tourIdx){
             this.isShowMenu = flag;
             this.selectedTourIdx = tourIdx;
@@ -72,6 +80,10 @@ export default {
                 document.getElementsByClassName("container")[0].style['z-index'] = 1;
             }
         },
+        /*
+        * modifyRout
+        * 여행경로 메뉴 > 여행경로 편집 선택
+         */
         modifyRout(){
             this.isShowMenu = false;
             console.log(this.selectedTourIdx);
@@ -83,6 +95,10 @@ export default {
                 }
             });
         },
+        /*
+        * removeRout
+        * 여행경로 메뉴 > 여행경로 삭제 선택
+         */
         removeRout(){
             this.isShowMenu = false;
 

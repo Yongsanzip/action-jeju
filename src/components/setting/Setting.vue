@@ -97,10 +97,18 @@ export default {
         }
     },
     methods:{
+        /*
+        * logOut
+        * 로그아웃
+         */
         logOut(){
             this.$store.dispatch('SAVE_MB_ID', null);
             this.$router.push('/')
         },
+        /*
+        * leave
+        * 탈퇴하기
+         */
         leave(){
             this.isLeave = true;
         }

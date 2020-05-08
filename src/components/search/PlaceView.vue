@@ -238,6 +238,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * doViewMap
+        * 지도보기 선택
+         */
         doViewMap(){
             this.mapModalOptions.lat = this.placeInfo.latitude;
             this.mapModalOptions.lng = this.placeInfo.longitude;
@@ -249,13 +253,25 @@ export default {
             });
             this.mapModal = true;
         },
+        /*
+        * doReview
+        * 후기쓰기 선택
+         */
         doReview(){
             this.showReview = true;
         },
+        /*
+        * doPhoto
+        * 사진 선택으로 갤러리 화면 이동
+         */
         doPhoto(idx){
             this.reviewImageIdx = idx;
             this.showModal = true;
         },
+        /*
+        * getLike
+        * 해당 장소 좋아요 여부 조회
+         */
         getLike(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -269,6 +285,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setLike
+        * 해당 장소 좋아요 적용
+         */
         setLike(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -281,6 +301,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getPhotoLike
+        * 이미지 별 좋아요 여부 조회
+         */
         getPhotoLike(idx){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -294,6 +318,10 @@ export default {
                     console.error(err);
                 })
         },
+        /*
+        * setPhotoLike
+        * 이미지 별 좋아요 여부 적용
+         */
         setPhotoLike(imgIdx, idx){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -307,6 +335,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * getFavorites
+        * 해당 장소 찜하기 여부 조회
+         */
         getFavorites(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -320,6 +352,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * setFavorites
+        * 해당 장소 찜하기 여부 적용
+         */
         setFavorites(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -332,12 +368,20 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * callToPlace
+        * 해당 장소 전화걸기
+         */
         callToPlace(phoneNumb){
             if(phoneNumb == null){
                 alert("전화번호가 등록되지 않은 업체입니다.")
             }
             location.href="tel:"+phoneNumb;
         },
+        /*
+        * setReviewText, showLongReviewText
+        * 내용이 긴 장소 후기 내용 축소 및 더보기 버튼 표시.
+         */
         setReviewText(){
             if(this.reviews == null) return false;
             for(let i=0; i<this.reviews.length; i++){

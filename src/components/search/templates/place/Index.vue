@@ -22,7 +22,7 @@
     </div>
 </template>
 <script>
-import { EventBus } from "@/assets/event-bus";
+
 export default {
     name: 'PlaceList',
     props:['data'],
@@ -38,21 +38,12 @@ export default {
             const path = `/map/${idx}`;
             if (this.$route.path !== path) this.$router.push(path).catch(err => {console.error(err)})
         },
-        doScroll(){
-            EventBus.$emit('scrollToTarget', this.$parent.$el)
-        },
         callToPlace(phoneNumb){
             if(phoneNumb == null){
                 alert("전화번호가 등록되지 않은 업체입니다.")
             }
             location.href="tel:"+phoneNumb;
         }
-    },
-    created() {
-        EventBus.$on("PlaceList", (idx) => {
-            console.log(1, idx);
-            this.doScroll(idx);
-        })
     }
 }
 </script>

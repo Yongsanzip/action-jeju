@@ -120,10 +120,18 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * previewFile
+        * 업로드한 이미지 미리보기 생성
+         */
         previewFile(e){
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file)
         },
+        /*
+        * downCount
+        * 여행 인원 수 감소
+         */
         downCount(item){
             if (item.number <= 0){
                 return false
@@ -131,10 +139,18 @@ export default {
             item.text === '성인' ? item.number -- : item.number --;
             this.num = item.number;
         },
+        /*
+        * upCount
+        * 여행 인원 수 증가
+         */
         upCount(item){
             item.text === '성인' ? item.number ++ : item.number ++;
             this.num = item.number;
         },
+        /*
+        * doNext
+        * 정보 저장 후 다음 화면 이동
+         */
         doNext(){
             if (this.title === ''){
                 this.$alert('여행 제목을 입력해주세요');
@@ -175,6 +191,10 @@ export default {
             })
 
         },
+        /*
+        * getRandomNumb
+        * 랜덤 표지 이미지 위한 랜덤 숫자
+         */
         getRandomNumb(){
             var numb = Math.floor(Math.random() * (10 - 1 + 1)) + 1;
             if(Number(numb) >= 10) numb = numb - 1;
@@ -195,6 +215,9 @@ export default {
             console.error(err);
         })
 
+        /*
+        * 여행경로 수정
+         */
         if(this.idx != null){
             this.touridx = this.idx;
 

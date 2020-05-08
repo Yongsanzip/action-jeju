@@ -92,6 +92,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * getReplyList
+        * 댓글 목록 조회
+         */
         getReplyList() {
             const postData = new FormData;
             postData.append('tour_idx', this.tourIdx);
@@ -119,6 +123,10 @@ export default {
                 console.error(err);
             })
         },
+        /*
+        * writeComment
+        * 댓글 작성
+         */
         writeComment(){
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
@@ -153,14 +161,26 @@ export default {
                 })
             }
         },
+        /*
+        * close
+        * 닫기 버튼 선택
+         */
         close(){
             EventBus.$emit("RouteView", this.isReply);
         },
+        /*
+        * showReplyMenu
+        * 메뉴 버튼 선택
+         */
         showReplyMenu(idx){
             this.isMenu = true;
             this.selectedReply = this.replyList[idx];
             this.replyIdx = this.selectedReply.idx;
         },
+        /*
+        * editComment
+        * 댓글 수정
+         */
         editComment(){
             //기획 미완
             this.isMenu=false;
@@ -170,6 +190,10 @@ export default {
             this.$refs.comment.focus()
             console.log("replyIdx:", this.$refs.comment);
         },
+        /*
+        * removeComment
+        * 댓글 삭제
+         */
         removeComment(){
             this.isMenu=false;
             this.$confirm("삭제하시겠습니까?").then(result=> {
@@ -192,6 +216,10 @@ export default {
                 console.log(error);
             });
         },
+        /*
+        * doViewAllText
+        * 댓글 더보기 버튼 선택
+         */
         doViewAllText(e, idx){
             if(e.target.parentElement.className.indexOf("has-overflow") >= 0){
                e.target.innerHTML = this.replyList[idx].comment;
@@ -204,6 +232,9 @@ export default {
         this.getReplyList();
     },
     updated() {
+        /*
+        * 내용이 긴 댓글의 경우 일부 내용을 제외한 내용 숨긴 후 '더보기' 버튼 표시
+         */
         const commentTextEl = document.getElementsByClassName("comment-text");
         if(commentTextEl.length < 1) return;
         commentTextEl.forEach(function(el){

@@ -55,6 +55,10 @@ export default {
         }
     },
     methods:{
+        /*
+        * getLogin
+        * 로그인 버튼 선택
+         */
         getLogin(){
             if (this.$v.$invalid) {
                 return;
