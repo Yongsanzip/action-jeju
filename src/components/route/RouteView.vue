@@ -42,9 +42,9 @@
 
 
                         </naver-maps>
-                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:swipe.down="slidedown"></div>
-                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe.up="slideUp" v-hammer:swipe.down="slidedown"></div>
-                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe.up="slideUp"></div>
+                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:swipe="doSlide"></div>
+                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
+                        <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                         <!-- //map -->
                     </div>
                 </div>
@@ -128,13 +128,19 @@
                                 <div>
                                     <p class="comment-name">{{item.mb_nick}}</p>
                                     <p class="comment-time">{{item.getReg}}</p>
-                                    <button class="btn-more">메뉴</button>
+                                    <button class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
                                 </div>
                                 <div @click="doViewReply($event, idx)">
                                     <p class="comment-text">
                                         {{item.comment}}
                                     </p>
                                 </div>
+                            </div>
+                            <div class="overlay" :style="(isReplyMenu)? '' : 'display:none;'" @click.self="isReplyMenu=false;selectedReply=null;">
+                                <ul class="overlay-menu">
+                                    <li><a @click="editComment">댓글 수정하기</a></li>
+                                    <li><a @click="removeComment">댓글 삭제하기</a></li>
+                                </ul>
                             </div>
                         </div>
                         <!-- //card -->
@@ -203,6 +209,7 @@
                             :tour-info="tourInfo"
                             :idx="replyIdx"
                             :highlight="(showReplyCnt < 1 && replyIdx != null)? true : false"
+                            :editReply="selectedReply"
                 />
                 <modal-photo v-if="isPhoto"
                              :photo-list="imageList"
@@ -269,7 +276,7 @@ export default {
           tourInfo:[],
           days:[],
           isSticky: false,
-          isMine: true,
+          isMine: false,
           isLike: false,
           isFavorites: false,
           isPhoto: false,
@@ -277,6 +284,8 @@ export default {
           imageDataList: [],
           isReply:false,
           replyList:[],
+          isReplyMenu: false,
+          selectedReply: false,
           isShowMenu:false,
           mapMarkList: [],
           polyLineList: [],
@@ -305,8 +314,22 @@ export default {
     },
     methods:{
         /*
+        * doSlide
+        * 지도 크기 조절
+         */
+        doSlide(e){
+            if(e.angle > 0){
+                //down
+                this.slidedown();
+            }
+            else{
+                //up
+                this.slideUp();
+            }
+        },
+        /*
         * slideUp
-        * 지도 크기 크게
+        * 지도 크기 작게
          */
         slideUp(){
             if(this.slideChk <= 0) return true;
@@ -317,8 +340,8 @@ export default {
             });
         },
         /*
-        * slideUp
-        * 지도 크기 작게
+        * slidedown
+        * 지도 크기 크게
          */
         slidedown(){
             if(this.slideChk > 1) return true;
@@ -339,6 +362,8 @@ export default {
                 //console.log(res.data)
                 this.tourInfo = res.data.tourInfo;
                 this.days = res.data.days;
+
+                this.isMine = this.GET_MB_ID == this.tourInfo.mb_id;
                 this.setImageList();
 
                 if(this.showReply && this.showReplyCnt < 1){
@@ -647,6 +672,47 @@ export default {
             this.isReply = true;
         },
         /*
+        * showReplyMenu
+        * 댓글 메뉴 버튼 선택
+         */
+        showReplyMenu(idx){
+            this.isReplyMenu = true;
+            this.selectedReply = this.replyList[idx];
+        },
+        /*
+        * editComment
+        * 댓글 수정
+         */
+        editComment(){
+            //기획 미완
+            this.doReply();
+        },
+        /*
+        * removeComment
+        * 댓글 삭제
+         */
+        removeComment(){
+            this.isReplyMenu=false;
+            this.$confirm("댓글을 삭제하시겠습니까?").then(result=> {
+                if(!result) return;
+
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('commentidx', this.selectedReply.idx);
+                Route.deleteReply(postData).then(res => {
+                    console.log(res.data);
+                    this.comment = null;
+                    this.replyIdx = null;
+                    this.selectedReply = null;
+                    this.getReplyList();
+                }).catch(err => {
+                    console.error(err);
+                })
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        /*
         * doViewReply
         * 댓글 더보기 버튼 선택
          */
@@ -775,6 +841,8 @@ export default {
         EventBus.$on("RouteView", props => {
             this.isPhoto = props;
             this.isReply = props;
+            this.isReplyMenu = false;
+            this.selectedReply = null;
             this.showReplyCnt++;
             this.getRouteList();
             this.getReplyList();

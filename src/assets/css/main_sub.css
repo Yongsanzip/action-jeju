@@ -1314,6 +1314,7 @@
   margin-top: 53px;
   background-color: #c9c9c9;
   overflow: hidden;
+  transition: all .4s;
 }
 .con-route .route-map.middle {
   height: 370px;
@@ -1474,6 +1475,9 @@
 
 .con-route .route-wrap .surface:last-child {
   margin-bottom: 0;
+}
+.con-route .route-wrap .surface:last-child {
+  margin-bottom: 40px;
 }
 
 .con-route .route-wrap .title {
@@ -1694,17 +1698,17 @@
 }
 .con-route .route-wrap .route-contents .route-item .travel-list > div> li.edit-route-item {
   margin-bottom: 10px;
-}
-.con-route .route-wrap .route-contents .route-item .travel-list > div> li.edit-route-item {
   display: block;
   padding: 8px;
   border: 1px dashed #cccccc;
-  border-radius: 10px;
+  border-radius: 13px;
+  background: #f5f5f5;
 }
 
-.con-route .route-wrap .route-contents .route-item .travel-list > li > p, .con-route .route-wrap .route-contents .route-item .travel-list > li > div,
+.con-route .route-wrap .route-contents .route-item .travel-list > li > *,
 .con-route .route-wrap .route-contents .route-item .travel-list > div > li > * {
   display: inline-block;
+  height: 24px;
 }
 .con-route .route-wrap .route-contents .route-item .travel-list > div > li > .btn-close {
   width: 20px;
@@ -1746,6 +1750,8 @@
   text-align: center;
   width: 20px;
   height: 20px;
+  margin-top: 1px;
+  margin-right: 5px;
   background: url("../images/svg/ic-mappin-bg-grey.svg") center no-repeat;
   background-size: contain;
 }
@@ -1761,7 +1767,7 @@
   margin-left: 9px;
   font-size: 10px;
   color: #999999;
-  line-height: 17px;
+  line-height: 20px;
   vertical-align: bottom;
 }
 
@@ -2311,16 +2317,17 @@
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box .btn-more {
-  width: 24px;
+  width: 9px;
   height: 24px;
   position: absolute;
   border: none;
   outline: none;
   position: absolute;
   top: 0;
-  right: -8px;
+  right: -20px;
   font-size: 0;
-  background: url(/images/svg/ic-more-grey.svg) no-repeat center;
+  background-image: url("../images/ic-more-grey.png");
+  background-repeat: no-repeat;
   background-size: 12px 20px;
 }
 
@@ -2416,7 +2423,7 @@
 .con-route .overlay .place-review .rate-wrap {
   font-size:0;
   text-align: center;
-  padding: 24px 0;
+  padding-top: 24px;
   border-bottom: 1px solid #eeeeee;
 }
 .vue-star-rating{
@@ -2443,6 +2450,7 @@
 
 .con-route .overlay .place-review .rate-wrap .rate-text {
   font-size: 14px;
+  height: 20px;
   color: #777777;
   margin-top: 15px;
 }
@@ -2482,15 +2490,10 @@
 }
 
 .con-route .overlay .place-review .review-image-list {
-  width: 100%;
-  height: 105px;
+  /*width: 100%;*/
+  /*height: 105px;*/
   padding: 20px 0;
   font-size: 0;
-}
-
-.con-route .overlay .place-review .review-image-list > div {
-  display: inline-block;
-  margin-right: 8px;
 }
 
 .con-route .overlay .place-review .review-image-list > div:last-child {
@@ -2498,8 +2501,9 @@
 }
 
 .con-route .overlay .place-review .review-image-list .add-image {
-  width: 72px;
-  height: 64px;
+  width: 77px !important;
+  height: 65px !important;
+  margin-top: 5px;
   font-size: 0;
   border: 1px solid #bbbbbb;
   border-radius: 5px;
@@ -2520,44 +2524,23 @@
 }
 
 .con-route .overlay .place-review .review-image-list .image-item {
-  width: 72px;
-  height: 64px;
+  display: inline-block;
+  width: 75px;
+  height: 70px;
+  margin-right: 10px;
+}
+.con-route .overlay .place-review .review-image-list .image-item:last-child {
+  margin-right: 5px;
 }
 
 .con-route .overlay .place-review .review-image-list .image-item .image-box {
+  width: 100%;
+  height: 65px;
+  margin-top: 5px;
+  background-size: cover;
   position: relative;
-  padding-top: 88%; /* 1:1 ratio */
-  overflow: hidden;
+  overflow: visible;
   border-radius: 5px;
-}
-
-.con-route .overlay .place-review .review-image-list .image-item .centered {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  -webkit-transform: translate(50%,50%);
-  -ms-transform: translate(50%,50%);
-  transform: translate(50%,50%);
-}
-
-.con-route .overlay .place-review .review-image-list .image-item  .centered img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-width: 100%;
-  max-height: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
-  -o-object-position: center;
-     object-position: center;
-  -webkit-transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
 }
 
 .con-route .overlay .place-review .review-image-list .image-item .btn-remove {
@@ -2997,6 +2980,7 @@
   height: 24px;
   background-image: url("../images/ic-more-grey.png");
   background-repeat: no-repeat;
+  background-size: 12px 20px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card {
@@ -3174,7 +3158,7 @@
 .con-place {
   background: whitesmoke;
   min-height: calc(100vh);
-  padding-bottom: 80px;
+  padding-bottom: 65px;
 }
 
 .con-place .place-slide-box {
@@ -4040,7 +4024,7 @@
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .btn-more {
-  width: 24px;
+  width: 19px;
   height: 24px;
   position: absolute;
   border: none;
@@ -4049,8 +4033,9 @@
   top: 0;
   right: -8px;
   font-size: 0;
-  background: url(/images/ic-more-grey.png) no-repeat center;
+  background-image: url("../images/svg/ic-more-grey.svg");
   background-size: 12px 20px;
+  background-repeat: no-repeat;
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .comment-text {

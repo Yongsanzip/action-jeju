@@ -75,6 +75,12 @@ export default {
         },
         idx:{
             type: String
+        },
+        editReply: {
+            type: Object,
+            default() {
+                return []
+            }
         }
     },
     data(){
@@ -85,7 +91,8 @@ export default {
           getReg:null,
           comment:null,
           selectedReply:null,
-          replyIdx:null
+          replyIdx:null,
+          cnt: 0
       }
     },
     computed: {
@@ -113,12 +120,20 @@ export default {
 
                 this.$forceUpdate();
 
+                //하이라이트
                 this.$nextTick(function(){
                     if(document.getElementsByClassName("elementToFadeInAndOut").length > 0){
-                        console.log(document.getElementsByClassName("elementToFadeInAndOut")[0].offsetTop);
                         document.getElementsByClassName("modal")[0].scrollTo({top:document.getElementsByClassName("elementToFadeInAndOut")[0].offsetTop, left:0, behavior:'smooth'});
                     }
                 })
+
+                //댓글 수정
+                if(this.editReply != null && this.cnt < 1){
+                    this.selectedReply = this.editReply;
+                    this.replyIdx = this.selectedReply.idx;
+                    this.editComment();
+                }
+
             }).catch(err => {
                 console.error(err);
             })
@@ -154,8 +169,9 @@ export default {
                     this.comment = null;
                     this.replyIdx = null;
                     this.selectedReply = null;
-
+                    this.$refs.comment.value = "";
                     this.getReplyList();
+                    this.cnt++;
                 }).catch(err => {
                     console.error(err);
                 })
@@ -187,7 +203,7 @@ export default {
             const reply = this.selectedReply;
             console.log(this.replyIdx, reply);
             this.comment = reply.comment;
-            this.$refs.comment.focus()
+            this.$refs.comment.focus();
             console.log("replyIdx:", this.$refs.comment);
         },
         /*

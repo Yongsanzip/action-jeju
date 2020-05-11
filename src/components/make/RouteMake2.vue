@@ -5,19 +5,23 @@
             <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>
             <button type="button" class="next" @click="complete">완료</button>
         </header>
-        <div class="container con-route overflow-y">
-            <div class="route-map" style="margin-top: 0;">
+        <div class="container con-route">
+            <div class="route-map" style="margin-top: 0;" :class="{middle: slideChk === 1, full: slideChk === 2}">
                 <!-- map -->
                 <naver-maps
                         :width="mapSettings.width"
                         :height="mapSettings.height"
                         :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']"
                         :mapOptions="mapOptions"
+                        @load="onLoadMap"
                 >
                 </naver-maps>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:swipe="doSlide"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                 <!-- //map -->
             </div>
-            <div class="all-route-wrap">
+            <div>
                 <div class="route-wrap">
                     <div class="route-header">
                         <div>
@@ -89,6 +93,7 @@
         <transition name="fade">
             <modal-search v-if="showModal" :date="selectedDate"/>
             <ReviewPopup v-if="isReview"
+                         :location="selectedLocation"
                          :title="selectedLocation.company_name"
                          :review="selectedLocation.review"
                          :pathidx="selectedLocation.idx"/>
@@ -123,6 +128,10 @@ export default {
         },
         touridx:{
             type: Number
+        },
+        mapHeights: {
+            type: Array,
+            default: function() { return [159, 370, 547]; }
         }
     },
     data(){
@@ -139,6 +148,7 @@ export default {
             locationList:[],
             selectedDate:null,
             dataArr:[],
+            slideChk: 0,
             mapOptions: {
                 lat: 33.2411822578,
                 lng: 126.5935367973,
@@ -152,9 +162,10 @@ export default {
                 mapTypeControl: false,
                 mapDataControl: false
             },
+            mapWidth: null,
             mapSettings:{
                 width:0,
-                height:159
+                height: this.mapHeights[0]
             },
             selectedLocation: null
         }
@@ -163,6 +174,52 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        /*
+        * onLoadMap
+        * 네이버 지도 컴포넌트 로드 완료 시 마커 표시
+         */
+        onLoadMap(vue){
+            this.mapWidth = document.body.offsetWidth;
+            this.map = vue;
+        },
+        /*
+        * doSlide
+        * 지도 크기 조절
+         */
+        doSlide(e){
+            if(e.angle > 0){
+                //down
+                this.slidedown();
+            }
+            else{
+                //up
+                this.slideUp();
+            }
+        },
+        /*
+        * slideUp
+        * 지도 크기 작게
+         */
+        slideUp(){
+            if(this.slideChk <= 0) return true;
+            this.slideChk = this.slideChk - 1;
+            this.map.setSize({
+                width: this.mapWidth,
+                height: this.mapHeights[this.slideChk]
+            });
+        },
+        /*
+        * slidedown
+        * 지도 크기 크게
+         */
+        slidedown(){
+            if(this.slideChk > 1) return true;
+            this.slideChk = this.slideChk + 1;
+            this.map.setSize({
+                width: this.mapWidth,
+                height: this.mapHeights[this.slideChk]
+            });
+        },
         /*
         * addRoute
         * 장소추가 버튼 선택

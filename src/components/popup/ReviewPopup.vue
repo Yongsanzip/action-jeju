@@ -18,24 +18,40 @@
                                              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
                                              @rating-selected="setCurrentSelectedRating"
                                 ></star-rating>
-                                <p class="rate-text">좋아요. 추천해요!</p>
+                                <p class="rate-text">{{currentSelectedRating}}</p>
                             </div>
                             <div class="review-textarea">
                                 <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
                             </div>
                             <div class="review-image-list">
-                                <div class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                                <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                     이미지 추가
-                                    <input type="file" style="display: none;" accept="image/*" />
+                                    <input type="file" style="display: none;" accept="image/*" multiple/>
                                 </div>
-                                <div v-for="(photoItem, idx) in photoList" :class="'image-item add-image-'+idx" :key="idx">
-                                    <div class="image-box">
-                                        <div class="centered">
-                                            <img v-bind:src="photoItem.src" alt="">
+                                <swiper :options="swiperOption">
+                                    <swiper-slide :class="'image-item add-image-'+idx"
+                                                  v-for="(photoItem, idx) in photoList"
+                                                  :key="idx"
+                                    >
+                                        <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                                            이미지 추가
+                                            <input type="file" style="display: none;" accept="image/*" multiple/>
                                         </div>
-                                    </div>
-                                    <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
-                                </div>
+
+                                        <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
+                                            <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
+                                        </div>
+<!--                                        <div v-if="idx+1 == photoList.length" style="width: 30px;">-->
+
+<!--                                        </div>-->
+<!--                                        <div class="image-box">-->
+<!--                                            <div class="centered">-->
+<!--                                                <img v-bind:src="photoItem.src" alt="">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>-->
+                                    </swiper-slide>
+                                </swiper>
                             </div>
                         </div>
                         <!-- 입력완료시 active 클래스 추가 -->
@@ -53,13 +69,20 @@ import {mapGetters} from 'vuex';
 import { EventBus } from "../../assets/event-bus";
 import StarRating from "vue-star-rating/dist/star-rating.min"
 import { Route } from "@/api";
+import {swiper, swiperSlide} from 'vue-awesome-swiper'
 
 export default {
     name: 'ReviewPopup',
     components:{
-        StarRating
+        StarRating, swiper, swiperSlide
     },
     props:{
+        location: {
+            type: Object,
+            default() {
+                return []
+            }
+        },
         photoList: {
             type: Array,
             default() {
@@ -81,8 +104,16 @@ export default {
         return {
             showReview:false,
             currentRating:0,
+            currentSelectedRating: "",
             stars:null,
-            reviewText: null
+            reviewText: null,
+            swiperOption: {
+                slidesPerView: 'auto',
+                slidesPerGroup: 1,
+                freeMode: true,
+                loop: false,
+                speed: 400,
+            },
         }
     },
     computed: {
@@ -98,11 +129,34 @@ export default {
             const imgInput = addImgEl.getElementsByTagName("input");
 
             const imgChangeEvnt = function(e){
-                const file = e.target.files[0];
-                this.photoList.push({
-                    idx: idx,
-                    src: URL.createObjectURL(file)
-                });
+                console.log(e.target.files);
+                // const file = e.target.files[0];
+                // this.photoList.push({
+                //     idx: idx,
+                //     src: URL.createObjectURL(file),
+                //     filename: file.name
+                // });
+                const files = e.target.files;
+                const filesArr = Array.prototype.slice.call(files);
+                filesArr.forEach(function(f) {
+                   if(!f.type.match("image.*")){
+                       alert("이미지만 업로드 가능합니다.");
+                       return;
+                   }
+
+                   if(this.photoList.length == 0){
+                       this.photoList.push({
+                           idx: 0,
+                           src: "",
+                           filename: "이미지추가"
+                       })
+                   }
+                    this.photoList.push({
+                        idx: idx,
+                        src: URL.createObjectURL(f),
+                        filename: f.name
+                    });
+                }.bind(this));
                 imgInput[0].removeEventListener('change', imgChangeEvnt);
             }.bind(this);
 
@@ -126,9 +180,25 @@ export default {
         * 별점 하단 문구 변경
          */
         setCurrentSelectedRating: function(rating) {
-            this.currentSelectedRating = "You have Selected: " + rating + " stars";
+            switch (rating) {
+                case 1:
+                    this.currentSelectedRating = "별로예요.";
+                    break;
+                case 2:
+                    this.currentSelectedRating = "조금 아쉬워요.";
+                    break;
+                case 3:
+                    this.currentSelectedRating = "보통이예요.";
+                    break;
+                case 4:
+                    this.currentSelectedRating = "좋아요.";
+                    break;
+                case 5:
+                    this.currentSelectedRating = "최고예요! 추천해요!!";
+                    break;
+            }
             this.stars = rating;
-            console.log(rating)
+            // console.log(rating)
         },
         /*
         * save
@@ -147,9 +217,10 @@ export default {
                 // src = item.src.split("/");
                 // images.push('/'+src.pop());
 
-                images.push('/'+item.src);
+                if(item.src == '') return false;
+                images.push('/'+item.filename);
             });
-            postData.append('images', images.join('&'));
+            // postData.append('images', images.join('&'));
 
             Route.writeReview(postData).then(res => {
                 console.log(res.data);
@@ -171,8 +242,33 @@ export default {
         },
     },
     created() {
-        this.reviewText = this.review;
-        this.pathidx = this.pathidx;
+        console.log(this.location);
+        if(this.location != null) {
+            this.reviewText = this.location.review;
+            this.pathidx = this.location.idx;
+            const images = [];
+            if(this.location.images != null && this.location.images.length > 0){
+                this.location.images.forEach(function(image, idx){
+                    if(idx == 0){
+                        images.push({
+                            idx: 0,
+                            src: "",
+                            filename: "이미지추가"
+                        })
+                    }
+                    images.push({
+                        idx: idx,
+                        src: "http://img.actionjeju.com/data/user_route_after/"+image.name,
+                        filename: image.name
+                    });
+                }.bind(this));
+            }
+            this.photoList = images;
+        }
+        else{
+            this.reviewText = this.review;
+            this.pathidx = this.pathidx;
+        }
     }
 }
 </script>
