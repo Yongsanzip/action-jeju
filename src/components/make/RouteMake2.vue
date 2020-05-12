@@ -68,7 +68,8 @@
                                         <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx" :class="'edit-route-item '+date.date">
                                             <div class="place-number">{{idx+1}}</div>
                                             <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
-                                            <p class="place-time">약 1시간 55분 소요</p>
+                                            <p class="place-time"></p>
+<!--                                            <p class="place-time">약 1시간 55분 소요</p>-->
                                             <button class="btn-close" @click="deletePlace($event, dateIdx, idx)">장소제거</button>
                                         </li>
                                     </draggable >

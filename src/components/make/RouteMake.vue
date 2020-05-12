@@ -106,7 +106,7 @@ export default {
                 border:'0'
             },
             masks: {
-                title: 'YYYY MMMM',
+                title: 'YYYY년 MMMM',
                 weekdays: 'W',
                 navMonths: 'MMM',
                 input: ['L', 'YYYY-MM-DD', 'YYYY/MM/DD'],
