@@ -157,7 +157,7 @@ export default {
                 this.loading = true;
                 this.searchList = [];
                 this.navActive = 3;
-                event.preventDefault();
+                if(event != null) event.preventDefault();
                 document.getElementsByClassName("search-field")[0].blur();
 
                 const postData = new FormData();
@@ -259,8 +259,11 @@ export default {
             this.type = type;
             this.isActive = isActive;
             this.clickSearch('route');
+
+            //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
+            EventBus.$off("Index");
         });
-    },
+    }
 
 }
 </script>

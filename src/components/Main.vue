@@ -10,7 +10,7 @@
                                       v-for="hash in hashList"
                                       :key="hash.name"
                         >
-                            <form @submit.prevent="doEvent">
+                            <form>
                                 <input type="hidden" v-model="hash.name">
                                 <span @click="doEvent(hash.name, 'route', true)">{{hash.name}}</span>
                             </form>
