@@ -1,64 +1,66 @@
 <template>
-    <section class="wrap">
+    <div>
         <div :class="{hide : isChk}">
-            <header class="header sub-header">
-                <router-link to="/main" class="close">이전</router-link>
-                <h1 style="display: inline-block">{{(this.touridx == null)? '여행경로 만들기' : '여행경로 일정 수정'}}</h1>
-                <button type="button" class="next" @click="doNext">다음</button>
-            </header>
-            <div class="container con-route">
-            <div class="route-cover">
-                <label class="upload-cover">
-                    <input type="file" ref="myfile" @change="previewFile">
-                </label>
-                <img v-if="url === null" :src="`http://img.actionjeju.com/data/user_route_image/visit_jeju${randomIdx}.jpg`" alt="">
-                <img v-if="url" :src="url" alt="">
-            </div>
-            <div class="route-wrap">
-                <div class="surface">
-                    <h3 class="title">여행제목</h3>
-                    <input type="text" class="text-field" placeholder="여행제목" v-model="title" ref="title">
-                </div>
-                <div class="surface">
-                    <h3 class="title">여행인원</h3>
-                    <div class="amount-box">
-                        <div class="amount-item" v-for="(item, idx) in personnel" :key="idx">
-                            <p class="amount-name">{{item.text}}</p>
-                            <div class="amount">
-                                <button class="amount-btn subt" @click="downCount(item)">-</button>
-                                <input type="number" class="amount-data" :value="item.number" min="1" ref="number">
-                                <button class="amount-btn add" @click="upCount(item)">+</button>
+            <section class="wrap">
+                <header class="header sub-header">
+                    <router-link to="/main" class="close">이전</router-link>
+                    <h1>{{(this.touridx == null)? '여행경로 만들기' : '여행경로 일정 수정'}}</h1>
+                    <button type="button" class="next" @click="doNext">다음</button>
+                </header>
+                <div class="container con-route">
+                    <div class="route-cover">
+                        <label class="upload-cover">
+                            <input type="file" ref="myfile" @change="previewFile">
+                        </label>
+                        <img v-if="url === null" :src="`http://img.actionjeju.com/data/user_route_image/visit_jeju${randomIdx}.jpg`" alt="">
+                        <img v-if="url" :src="url" alt="">
+                    </div>
+                    <div class="route-wrap">
+                        <div class="surface">
+                            <h3 class="title">여행제목</h3>
+                            <input type="text" class="text-field" placeholder="여행제목" v-model="title" ref="title">
+                        </div>
+                        <div class="surface">
+                            <h3 class="title">여행인원</h3>
+                            <div class="amount-box">
+                                <div class="amount-item" v-for="(item, idx) in personnel" :key="idx">
+                                    <p class="amount-name">{{item.text}}</p>
+                                    <div class="amount">
+                                        <button class="amount-btn subt" @click="downCount(item)">-</button>
+                                        <input type="number" class="amount-data" :value="item.number" min="1" ref="number">
+                                        <button class="amount-btn add" @click="upCount(item)">+</button>
+                                    </div>
+                                </div>
                             </div>
+
+                        </div>
+                        <div class="surface">
+                            <h3 class="title">여행 일정</h3>
+                            <!-- datepicker -->
+                                <v-date-picker
+                                        class='v-date-picker'
+                                        v-model="ranges"
+                                        mode="range"
+                                        :masks="masks"
+                                        color="red"
+                                        is-inline
+                                        is-expanded
+                                        :theme-styles='themeStyles'
+                                        show-caps
+                                        style="background-color:rgb(238,238,238);border:0;"
+                                ></v-date-picker>
+                            <!-- //datepicker -->
                         </div>
                     </div>
-
+                    <div>
+                        <!-- 입력완료시 active 클래스 추가 -->
+        <!--                <button class="btn-step active" :class="{active : isChk}" @click="doNext">-->
+                        <button class="btn-step active" @click="doNext">
+                            다음
+                        </button>
+                    </div>
                 </div>
-                <div class="surface">
-                    <h3 class="title">여행 일정</h3>
-                    <!-- datepicker -->
-                        <v-date-picker
-                                class='v-date-picker'
-                                v-model="ranges"
-                                mode="range"
-                                :masks="masks"
-                                color="red"
-                                is-inline
-                                is-expanded
-                                :theme-styles='themeStyles'
-                                show-caps
-                                style="background-color:rgb(238,238,238);border:0;"
-                        ></v-date-picker>
-                    <!-- //datepicker -->
-                </div>
-            </div>
-            <div>
-                <!-- 입력완료시 active 클래스 추가 -->
-<!--                <button class="btn-step active" :class="{active : isChk}" @click="doNext">-->
-                <button class="btn-step active" @click="doNext">
-                    다음
-                </button>
-            </div>
-        </div>
+            </section>
         </div>
         <route-make2 v-if="isChk"
                      :title="title"
@@ -66,7 +68,7 @@
                      :edate="this.$moment(this.ranges.end).format('YYYY-MM-DD')"
                      :touridx="touridx"
         />
-    </section>
+    </div>
 </template>
 <script>
 import vDatePicker from 'v-calendar/lib/components/date-picker.umd'

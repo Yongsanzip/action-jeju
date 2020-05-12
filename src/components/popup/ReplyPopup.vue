@@ -19,7 +19,7 @@
                             <div>
                                 <p class="comment-name">{{item.mb_nick}}</p>
                                 <p class="comment-time">{{item.getReg}}</p>
-                                <button class="btn-more" @click="showReplyMenu(index)">메뉴</button>
+                                <button class="btn-more" v-if="item.mb_id == GET_MB_ID" @click="showReplyMenu(index)">메뉴</button>
                             </div>
                             <div>
                                 <p class="comment-text" @click="doViewAllText($event, index)">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="comment-input">
                     <form>
-                        <textarea class="textarea" v-model="comment" ref="comment" placeholder="이 경로를 본 소감을 따뜻하게 적어주세요!"></textarea>
+                        <textarea class="textarea" v-model="comment" @keyup="changeCommentText" ref="comment" placeholder="이 경로를 본 소감을 따뜻하게 적어주세요!"></textarea>
                         <a class="btn-write" @click="writeComment">{{(replyIdx == null)? '작성' : '수정'}}</a>
                     </form>
                 </div>
@@ -77,10 +77,7 @@ export default {
             type: String
         },
         editReply: {
-            type: Object,
-            default() {
-                return []
-            }
+            type: Object
         }
     },
     data(){
@@ -137,6 +134,12 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
+        },
+        changeCommentText() {
+            if(this.replyIdx != null && this.comment == ""){
+                this.selectedReply=null;
+                this.replyIdx=null;
+            }
         },
         /*
         * writeComment

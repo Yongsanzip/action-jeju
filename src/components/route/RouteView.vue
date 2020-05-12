@@ -128,7 +128,7 @@
                                 <div>
                                     <p class="comment-name">{{item.mb_nick}}</p>
                                     <p class="comment-time">{{item.getReg}}</p>
-                                    <button class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
+                                    <button v-if="item.mb_id == GET_MB_ID" class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
                                 </div>
                                 <div @click="doViewReply($event, idx)">
                                     <p class="comment-text">
@@ -136,14 +136,14 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="overlay" :style="(isReplyMenu)? '' : 'display:none;'" @click.self="isReplyMenu=false;selectedReply=null;">
-                                <ul class="overlay-menu">
-                                    <li><a @click="editComment">댓글 수정하기</a></li>
-                                    <li><a @click="removeComment">댓글 삭제하기</a></li>
-                                </ul>
-                            </div>
                         </div>
                         <!-- //card -->
+                        <div class="overlay" :style="(isReplyMenu)? '' : 'display:none;'" @click.self="isReplyMenu=false;selectedReply=null;">
+                            <ul class="overlay-menu">
+                                <li><a @click="editComment">댓글 수정하기</a></li>
+                                <li><a @click="removeComment">댓글 삭제하기</a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="comment-footer">
                         <a class="all-comment" @click="isReply=true">댓글 전체보기</a>
@@ -285,7 +285,7 @@ export default {
           isReply:false,
           replyList:[],
           isReplyMenu: false,
-          selectedReply: false,
+          selectedReply: null,
           isShowMenu:false,
           mapMarkList: [],
           polyLineList: [],
@@ -379,9 +379,11 @@ export default {
          */
         setImageList(){
             this.imageList = [];
+            if(this.days == null) return;
             this.days.forEach(function(day){
                 if(day.path == null || day.path.length < 1) return;
                 day.path.forEach(function(path){
+                    console.log(path.images);
                     if(path.images == null || path.images.length < 1) return;
                     path.images.forEach(function(img){
                         this.imageDataList.push(img);

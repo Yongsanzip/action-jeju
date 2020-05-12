@@ -5,9 +5,9 @@
         <div class="con-search">
             <!--{{slideChk}}-->
             <div class="search-surface">
-                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:pan.down="closeSearch"></div>
-                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:pan.up="slideUp"></div>
-                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:pan.down="slidedown"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
+                <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                 <div class="search-form" v-show="slideChk < 2">
                     <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
                 </div>
@@ -43,7 +43,7 @@
             <ul>
                 <li v-for="(nav, index) in navList" :key="index">
                     <button type="button" @click="doNavAction(nav)" :ref="nav.class">
-                        <p :class="[nav.class, {active : $route.fullPath === nav.path}]">{{nav.text}}</p>
+                        <p :class="[nav.class, {active : ($route.fullPath === nav.path && !isActive) || (nav.class == 'nav-search' && isActive)}]">{{nav.text}}</p>
                     </button>
                 </li>
             </ul>
@@ -97,6 +97,36 @@ export default {
             }else{
                 this.isActive = true;
             }
+        },
+        /*
+        * doSlide
+        * 검색 화면 크기 조절
+         */
+        doSlide(e){
+            if(e.angle > 0){
+                //down
+                this.slidedown();
+            }
+            else{
+                //up
+                this.slideUp();
+            }
+        },
+        /*
+        * slideUp
+        * 검색 화면 사이즈 up
+         */
+        slideUp(){
+            this.slideChk = 2;
+            this.$forceUpdate();
+        },
+        /*
+        * slidedown
+        * 검색 화면 사이즈 down
+         */
+        slidedown(){
+            this.slideChk = 1;
+            this.$forceUpdate();
         },
         /*
         * closeSearch
@@ -213,22 +243,6 @@ export default {
                     })
                 }
             }
-        },
-        /*
-        * slideUp
-        * 검색 화면 사이즈 up
-         */
-        slideUp(){
-          this.slideChk = 2;
-            this.$forceUpdate();
-        },
-        /*
-        * slidedown
-        * 검색 화면 사이즈 down
-         */
-        slidedown(){
-            this.slideChk = 1;
-            this.$forceUpdate();
         },
         /*
         * doNavAction
