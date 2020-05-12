@@ -2796,7 +2796,7 @@
 .con-search .search-surface .search-result-box .search-keyword {
   font-size: 17px;
   padding: 0 20px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .con-search .search-surface .search-result-box .search-keyword span {
@@ -2818,7 +2818,6 @@
 
 .con-search .search-surface .search-result-box .search-category {
   font-size: 0;
-  margin-top: 15px;
   border-bottom: 1px solid #dddddd;
 }
 
@@ -2855,23 +2854,20 @@
 
 .con-search .search-surface .search-result-box .search-result-list {
   max-height: calc(100vh - 490px);
-  padding-top: 20px;
+  padding-top: 10px;
   overflow: auto;
   transition: all .4s;
 }
 .con-search .search-surface .search-result-box .search-result-list.fullOpen{
-  max-height: calc(100vh - 350px);
+  max-height: calc(100vh - 205px);
   transition: all .4s;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card {
   display: block;
-  padding: 0 20px 20px;
-  border-bottom: 1px solid #eeeeee;
-}
-
-.con-search .search-surface .search-result-box .search-result-list .route-card:last-child {
-  border-bottom: none;
+  padding: 10px 0 10px;
+  margin: 0 20px;
+  border-bottom: 1px solid #dddddd;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card > div {
