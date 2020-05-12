@@ -114,7 +114,12 @@ export default {
             marker.setCursor('');
         },
         close(){
-            EventBus.$emit("PlaceView", false);
+            if(this.markPlace != null){
+                EventBus.$emit("PlaceView", false);
+            }
+            else{
+                history.back();
+            }
         }
     },
     created() {

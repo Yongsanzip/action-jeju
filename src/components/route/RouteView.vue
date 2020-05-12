@@ -70,7 +70,7 @@
                                     <p class="place-time"></p>
                                     <div class="travel-contents">
                                         <div class="review-text" @click="doViewAllReviewText($event, idx, pathIdx)">
-                                            <p>{{path.review}}</p>
+                                            <p v-if="path.review != null">{{path.review}}</p>
                                         </div>
                                         <div class="review-image-list" v-show="path.images != null">
                                             <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx" @click="showPhotoModal(image)">
@@ -657,7 +657,7 @@ export default {
                 }
 
                 this.replyList.forEach(function(item){
-                    item.getReg = this.$moment(new Date(item.regdt)).fromNow();
+                    item.getReg = this.$moment(item.regdt, ["YYYY-MM-DD h:mm:ss"]).fromNow();
                 }.bind(this));
 
             }).catch(err => {
@@ -854,6 +854,8 @@ export default {
         if(reviewTextBox.length >= 0){
             reviewTextBox.forEach(function(boxEl){
                 reviewTextEl = boxEl.getElementsByTagName("p")[0];
+                if(reviewTextEl == null) return true;
+
                 if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60){
                     while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60) {
                         reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);

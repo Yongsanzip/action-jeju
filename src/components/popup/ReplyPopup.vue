@@ -115,7 +115,7 @@ export default {
 
                 this.replyList = res.data.replyList;
                 this.replyList.forEach(function(item){
-                    item.getReg = this.$moment(new Date(item.regdt)).fromNow();
+                    item.getReg = this.$moment(item.regdt, ["YYYY-MM-DD h:mm:ss"]).fromNow();
                 }.bind(this));
 
                 this.$forceUpdate();

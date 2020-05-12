@@ -5,7 +5,7 @@
             <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>
             <button type="button" class="next" @click="complete">완료</button>
         </header>
-        <div class="container con-route">
+        <div class="container con-route" :class="{ 'overflow-y' : isReview === true}">
             <div class="route-map" style="margin-top: 0;" :class="{middle: slideChk === 1, full: slideChk === 2}">
                 <!-- map -->
                 <naver-maps

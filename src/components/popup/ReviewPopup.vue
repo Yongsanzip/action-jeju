@@ -3,61 +3,59 @@
         <main class="con-route">
             <div class="overlay">
                 <div class="place-review">
-                    <div>
-                        <div class="input-place-review-block">
-                            <div class="review-header">
-                                <button type="button" class="btn-close" @click="close()">모달닫기</button>
-                                <h3 class="place-name">{{title}} <span>후기쓰기</span></h3>
-                                <div class="btn-write" @click="save">완료</div>
-                            </div>
-                            <div class="rate-wrap">
-                                <star-rating :rounded-corners="true"
-                                             active-color="rgb(243,100,90)"
-                                             :star-size="28"
-                                             :show-rating="false"
-                                             :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
-                                             @rating-selected="setCurrentSelectedRating"
-                                ></star-rating>
-                                <p class="rate-text">{{currentSelectedRating}}</p>
-                            </div>
-                            <div class="review-textarea">
-                                <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
-                            </div>
-                            <div class="review-image-list">
-                                <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
-                                    이미지 추가
-                                    <input type="file" style="display: none;" accept="image/*" multiple/>
-                                </div>
-                                <swiper :options="swiperOption">
-                                    <swiper-slide :class="'image-item add-image-'+idx"
-                                                  v-for="(photoItem, idx) in photoList"
-                                                  :key="idx"
-                                    >
-                                        <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
-                                            이미지 추가
-                                            <input type="file" style="display: none;" accept="image/*" multiple/>
-                                        </div>
-
-                                        <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
-                                            <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
-                                        </div>
-<!--                                        <div v-if="idx+1 == photoList.length" style="width: 30px;">-->
-
-<!--                                        </div>-->
-<!--                                        <div class="image-box">-->
-<!--                                            <div class="centered">-->
-<!--                                                <img v-bind:src="photoItem.src" alt="">-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>-->
-                                    </swiper-slide>
-                                </swiper>
-                            </div>
+                    <div class="input-place-review-block">
+                        <div class="review-header">
+                            <button type="button" class="btn-close" @click="close()">모달닫기</button>
+                            <h3 class="place-name">{{title}} <span>후기쓰기</span></h3>
+                            <div class="btn-write" @click="save">완료</div>
                         </div>
-                        <!-- 입력완료시 active 클래스 추가 -->
-                        <div class="review-complate active" @click="save">
-                            완료
+                        <div class="rate-wrap">
+                            <star-rating :rounded-corners="true"
+                                         active-color="rgb(243,100,90)"
+                                         :star-size="28"
+                                         :show-rating="false"
+                                         :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
+                                         @rating-selected="setCurrentSelectedRating"
+                            ></star-rating>
+                            <p class="rate-text">{{currentSelectedRating}}</p>
                         </div>
+                        <div class="review-textarea">
+                            <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
+                        </div>
+                        <div class="review-image-list">
+                            <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                                이미지 추가
+                                <input type="file" style="display: none;" accept="image/*" multiple/>
+                            </div>
+                            <swiper :options="swiperOption">
+                                <swiper-slide :class="'image-item add-image-'+idx"
+                                              v-for="(photoItem, idx) in photoList"
+                                              :key="idx"
+                                >
+                                    <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                                        이미지 추가
+                                        <input type="file" style="display: none;" accept="image/*" multiple/>
+                                    </div>
+
+                                    <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
+                                        <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
+                                    </div>
+                                    <!--                                        <div v-if="idx+1 == photoList.length" style="width: 30px;">-->
+
+                                    <!--                                        </div>-->
+                                    <!--                                        <div class="image-box">-->
+                                    <!--                                            <div class="centered">-->
+                                    <!--                                                <img v-bind:src="photoItem.src" alt="">-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>-->
+                                </swiper-slide>
+                            </swiper>
+                        </div>
+                    </div>
+                    <!-- 입력완료시 active 클래스 추가 -->
+                    <div class="review-complate active" @click="save">
+                        완료
                     </div>
                 </div>
             </div>
@@ -83,13 +81,6 @@ export default {
                 return []
             }
         },
-        photoList: {
-            type: Array,
-            default() {
-                return []
-            },
-            require: true
-        },
         title: {
             type: String,
         },
@@ -114,6 +105,7 @@ export default {
                 loop: false,
                 speed: 400,
             },
+            photoList: null
         }
     },
     computed: {

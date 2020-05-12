@@ -23,6 +23,7 @@
                         <swiper class="swiper-container__box" :options="boxSwiperOption" ref="boxSwiper">
                             <swiper-slide v-for="(item, index) in hotList" :key="index">
                                 <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>
+<!--                                <img :src="`http://img.actionjeju.com/data/user_route_image${item.image}`" style="width:100%; height: 100%;"/>-->
 <!--                                <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>-->
                             </swiper-slide>
                             <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>

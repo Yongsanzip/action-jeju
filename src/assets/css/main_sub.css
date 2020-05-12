@@ -1705,7 +1705,9 @@
   background: #f5f5f5;
 }
 
-.con-route .route-wrap .route-contents .route-item .travel-list > li > *,
+.con-route .route-wrap .route-contents .route-item .travel-list > li > * {
+  display: inline-block;
+}
 .con-route .route-wrap .route-contents .route-item .travel-list > div > li > * {
   display: inline-block;
   height: 24px;
@@ -2364,11 +2366,12 @@
   border-radius: 10px;
 }
 .con-route .overlay .place-review {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
   height: calc(100% - 45px);
+  overflow: auto;
   background: #fff;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -2382,6 +2385,8 @@
   /*min-height: 515px;*/
   height: 100%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .con-route .overlay .place-review .review-header {
@@ -2457,8 +2462,10 @@
 
 .con-route .overlay .place-review .review-textarea {
   padding-top: 16px;
-  min-height: 160px;
-  height: calc(100% - 235px);
+  /*height: calc(100% - 262px);*/
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
 .con-route .overlay .place-review .review-textarea textarea {
@@ -2470,7 +2477,6 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   outline: none;
-  min-height: 140px;
 }
 
 .con-route .overlay .place-review .review-textarea textarea::-webkit-input-placeholder {
@@ -2588,7 +2594,7 @@
 .con-route .overlay .place-review .review-complate {
   position: fixed;
   bottom: 0;
-
+  z-index: 99;
   width: 100%;
   text-align: center;
   background: #aaaaaa;
