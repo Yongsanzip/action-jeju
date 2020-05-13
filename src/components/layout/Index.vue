@@ -203,14 +203,14 @@ export default {
                             this.searchList = [];
                             this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 1;
+                            if(this.slideChk < 1) this.slideChk = 1;
                             //return false
                         }else{
                             this.el_Active = this.tabList.findIndex(tab => tab.type == this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 1;
+                            if(this.slideChk < 1) this.slideChk = 1;
                         }
                         this.setMapInformation();
                     }).catch(err => {
@@ -229,13 +229,13 @@ export default {
                             this.searchList = [];
                             this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 1;
+                            if(this.slideChk < 1) this.slideChk = 1;
                             return false
                         }else{
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
-                            this.slideChk = 1;
+                            if(this.slideChk < 1) this.slideChk = 1;
                         }
                         this.setMapInformation();
                     }).catch(err => {

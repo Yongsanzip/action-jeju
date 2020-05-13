@@ -1,7 +1,5 @@
 <template>
-    <div style="height: 100%">
-        <router-view :key="$route.fullPath"></router-view>
-    </div>
+    <router-view :key="$route.fullPath"></router-view>
 </template>
 <script>
     export default {

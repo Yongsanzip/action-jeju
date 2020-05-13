@@ -393,7 +393,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-profile .contents .list-contents .card .favorite {
@@ -490,8 +490,8 @@
 .con-profile .contents .list-contents .card .more {
   position: absolute;
   top: 0;
-  right: -12px;
-  width: 16px;
+  right: -20px;
+  width: 24px;
   height: 24px;
   background-image: url("../images/svg/ic-more-grey.svg");
   background-repeat: no-repeat;
@@ -503,7 +503,7 @@
   color: #aaaaaa;
   padding: 14px 0;
   -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
-          box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .con-profile .contents .list-contents .card-more::after {
@@ -572,7 +572,7 @@
   background-image: url("../images/ic-call.png");
   background-position: center;
   -webkit-transform: translate(5px, 2px);
-          transform: translate(5px, 2px);
+  transform: translate(5px, 2px);
 }
 
 .con-profile .contents .list-contents .card-place .place-score {
@@ -633,7 +633,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-profile .contents .list-contents .card-place .favorite {
@@ -682,9 +682,9 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   -o-object-position: center;
-     object-position: center;
+  object-position: center;
 }
 
 .con-profile .contents .list-contents .btn-favorite {
@@ -731,7 +731,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-profile .contents .list-contents .card-review .review-contents-box {
@@ -859,7 +859,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-profile .contents .list-contents .card-route .route-contents-box {
@@ -986,7 +986,7 @@
   left: 0;
   top: 0;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-profile .profile-edit-wrap .surface .edit-image-box .upload-image {
@@ -1169,9 +1169,9 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   -o-object-position: center;
-     object-position: center;
+  object-position: center;
 }
 
 .con-route .route-cover .upload-cover {
@@ -1463,7 +1463,11 @@
 .con-route .route-wrap {
   display: block;
   padding: 15px;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
+}
+
+.con-route-make .route-wrap {
+  padding: 15px 15px 40px;
 }
 
 .con-route .route-wrap .route-contents .route-item:last-child{
@@ -1478,10 +1482,7 @@
 }
 
 .con-route .route-wrap .surface:last-child {
-  margin-bottom: 0;
-}
-.con-route .route-wrap .surface:last-child {
-  margin-bottom: 40px;
+  /*padding-bottom: 80px;*/
 }
 
 .con-route .route-wrap .title {
@@ -1497,7 +1498,7 @@
   font-size: 16px;
   color: #555555;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   height: 32px;
   padding: 4px 8px;
   border-radius: 3px;
@@ -1552,7 +1553,7 @@
   height: 24px;
   text-align: center;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   color: #555555;
 }
 
@@ -1595,7 +1596,7 @@
   width: 8px;
   height: 1px;
   -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .con-route .route-wrap .route-header {
@@ -1603,8 +1604,8 @@
   padding-bottom: 12px;
 }
 .con-route .route-wrap .route-header input{
-    border:1px solid #ddd;
-    margin-right: 5px;
+  border:1px solid #ddd;
+  margin-right: 5px;
 }
 
 .con-route .route-wrap .route-header .route-title {
@@ -1914,7 +1915,7 @@
   font-size: 11px;
 }
 
-.con-route .btn-step {
+.btn-step {
   display: block;
   position: fixed;
   bottom: 0;
@@ -1929,6 +1930,10 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
+.btn-step.active {
+  background: #00c7c9;
+}
+
 
 
 .con-route .route-wrap .route-contents .post-menu-list {
@@ -1988,7 +1993,7 @@
   background: #00c7c9;
   width: 240px;
   display: block;
-  margin: 20px auto;
+  margin: 20px auto 10px;
   font-size: 14px;
   font-weight: 400;
   border-radius: 5px;
@@ -2024,7 +2029,7 @@
 }
 
 .con-route .recommend-wrap {
-  padding: 20px 15px 120px;
+  padding: 20px 15px 80px;
   background: whitesmoke;
 }
 
@@ -2228,7 +2233,7 @@
 }
 
 .con-route .comment-wrap {
-  margin-top: -15px;
+  /*margin-top: -15px;*/
   padding: 25px 15px;
   border-top: 1px solid #eeeeee;
 }
@@ -2271,7 +2276,8 @@
 
 .con-route .comment-wrap .comment-list .comment-card {
   border-bottom: 1px solid #eeeeee;
-  padding: 15px 0;
+  margin: 15px 0;
+  padding-bottom: 15px;
 }
 
 .con-route .comment-wrap .comment-list .comment-card:last-child {
@@ -2479,7 +2485,7 @@
   font-size: 13px;
   color: #555555;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   outline: none;
 }
 
@@ -2577,7 +2583,7 @@
   bottom: 0;
   margin: auto;
   -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 .con-route .overlay .place-review .review-image-list .image-item .btn-remove::after {
@@ -2592,7 +2598,7 @@
   bottom: 0;
   margin: auto;
   -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 .con-route .overlay .place-review .review-complate {
@@ -2638,9 +2644,9 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   -o-object-position: center;
-     object-position: center;
+  object-position: center;
 }
 
 .con-route .gallery-image-list .image-item .select-number {
@@ -2668,7 +2674,7 @@
   z-index: 1;
   border: 5px solid #00c7c9;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .con-route .gallery-image-list .select .select-number {
@@ -2731,7 +2737,7 @@
   border-top-right-radius: 10px;
   width: 100%;
   min-height: 72px;
-  padding-bottom: 56px;
+  padding-bottom: 65px;
   position: absolute;
   bottom: 0;
 }
@@ -2767,7 +2773,7 @@
   border-radius: 10px;
   padding: 0 15px;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   font-size: 13px;
   font-weight: 500;
   outline: none;
@@ -2859,7 +2865,7 @@
   transition: all .4s;
 }
 .con-search .search-surface .search-result-box .search-result-list.fullOpen{
-  max-height: calc(100vh - 205px);
+  max-height: calc(95vh - 190px);
   transition: all .4s;
 }
 
@@ -2869,9 +2875,12 @@
   margin: 0 20px;
   border-bottom: 1px solid #dddddd;
 }
+.con-search .search-surface .search-result-box .search-result-list > div:last-child .route-card {
+  border-bottom: 0;
+}
 
 .con-search .search-surface .search-result-box .search-result-list .route-card > div {
-                           display: inline-block;
+  display: inline-block;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-image {
@@ -2890,7 +2899,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .favorite {
@@ -3029,7 +3038,7 @@
   background-image: url("../images/ic-call.png");
   background-position: center;
   -webkit-transform: translate(5px, 2px);
-          transform: translate(5px, 2px);
+  transform: translate(5px, 2px);
   background-size:contain;
 }
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-call a {
@@ -3096,7 +3105,7 @@
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .comment-card {
@@ -3181,7 +3190,7 @@
 }
 .con-place .place-slide-box>div .swiper-button-prev,
 .con-place .place-slide-box>div .swiper-button-next{
-   background-size:15px auto;
+  background-size:15px auto;
 }
 .con-place .place-slide-box>div .swiper-button-prev:after,
 .con-place .place-slide-box>div .swiper-button-next:after{

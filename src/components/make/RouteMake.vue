@@ -7,7 +7,7 @@
                     <h1>{{(this.touridx == null)? '여행경로 만들기' : '여행경로 일정 수정'}}</h1>
                     <button type="button" class="next" @click="doNext">다음</button>
                 </header>
-                <div class="container con-route">
+                <div class="container con-route con-route-make">
                     <div class="route-cover">
                         <label class="upload-cover">
                             <input type="file" ref="myfile" @change="previewFile">
@@ -52,15 +52,15 @@
                             <!-- //datepicker -->
                         </div>
                     </div>
-                    <div>
-                        <!-- 입력완료시 active 클래스 추가 -->
-        <!--                <button class="btn-step active" :class="{active : isChk}" @click="doNext">-->
-                        <button class="btn-step active" @click="doNext">
-                            다음
-                        </button>
-                    </div>
                 </div>
             </section>
+            <div class="btns">
+                <!-- 입력완료시 active 클래스 추가 -->
+                <!--                <button class="btn-step active" :class="{active : isChk}" @click="doNext">-->
+                <button class="btn-step active" @click="doNext">
+                    다음
+                </button>
+            </div>
         </div>
         <route-make2 v-if="isChk"
                      :title="title"
