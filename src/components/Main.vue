@@ -66,7 +66,7 @@
                 <div class="con-main mt25">
                     <div class="list-card">
                         <h2 class="section-title">제주 동부지역 1인 식당</h2>
-                        <div class="card" v-for="(item, idx) in latestList.slice(1, 30)" :key="idx" @click="doView(item.idx)">
+                        <div class="card" v-for="(item, idx) in latestList.slice(0, 30)" :key="idx" @click="doView(item.idx)">
                             <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image/${item.image}`}">
                                 <h3 class="card-title">{{item.name}}</h3>
                                 <label class="btn-like">
