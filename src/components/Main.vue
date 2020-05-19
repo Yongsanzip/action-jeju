@@ -182,37 +182,38 @@ export default {
             Route.routeList(postData).then(res => {
                 //console.log(res.data)
                 this.latestList = res.data.tours;
-                this.touridx = this.latestList[0].idx;
-                console.log(this.latestList)
-                this.getLatestDetail();
             }).catch(err => {
                 console.error(err);
             })
         },
         /*
-        * getLatestDetail
-        * 가장 최근 작성된 여행경로 상세 조회
+        * getHomeRoute
+        * 메인 여행경로 조회
          */
-        getLatestDetail() {
+        getHomeRoute() {
             const postData = new FormData;
             postData.append('type', 'home');
             Route.routeList(postData).then(res => {
-                console.log("home route::", res.data)
+                if(res.data.tour_cnt < 1) return;
+                this.touridx = res.data.tours[0].idx;
+                this.getHomeRouteDetail();
             }).catch(err => {
                 console.error(err);
             })
-            /*
+        },
+        /*
+        * getHomeRouteDetail
+        * 메인 여행경로 상세 조회
+         */
+        getHomeRouteDetail() {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
             Route.routeListDetail(postData).then(res => {
-                //console.log(res.data)
                 this.tourInfo = res.data.tourInfo;
                 this.tourDays = res.data.days;
-                console.log(res.data)
             }).catch(err => {
                 console.error(err);
             })
-            */
         },
         /*
         * doEvent
@@ -230,6 +231,7 @@ export default {
         }
     },
     created() {
+        this.getHomeRoute();
         this.getHashList();
         this.getHotList();
         this.getLatest();
