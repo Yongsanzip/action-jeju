@@ -20,8 +20,8 @@
                         {{$moment(data.reg_date).fromNow()}}
                     </p>
                 </div>
-                <div>
-                    <p class="review-text" style="width: max-content;" ref="comment">{{data.comment}}</p>
+                <div style="white-space: nowrap;">
+                    <p class="review-text" style="width: max-content;white-space: initial;" ref="comment">{{data.comment}}</p>
                     <p class="review-text" ref="commentView"></p>
                     <a style="display: none;">더보기</a>
                 </div>
@@ -56,9 +56,10 @@ export default {
         const reviewTextEl = this.$refs.comment;
         const limitWidth = reviewTextEl.parentElement.offsetWidth;
 
-        if (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 60){
+        console.log(reviewTextEl.offsetWidth, limitWidth, limitWidth * this.reviewLines - 75);
+        if (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 75){
             this.$refs.commentView.classList.add("has-overflow");
-            while (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 60) {
+            while (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 75) {
                 reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
             }
             this.isLong = true;

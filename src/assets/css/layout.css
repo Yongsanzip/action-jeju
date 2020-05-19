@@ -114,7 +114,7 @@
     display: block;
     border-radius: 5px;
     width: 100%;
-    font-weight: 300;
+    font-weight: 400;
 }
 .btn__md{
     height: 40px;
@@ -270,7 +270,7 @@
 }
 
 .star{display:inline-block;}
-.star_area{display:inline-block;font-size:0;}
+.star_area{display:inline-block;font-size:0;margin-top: 1px;line-height: 15px;}
 .star_area.m-star span{width:67px;height:12px;background-image:url("../images/star.png");background-position:0 -12px;background-repeat:no-repeat;background-size:auto 24px;}
 .star_area span.star span{display:block;background-position:left top;}
 

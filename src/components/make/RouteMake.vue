@@ -248,3 +248,21 @@ export default {
     }
 }
 </script>
+
+<style>
+    .vc-bg-red-200 {
+        background-color: #DFDFDF;
+    }
+    .vc-bg-red-600 {
+        background-color: #F3645A;
+    }
+    .vc-text-gray-500 {
+        color: #aaa;
+    }
+    .vc-border-red-700 {
+        border-color: #F3645A;
+    }
+    .vc-text-red-900 {
+        color: #F3645A;
+    }
+</style>

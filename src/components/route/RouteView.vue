@@ -130,7 +130,7 @@
                                     <p class="comment-time">{{item.getReg}}</p>
                                     <button v-if="item.mb_id == GET_MB_ID" class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
                                 </div>
-                                <div @click="doViewReply($event, idx)">
+                                <div @click="doViewReply($event, idx)" style="white-space: nowrap;">
                                     <p class="comment-text">
                                         {{item.comment}}
                                     </p>
@@ -649,8 +649,9 @@ export default {
                 if(res.data.replyList == null) return;
 
                 if(res.data.replyList.length > 3){
+                    const cnt = res.data.replyList.length-1;
                     this.replyList = [];
-                    for(let i=0; i<3; i++){
+                    for(let i = cnt; i > cnt-3; i--){
                         this.replyList.push(res.data.replyList[i]);
                     }
                 }
@@ -858,8 +859,8 @@ export default {
                 reviewTextEl = boxEl.getElementsByTagName("p")[0];
                 if(reviewTextEl == null) return true;
 
-                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60){
-                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 60) {
+                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 74){
+                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 74) {
                         reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
                     }
                     boxEl.classList.add("overflow2lines");

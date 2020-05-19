@@ -8,7 +8,7 @@
         </div>
         <div class="card-contents" @click="doView(data.idx)">
             <div class="card-title">
-                <p><a href="#">{{data.name}}</a></p>
+                <p>{{data.name}}</p>
                 <div class="like" v-if="data.user_like_point  != null && data.user_like_point > 999">999+</div>
                 <div class="like" v-else>{{(data.user_like_point != null)? data.user_like_point : 0}}</div>
             </div>

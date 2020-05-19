@@ -26,25 +26,25 @@
                             <h3 class="title">필수정보</h3>
                         </div>
                         <div class="edit-user-info">
-                            <p class="caption">닉네임(한글 또는 영문 15자 이내)</p>
+                            <p class="caption">닉네임(한글 또는 영문 최소 4자~15자)</p>
                             <div class="input-box" style="text-align: left">
                                 <div class="with-btn">
                                     <input class="input-text" type="text" placeholder="닉네임" v-model="user.name" :readonly="nicksubmit">
-                                    <button class="btn-black" @click="doCheckNick" :disabled="nicksubmit">중복확인</button>
+                                    <button class="btn btn-green" @click="doCheckNick" :disabled="nicksubmit">중복확인</button>
                                 </div>
-                                <p v-if="!$v.user.name.required" class="validate">닉네임을 입력해주세요</p>
-                                <p v-if="!$v.user.name.minLength" class="validate">최소 4자</p>
-                                <p v-if="!$v.user.name.maxLength" class="validate">최대 15자</p>
-                                <p v-if="$v.user.name.sameAs" class="validate">공백</p>
+<!--                                <p v-if="!$v.user.name.required" class="validate">닉네임을 입력해주세요</p>-->
+<!--                                <p v-if="!$v.user.name.minLength" class="validate">최소 4자</p>-->
+<!--                                <p v-if="!$v.user.name.maxLength" class="validate">최대 15자</p>-->
+<!--                                <p v-if="$v.user.name.sameAs" class="validate">공백</p>-->
                             </div>
                             <div class="input-box" style="text-align: left">
-                                <input type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
+                                <input class="input-pwd" type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
 <!--                                <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
-                                <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>
+<!--                                <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
                             </div>
                             <div class="input-box" style="text-align: left">
-                                <input type="password" placeholder="비밀번호 확인" v-model="user.confirmPassword">
-                                <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>
+                                <input class="input-pwd" type="password" placeholder="비밀번호 확인" v-model="user.confirmPassword">
+<!--                                <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>-->
                             </div>
                         </div>
                         <div>
@@ -61,28 +61,37 @@
                         <p class="caption">휴대폰번호</p>
                         <input type="number" class="input-text" placeholder="-없이 입력" v-model="user.phone">
                         <p class="caption">거주지역</p>
-                        <select class="select-box" v-model="user.state">
+                        <select class="select-box" v-model="user.state" :class="{'noValue': user.state==''}">
                             <option v-for="(item, idx) in select.state"
                                     :key="idx"
                                     :value="item.value"
+                                    :selected="item.value==user.state"
+                                    :disabled="idx==0"
+                                    :hidden="idx==0"
                             >
                                 {{item.name}}
                             </option>
                         </select>
                         <p class="caption">연령대</p>
-                        <select class="select-box" v-model="user.age">
+                        <select class="select-box" v-model="user.age" :class="{'noValue': user.age==''}">
                             <option v-for="(item, idx) in select.age"
                                     :key="idx"
                                     :value="item.value"
+                                    :selected="item.value==user.age"
+                                    :disabled="idx==0"
+                                    :hidden="idx==0"
                             >
                                 {{item.name}}
                             </option>
                         </select>
                         <p class="caption">성별</p>
-                        <select class="select-box" v-model="user.sex">
+                        <select class="select-box" v-model="user.sex" :class="{'noValue': user.sex==''}">
                             <option v-for="(item, idx) in select.sex"
                                     :key="idx"
                                     :value="item.value"
+                                    :selected="item.value==user.sex"
+                                    :disabled="idx==0"
+                                    :hidden="idx==0"
                             >
                                 {{item.name}}
                             </option>

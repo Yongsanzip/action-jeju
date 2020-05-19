@@ -10,31 +10,31 @@
                     <div class="input-box input-box__col">
                         <input type="text" placeholder="닉네임 (한글 또는 영문 15자 이내)" v-model="user.name" :readonly="nicksubmit">
                         <button type="button" class="btn btn__md gray" @click="doCheckNick">중복확인</button>
-                        <p v-if="!$v.user.name.required" class="validate">닉네임을 입력해주세요</p>
-                        <p v-if="!$v.user.name.minLength" class="validate">최소 4자</p>
-                        <p v-if="!$v.user.name.maxLength" class="validate">최대 15자</p>
-                        <p v-if="$v.user.name.sameAs" class="validate">공백</p>
+<!--                        <p v-if="!$v.user.name.required" class="validate">닉네임을 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.name.minLength" class="validate">최소 4자</p>-->
+<!--                        <p v-if="!$v.user.name.maxLength" class="validate">최대 15자</p>-->
+<!--                        <p v-if="$v.user.name.sameAs" class="validate">공백</p>-->
                     </div>
                     <div class="input-box">
                         <input type="email" placeholder="이메일 주소 입력" v-model="user.email">
-                        <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>
-                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>
+<!--                        <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>-->
                     </div>
                     <div class="input-box">
                         <input type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
-                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>
-                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>
+<!--                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
                     </div>
                     <div class="input-box">
                         <input type="password" placeholder="비밀번호 확인" v-model="user.confirmPassword">
 <!--                        <p v-if="!$v.user.confirmPassword.required" class="validate">비밀번호 확인을 입력해주세요</p>-->
-                        <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>
+<!--                        <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>-->
                     </div>
                     <div class="checkbox-custom">
                         <input type="checkbox" id="agree" v-model="user.terms" @change="$v.user.terms.$touch()">
                         <label for="agree">액션제주의<a href="#"> 이용약관 </a> 및 <a href="#"> 개인정보취급방침 </a>에 동의합니다.</label>
                     </div>
-                    <p v-if="!user.terms" class="validate">약관에 동의 해주세요</p>
+<!--                    <p v-if="!user.terms" class="validate">약관에 동의 해주세요</p>-->
                     <button type="submit" class="btn btn__md skyblue mt35">회원가입</button>
                 </form>
                 <div class="w160">

@@ -200,17 +200,17 @@
     font-size:0;
 }
 .section-wrap__main .container .main-content .content-box__bottom .title-box{
-    padding-left: 44px;
+    padding: 0 30px;
 }
 .section-wrap__main .container .main-content .content-box__bottom .title-box>span{
     display: block;
-    font-size:13px;
+    font-size:14px;
     line-height: 18px;
     color: #ffffff;
     font-weight: 200;
 }
 .section-wrap__main .container .main-content .content-box__bottom .title-box h2{
-    font-size:24px;
+    font-size:25px;
     line-height: 31px;
     color: #ffffff;
     font-weight: 200;
@@ -224,7 +224,7 @@
 .section-wrap__main .container .main-content .content-box__bottom .title-box p a{
     padding-right: 3px;
     color: #ffffff;
-    font-size:12px;
+    font-size:14px;
     line-height: 25px;
 }
 .section-wrap__main .container .main-content .content-box__bottom .slide-box{
@@ -253,10 +253,10 @@
 .section-wrap__main .container .main-content .content-box__bottom .nickname-area span{
     position:relative;
     display: inline-block;
-    font-size:12px;
+    font-size:13px;
     line-height: 11px;
     color: #ffffff;
-    padding-bottom: 11px;
+    padding-bottom: 15px;
 }
 .section-wrap__main .container .main-content .content-box__bottom .nickname-area span::after{
     content:"";
@@ -323,9 +323,10 @@
     bottom:30px;
     width:auto;
     text-align: center;
-    padding: 2px 5px;
+    padding: 0;
     line-height: 11px;
     color: #ffffff;
-    font-size:11px;
+    font-size:12px;
+    line-height: 16px;
     /*background-color: rgba(0,0,0,.15);*/
 }

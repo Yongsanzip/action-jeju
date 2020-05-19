@@ -53,8 +53,8 @@
 }
 
 .con-main .list-card .card .list-hashtag {
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 13px;
+  margin-top: 8px;
   color: white;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .con-main .list-card .card .list-info {
-  font-size: 11px;
+  font-size: 13px;
   color: white;
   position: absolute;
   bottom: 14px;
@@ -97,9 +97,9 @@
 .con-setting .list-setting li {
   position: relative;
   display: block;
-  height: 40px;
-  border-bottom: 1px solid #dddddd;
-  padding: 12px 0;
+  height: 50px;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
 }
 .con-setting .list-setting li a{
   display: block;
@@ -107,8 +107,9 @@
 
 .con-setting .list-setting li .setting-name {
   display: inline-block;
-  font-size: 16px;
-  color: #555555;
+  font-size: 14px;
+  color: #444;
+  font-weight: 400;
 }
 
 .con-setting .list-setting li .switch {
@@ -133,6 +134,7 @@
   transform: translateY(-50%);
   right: 0;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .con-notice {
@@ -256,12 +258,12 @@
 
 .con-profile .profile-box .nickname {
   font-size: 16px;
-  color: #777777;
+  color: #666666;
 }
 
 .con-profile .profile-box .email {
   font-size: 12px;
-  color: #bbbbbb;
+  color: #999999;
   line-height: 24px;
 }
 
@@ -271,7 +273,7 @@
   font-size: 12px;
   padding: 0 10px;
   height: 30px;
-  line-height: 30px;
+  line-height: 29px;
   margin: 17px 0;
 }
 
@@ -299,7 +301,7 @@
 
 .con-profile .contents .list-menu button {
   padding: 10px 0;
-  font-size: 13px;
+  font-size: 14px;
   color: #999999;
   display: block;
 }
@@ -325,8 +327,8 @@
 
 .con-profile .contents .list-contents {
   font-size: 0;
-  padding-top: 18px;
-  padding-left: 8px;
+  padding-top: 5px;
+  padding-left: 0;
 }
 .con-profile .contents .list-contents .photo__list{
   /*display: inline-block;
@@ -430,6 +432,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 400;
+  margin-right: 7px;
 }
 
 .con-profile .contents .list-contents .card .card-title .like {
@@ -454,7 +458,7 @@
 }
 
 .con-profile .contents .list-contents .card .card-info {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .con-profile .contents .list-contents .card .card-info > p {
@@ -462,12 +466,12 @@
 }
 
 .con-profile .contents .list-contents .card .card-info .card-tern {
-  color: #999999;
+  color: #888888;
   letter-spacing: -0.6px;
 }
 
 .con-profile .contents .list-contents .card .card-info .card-writer {
-  margin-left: 2px;
+  margin-left: 5px;
   color: #bbbbbb;
 }
 
@@ -481,6 +485,7 @@
 
 .con-profile .contents .list-contents .card .list-hashtag .hashtag {
   margin-right: 4px;
+  margin-bottom:5px;
 }
 
 .con-profile .contents .list-contents .card .list-hashtag .hashtag:last-child {
@@ -547,17 +552,18 @@
 .con-profile .contents .list-contents .card-place .place-name {
   font-size: 15px;
   line-height: 25px;
-  color: #777777;
+  color: #555555;
   display: inline-block;
   margin-bottom: 5px;
+  font-weight: 400;
 }
 
 .con-profile .contents .list-contents .card-place .place-distance {
-  font-size: 11px;
-  color: #aaaaaa;
+  font-size: 13px;
+  color: #888888;
   display: inline-block;
   line-height: 25px;
-  margin-left: 2px;
+  margin-left: 7px;
 }
 
 .con-profile .contents .list-contents .card-place .place-call {
@@ -577,9 +583,14 @@
 
 .con-profile .contents .list-contents .card-place .place-score {
   color: #f3645a;
-  font-size: 12px;
+  font-size: 13px;
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 7px;
+  line-height: 15px;
+}
+
+.con-profile .contents .list-contents .card-place .star_area {
+  margin-top: 2px;
 }
 
 .con-profile .contents .list-contents .card-place .place-review {
@@ -587,15 +598,17 @@
   font-size: 12px;
   color: #999999;
   padding-left: 18px;
+  line-height: 15px;
 }
 
 .con-profile .contents .list-contents .card-place .place-review::before {
   content: '';
   position: absolute;
   width: 1px;
-  height: 13px;
+  height: 14px;
   background: #dddddd;
   left: 8px;
+  margin-top: 1px;
 }
 
 .con-profile .contents .list-contents .card-place .list-image {
@@ -709,7 +722,7 @@
 
 .con-profile .contents .list-contents .card-review {
   padding: 20px 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .con-profile .contents .list-contents .card-review > div {
@@ -739,10 +752,10 @@
 }
 
 .con-profile .contents .list-contents .card-review .review-contents-box .review-place {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 400;
   line-height: 20px;
-  color: #212121;
+  color: #666;
   margin-bottom: 4px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -753,29 +766,32 @@
   font-size: 12px;
   display: inline-block;
   margin-left: 4px;
-  color: #474747;
+  color: #aaaaaa;
+  line-height: 15px;
 }
 
 .con-profile .contents .list-contents .card-review .review-contents-box .review-time {
   display: inline-block;
   font-size: 12px;
-  color: #474747;
+  color: #aaaaaa;
   padding-left: 18px;
+  line-height: 15px;
 }
 
 .con-profile .contents .list-contents .card-review .review-contents-box .review-time::before {
   content: '';
   position: absolute;
   width: 1px;
-  height: 13px;
+  height: 14px;
   background: #dddddd;
   left: 8px;
+  margin-top: 1px;
 }
 
 .con-profile .contents .list-contents .card-review .review-contents-box .review-text {
   margin-top: 8px;
-  font-size: 12px;
-  color: #757575;
+  font-size: 13px;
+  color: #888888;
   line-height: 18px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -783,6 +799,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
+  white-space: initial;
 }
 .con-profile .contents .list-contents .card-review .review-contents-box .review-text.has-overflow:after {
   content: "...";
@@ -790,13 +807,13 @@
 
 .con-profile .contents .list-contents .card-review .review-contents-box a {
   position: absolute;
-  right: 2px;
-  top: 38px;
+  right: 8px;
+  top: 36px;
   color: #ffffff;
-  font-size: 9px;
-  line-height: 13px;
-  background: #cccccc;
-  padding: 1px 7px;
+  font-size: 10px;
+  line-height: 12px;
+  background: #aaa;
+  padding: 3px 9px;
   border-radius: 10px;
 }
 
@@ -868,16 +885,17 @@
 
 .con-profile .contents .list-contents .card-route .route-contents-box .route-name {
   display: inline-block;
-  font-size: 10px;
-  color: #aaaaaa;
+  font-size: 13px;
+  color: #888888;
   line-height: 15px;
+  margin-right: 5px;
 }
 
 .con-profile .contents .list-contents .card-route .route-contents-box .route-write {
   margin-left: 3px;
   display: inline-block;
-  font-size: 10px;
-  color: #aaaaaa;
+  font-size: 12px;
+  color: #bbbbbb;
   line-height: 15px;
 }
 
@@ -886,8 +904,8 @@
 }
 
 .con-profile .contents .list-contents .card-route .route-contents-box .route-text {
-  margin-top: 4px;
-  font-size: 12px;
+  margin-top: 7px;
+  font-size: 13px;
   line-height: 17px;
   color: #666666;
 }
@@ -937,7 +955,7 @@
   width: 100%;
   display: block;
   height: 1px;
-  background: #cccccc;
+  background: #eeeeee;
   left: 0;
   top: 24px;
   z-index: -1;
@@ -946,12 +964,13 @@
 .con-profile .profile-edit-wrap .surface .subtitle {
   margin-top: 12px;
   display: inline-block;
-  color: #949494;
+  color: #999999;
   font-size: 14px;
   line-height: 27px;
   position: initial;
   background: white;
   padding: 0 8px;
+  font-weight: 400;
 }
 
 .con-profile .profile-edit-wrap .surface .subtitle::before {
@@ -960,7 +979,7 @@
   width: 100%;
   display: block;
   height: 1px;
-  background: #cccccc;
+  background: #eeeeee;
   left: 0;
   top: 24px;
   z-index: -1;
@@ -1012,14 +1031,14 @@
 .con-profile .profile-edit-wrap .surface .user-email {
   font-size: 12px;
   margin: 8px 0;
-  color: #adadad;
+  color: #999999;
 }
 
 .con-profile .profile-edit-wrap .surface .caption {
   font-size: 14px;
-  color: #757575;
+  color: #777;
   text-align: left;
-  font-weight: 500;
+  font-weight: 400;
   margin-bottom: 8px;
 }
 
@@ -1028,32 +1047,34 @@
   margin-bottom: 12px;
   padding: 8px 12px;
   font-size: 14px;
+  border-radius: 5px;
 }
-
-.con-profile .profile-edit-wrap .surface .input-text::-webkit-input-placeholder {
-  font-size: 14px;
-  color: #aaaaaa;
+.con-profile .profile-edit-wrap .surface .input-box .input-text {
+  margin-bottom: 0;
 }
-
-.con-profile .profile-edit-wrap .surface .input-text:-ms-input-placeholder {
+.con-profile .profile-edit-wrap .surface .input-text::-webkit-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-text:-ms-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-text::-ms-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-text::placeholder,
+.con-profile .profile-edit-wrap .surface .input-pwd::-webkit-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-pwd:-ms-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-pwd::-ms-input-placeholder,
+.con-profile .profile-edit-wrap .surface .input-pwd::placeholder{
   font-size: 14px;
-  color: #aaaaaa;
-}
-
-.con-profile .profile-edit-wrap .surface .input-text::-ms-input-placeholder {
-  font-size: 14px;
-  color: #aaaaaa;
-}
-
-.con-profile .profile-edit-wrap .surface .input-text::placeholder {
-  font-size: 14px;
-  color: #aaaaaa;
+  color: #999;
 }
 
 .con-profile .profile-edit-wrap .surface .select-box {
   width: 100%;
   padding: 8px 12px;
   margin-bottom: 12px;
+}
+
+.con-profile .profile-edit-wrap .surface .select-box.noValue {
+  color: #999;
+}
+.con-profile .profile-edit-wrap .surface .select-box option{
+  color: #555555;
 }
 
 .con-profile .profile-edit-wrap .surface .with-btn {
@@ -1064,7 +1085,8 @@
   width: calc(100% - 75px);
 }
 
-.con-profile .profile-edit-wrap .surface .with-btn .btn-black {
+.con-profile .profile-edit-wrap .surface .with-btn .btn {
+  display: inline-block;
   width: 64px;
   margin-left: 10px;
   font-size: 11px;
@@ -1235,7 +1257,7 @@
 }
 
 .con-route .post-header .post-title {
-  font-size: 13px;
+  font-size: 14px;
   color: #444444;
   white-space: nowrap;
   overflow: hidden;
@@ -1244,8 +1266,8 @@
 }
 
 .con-route .post-header .post-route-date {
-  font-size: 11px;
-  color: #999999;
+  font-size: 13px;
+  color: #888888;
   line-height: 20px;
 }
 
@@ -1397,19 +1419,19 @@
 }
 
 .con-route .post-cover .post-date {
-  font-size: 11px;
+  font-size: 12px;
   position: absolute;
   z-index: 1;
   left: 15px;
-  bottom: 10px;
+  bottom: 5px;
 }
 
 .con-route .post-cover .post-write {
-  font-size: 11px;
+  font-size: 12px;
   position: absolute;
   z-index: 1;
   right: 15px;
-  bottom: 10px;
+  bottom: 5px;
 }
 
 .con-route .post-cover .post-write::before {
@@ -1618,13 +1640,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 25px;
-  margin-right: 8px;
-  margin-bottom: 5px;
+  margin-right: 12px;
+  margin-bottom: 10px;
 }
 
 .con-route .route-wrap .route-header .route-date {
-  font-size: 10px;
-  color: #999999;
+  font-size: 13px;
+  color: #888888;
   display: inline-block;
   line-height: 20px;
   margin-right: 10px;
@@ -1645,19 +1667,20 @@
 }
 
 .con-route .route-wrap .route-header .btn-edit-route {
-  font-size: 10px;
-  color: #777777;
+  font-size: 12px;
+  color: #666666;
   display: inline-block;
   vertical-align: top;
   outline: none;
   background: #eeeeee;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 3px 8px;
+  float: right;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-header {
-  padding: 15px 0;
+  padding: 20px 0;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-day {
@@ -1671,6 +1694,7 @@
   color: white;
   background-color: #00c7c9;
   margin-right: 5px;
+  font-weight: 500;
 }
 
 .con-route .route-wrap .route-contents .route-item:nth-child(3n) .travel-day {
@@ -1684,7 +1708,7 @@
 .con-route .route-wrap .route-contents .route-item .travel-title {
   display: inline-block;
   line-height: 28px;
-  font-size: 13px;
+  font-size: 15px;
   color: #666666;
   font-weight: 500;
   margin-right: 5px;
@@ -1693,8 +1717,9 @@
 .con-route .route-wrap .route-contents .route-item .travel-date {
   display: inline-block;
   line-height: 28px;
-  font-size: 10px;
+  font-size: 13px;
   color: #999999;
+  vertical-align: middle;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list > li {
@@ -1751,29 +1776,30 @@
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .place-number {
-  font-size: 10px;
+  font-size: 11px;
   color: white;
   line-height: 16px;
   text-align: center;
   width: 20px;
   height: 20px;
+  margin-top: 2px;
   margin-right: 5px;
   background: url("../images/svg/ic-mappin-bg-grey.svg") center no-repeat;
   background-size: contain;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .place-name {
-  font-size: 11px;
+  font-size: 14px;
   color: #666666;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 22px;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .place-time {
   margin-left: 9px;
   font-size: 10px;
   color: #999999;
-  line-height: 20px;
+  line-height: 22px;
   /*vertical-align: bottom;*/
 }
 
@@ -1782,7 +1808,7 @@
   display: block;
   margin: 6px 0;
   margin-left: 10px;
-  padding: 4px 0 15px;
+  padding: 0px 0 15px;
   padding-left: 12px;
   border-left: 1px solid #dddddd;
 }
@@ -1790,11 +1816,11 @@
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text {
   font-size: 11px;
   line-height: 17px;
-  color: #999999;
+  color: #888888;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text p {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 17px;
   height: 35px;
   white-space: nowrap;
@@ -1815,7 +1841,7 @@
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.overflow2lines:after {
   content: '더보기';
   position: absolute;
-  right: 2px;
+  right: 10px;
   top: 18px;
   color: #ffffff;
   font-size: 9px;
@@ -1910,9 +1936,9 @@
 
 .con-route .route-wrap .route-contents .route-item .btn-wrap .btn-white {
   width: 140px;
-  height: 26px;
-  line-height: 26px;
-  font-size: 11px;
+  height: 30px;
+  line-height: 25px;
+  font-size: 13px;
 }
 
 .btn-step {
@@ -1929,6 +1955,7 @@
   line-height: 40px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  font-weight:400;
 }
 .btn-step.active {
   background: #00c7c9;
@@ -1943,7 +1970,7 @@
 
 .con-route .route-wrap .route-contents .post-menu-list li {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   color: #999999;
   width: 72px;
 }
@@ -1994,10 +2021,10 @@
   width: 240px;
   display: block;
   margin: 20px auto 10px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
   border-radius: 5px;
-  height: 30px;
+  height: 35px;
   line-height: 30px;
 }
 
@@ -2145,7 +2172,7 @@
   outline: none;
   background: transparent;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
   width: calc(100% - 28px);
   height: 24px;
   line-height: 24px;
@@ -2172,11 +2199,11 @@
   height: 24px;
   position: absolute;
   right: 12px;
-  top: 6px;
   outline: none;
   border: none;
   background: url("../images/svg/ic-search-white.svg") no-repeat center;
   background-size: 20px 20px;
+  vertical-align: middle;
 }
 
 .con-route .place-wrap .place-list {
@@ -2200,8 +2227,8 @@
   border-radius: 50%;
   background: url("../images/svg/ic-place.svg") #b9b9b9 no-repeat center;
   background-size: 16px 16px;
-  margin-right: 4px;
-  margin-top: 8px;
+  margin-right: 8px;
+  margin-top: 5px;
 }
 
 .con-route .place-wrap .place-list li .place-info {
@@ -2213,10 +2240,11 @@
   color: #777777;
   font-weight: 500;
   line-height: 25px;
+  margin-bottom:5px;
 }
 
 .con-route .place-wrap .place-list li .place-adress {
-  font-size: 10px;
+  font-size: 13px;
   color: #999999;
   line-height: 12px;
 }
@@ -2246,15 +2274,15 @@
 }
 
 .con-route .comment-wrap .write-comment {
-  border: 1px solid #bababa;
   padding: 3px 8px;
   border-radius: 10px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 17px;
   position: absolute;
   right: 0;
   top: 0;
   color: #666666;
+  background:#eee;
 }
 
 .con-route .comment-wrap .comment-footer {
@@ -2262,12 +2290,14 @@
 }
 
 .con-route .comment-wrap .all-comment {
+  display: inline-block;
   border: 1px solid #bababa;
   padding: 5px 38px;
   border-radius: 5px;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 17px;
-  color: #777777;
+  color: #666666;
+  margin-top: 5px;
 }
 
 .con-route .comment-wrap .comment-list {
@@ -2289,11 +2319,11 @@
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-profile {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-profile img {
@@ -2307,12 +2337,12 @@
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box {
-  width: calc(100% - 30px);
+  width: calc(100% - 40px);
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box .comment-name {
   display: inline-block;
-  font-size: 10px;
+  font-size: 13px;
   color: #444444;
   line-height: 15px;
 }
@@ -2323,10 +2353,10 @@
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box .comment-time {
   display: inline-block;
-  font-size: 10px;
-  color: #999999;
+  font-size: 12px;
+  color: #888888;
   line-height: 15px;
-  margin-left: 2px;
+  margin-left: 7px;
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box .btn-more {
@@ -2347,7 +2377,7 @@
   width: 95%;
   margin-top: 4px;
   font-size: 12px;
-  color: #666666;
+  color: #777777;
   line-height: 18px;
 }
 
@@ -2358,6 +2388,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   word-wrap: break-word;
+  white-space: initial;
 }
 
 .con-route .comment-wrap .comment-list .comment-card .comment-box .overflow3lines .comment-text:after {
@@ -2366,7 +2397,7 @@
 .con-route .comment-wrap .comment-list .comment-card .comment-box .overflow3lines:after {
   content: '더보기';
   position: absolute;
-  right: 19px;
+  right: 35px;
   top: 38px;
   color: #ffffff;
   font-size: 9px;
@@ -2467,7 +2498,8 @@
   font-size: 14px;
   height: 20px;
   color: #777777;
-  margin-top: 15px;
+  margin: 15px 0;
+  font-weight: 400;
 }
 
 .con-route .overlay .place-review .review-textarea {
@@ -2487,6 +2519,7 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   outline: none;
+  border:0;
 }
 
 .con-route .overlay .place-review .review-textarea textarea::-webkit-input-placeholder {
@@ -2521,7 +2554,7 @@
   height: 65px !important;
   margin-top: 5px;
   font-size: 0;
-  border: 1px solid #bbbbbb;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
@@ -2770,13 +2803,14 @@
   border: none;
   height: 36px;
   line-height: 36px;
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 0 15px;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 400;
   outline: none;
+  color: #444;
 }
 
 .con-search .search-surface .search-form .search-field::-webkit-input-placeholder {
@@ -2830,8 +2864,6 @@
 .con-search .search-surface .search-result-box .search-category li {
   display: inline-block;
   width: 25%;
-  font-size: 12px;
-  color: #777777;
   text-align: center;
 }
 .con-search .search-surface .search-result-box .search-category button{
@@ -2841,6 +2873,8 @@
 .con-search .search-surface .search-result-box .search-category span {
   display: inline-block;
   padding: 8px 0;
+  font-size: 14px;
+  color: #999;
 }
 
 .con-search .search-surface .search-result-box .search-category .active span {
@@ -2936,6 +2970,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-right: 7px;
+  font-weight: 400;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-title .like {
@@ -2959,7 +2995,7 @@
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-info {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-info > p {
@@ -2967,12 +3003,12 @@
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-info .card-tern {
-  color: #999999;
+  color: #888;
   letter-spacing: -0.6px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .route-card .card-info .card-writer {
-  margin-left: 2px;
+  margin-left: 5px;
   color: #bbbbbb;
 }
 
@@ -3014,17 +3050,19 @@
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-name {
   font-size: 15px;
   line-height: 25px;
-  color: #777777;
+  color: #666666;
   display: inline-block;
   margin-bottom: 5px;
+  font-weight: 400;
+
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-distance {
-  font-size: 11px;
-  color: #aaaaaa;
+  font-size: 13px;
+  color: #888888;
   display: inline-block;
   line-height: 25px;
-  margin-left: 2px;
+  margin: 0 7px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-call {
@@ -3051,23 +3089,26 @@
   color: #f3645a;
   font-size: 12px;
   display: inline-block;
-  margin-right: 4px;
+  margin-right: 6px;
+  line-height: 15px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-review {
   display: inline-block;
   font-size: 12px;
-  color: #999999;
+  color: #888888;
   padding-left: 18px;
+  line-height: 15px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .place-review::before {
   content: '';
   position: absolute;
   width: 1px;
-  height: 13px;
+  height: 14px;
   background: #dddddd;
   left: 8px;
+  margin-top: 1px;
 }
 
 .con-search .search-surface .search-result-box .search-result-list .place-card .list-image {
@@ -3133,6 +3174,9 @@
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-contents {
   width: calc(100% - 48px);
 }
+.con-search .search-surface .search-result-box .search-result-list .comment-card .review-contents .star_area{
+  margin-top: 2px;
+}
 .con-search .search-surface .search-result-box .search-result-list .comment-card .score-wrap .place-score {
   display: inline-block;
   color: #aaaaaa;
@@ -3142,25 +3186,28 @@
 }
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-writer {
   display: inline-block;
-  font-size: 10px;
-  color: #999999;
+  line-height: 15px;
+  font-size: 13px;
+  color: #444444;
 }
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-writer::before {
   content: '@';
 }
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-time {
   display: inline-block;
-  font-size: 10px;
-  color: #cccccc;
+  line-height: 15px;
+  font-size: 12px;
+  color: #888888;
   padding-left: 18px;
 }
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-time::before {
   content: '';
   position: absolute;
   width: 1px;
-  height: 13px;
+  height: 14px;
   background: #dddddd;
   left: 8px;
+  margin-top: 1px;
 }
 .con-search .search-surface .search-result-box .search-result-list .comment-card .review-text p {
   font-size: 12px;
@@ -3314,13 +3361,14 @@
   font-size: 12px;
   color: #f3645a;
   margin-left: 10px;
+  margin-right:5px;
 }
 
 .con-place .star_area {
   display: inline-block;
   vertical-align: bottom;
-  bottom: 4px;
-  margin-left: 7px;
+  bottom: 2px;
+  margin: 0;
 }
 
 .con-place .place-menu-list {
@@ -3330,10 +3378,10 @@
 }
 
 .con-place .place-menu-list li {
-  width: 72px;
+  width: 75px;
   display: inline-block;
-  color: #999999;
-  font-size: 11px;
+  color: #888;
+  font-size: 13px;
 }
 
 .con-place .place-menu-list li::before {
@@ -3379,23 +3427,23 @@
 }
 
 .con-place .place-detail-list > li {
-  font-size: 11px;
-  color: #999999;
-  margin-bottom: 8px;
-  line-height: 16px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+  line-height: 18px;
 }
 
 .con-place .place-detail-list > li::before {
   content: '';
   display: inline-block;
   position: relative;
-  width: 16px;
-  height: 16px;
+  width: 17px;
+  height: 17px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   vertical-align: middle;
-  margin-right: 2px;
+  margin-right: 5px;
 }
 
 .con-place .place-detail-list > li > p {
@@ -3408,7 +3456,7 @@
 }
 
 .con-place .place-detail-list .hashtag-list .hashtag {
-  padding: 3px 6px;
+  padding: 6px 10px;
   line-height: 10px;
   margin-right: 5px;
 }
@@ -3457,13 +3505,13 @@
 
 .con-place .place-detail-list .service .tag {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   line-height: normal;
-  border: 1px solid #aaaaaa;
-  border-radius: 3px;
-  padding: 1px 3px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 2px 5px;
   vertical-align: top;
-  margin-right: 5px;
+  margin-right: 7px;
   text-align: center;
 }
 
@@ -3591,13 +3639,13 @@
 }
 
 .con-place .place-review-list .place-review .review-contents .score-wrap {
-  /*margin-bottom: 6px;*/
+  margin-bottom: 5px;
 }
 
 .con-place .place-review-list .place-review .review-contents .score-wrap .place-score {
   display: inline-block;
   color: #aaaaaa;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 14px;
   margin-left: 4px;
 }
@@ -3609,7 +3657,7 @@
 
 .con-place .place-review-list .place-review .review-contents .review-writer {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   color: #999999;
 }
 
@@ -3619,8 +3667,8 @@
 
 .con-place .place-review-list .place-review .review-contents .review-time {
   display: inline-block;
-  font-size: 10px;
-  color: #cccccc;
+  font-size: 12px;
+  color: #999999;
   padding-left: 18px;
 }
 
@@ -3631,9 +3679,10 @@
   height: 13px;
   background: #dddddd;
   left: 8px;
+  margin-top: 4px;
 }
 .con-place .place-review-list .place-review .review-contents .review-text p{
-  font-size: 12px;
+  font-size: 13px;
   color: #666666;
   line-height: 18px;
   overflow: hidden;
@@ -4007,8 +4056,8 @@
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-profile {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 5px;
@@ -4025,12 +4074,12 @@
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box {
-  width: calc(100% - 30px);
+  width: calc(100% - 40px);
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .comment-name {
   display: inline-block;
-  font-size: 10px;
+  font-size: 13px;
   color: #444444;
   line-height: 15px;
 }
@@ -4041,10 +4090,10 @@
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .comment-time {
   display: inline-block;
-  font-size: 10px;
+  font-size: 12px;
   color: #999999;
   line-height: 15px;
-  margin-left: 2px;
+  margin-left: 5px;
 }
 
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .btn-more {
@@ -4064,7 +4113,7 @@
 .con-route .post-comment-wrap .comment-list .comment-card .comment-box .comment-text {
   width: 95%;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 13px;
   color: #666666;
   line-height: 18px;
 }
@@ -4117,6 +4166,7 @@
   resize: none;
   color: #444444;
   min-height: 56px;
+  padding:0;
 }
 
 .con-route .post-comment-wrap .comment-input .textarea::-webkit-input-placeholder {
@@ -4141,7 +4191,7 @@
   right: 0;
   border-radius: 10px;
   background: white;
-  font-size: 11px;
+  font-size: 12px;
   color: #666666;
   border: 1px solid #bbbbbb;
   padding: 4px 12px;
