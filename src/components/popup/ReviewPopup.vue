@@ -105,7 +105,8 @@ export default {
                 loop: false,
                 speed: 400,
             },
-            photoList: null
+            photoList: null,
+            uploadImageList: null
         }
     },
     computed: {
@@ -143,6 +144,9 @@ export default {
                            filename: "이미지추가"
                        })
                    }
+
+                   if(this.uploadImageList == null) this.uploadImageList = [];
+                    this.uploadImageList.push(f);
                     this.photoList.push({
                         idx: idx,
                         src: URL.createObjectURL(f),
@@ -203,16 +207,7 @@ export default {
             postData.append('star', this.stars * 2);
             postData.append('comment', this.reviewText);
 
-            const images = [];
-            // let src;
-            this.photoList.forEach(function (item) {
-                // src = item.src.split("/");
-                // images.push('/'+src.pop());
-
-                if(item.src == '') return false;
-                images.push('/'+item.filename);
-            });
-            // postData.append('images', images.join('&'));
+            postData.append('images', this.uploadImageList);
 
             Route.writeReview(postData).then(res => {
                 console.log(res.data);

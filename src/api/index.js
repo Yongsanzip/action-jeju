@@ -166,8 +166,12 @@ export const Route = {
         return api.request({
             method: 'post',
             url: '/writeReview.php',
-            data
-        })
+            data,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+        }
+        )
     },
 };
 
