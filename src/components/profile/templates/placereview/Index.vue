@@ -56,10 +56,9 @@ export default {
         const reviewTextEl = this.$refs.comment;
         const limitWidth = reviewTextEl.parentElement.offsetWidth;
 
-        console.log(reviewTextEl.offsetWidth, limitWidth, limitWidth * this.reviewLines - 75);
-        if (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 75){
+        if (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 80){
             this.$refs.commentView.classList.add("has-overflow");
-            while (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 75) {
+            while (reviewTextEl.offsetWidth > limitWidth * this.reviewLines - 80) {
                 reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
             }
             this.isLong = true;

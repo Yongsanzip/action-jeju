@@ -10,7 +10,7 @@
                     <p class="route-name">오롯이 혼자즐기는 혼행!</p>
                     <p class="route-write">{{data.mb_nick}}</p>
                 </div>
-                <p class="route-text">
+                <p class="route-text no-word-break" ref="comment">
                     {{data.comment}}
                 </p>
             </div>
@@ -22,6 +22,11 @@
 export default {
     name: 'Review',
     props:['data'],
+    data() {
+        return {
+            commentLines: 3
+        }
+    },
     methods: {
         /*
         * viewReply
@@ -37,6 +42,23 @@ export default {
                 }
             });
         }
+    },
+    mounted() {
+        const el = this.$refs.comment;
+        console.log(el, el.scrollWidth, el.offsetWidth * this.commentLines);
+
+        if (el.scrollWidth > el.offsetWidth){
+            el.parentElement.classList.add("has-overflow");
+        }
+
+        if (el.scrollWidth > el.offsetWidth * this.commentLines - 70){
+            while (el.scrollWidth > el.offsetWidth * this.commentLines - 70) {
+                el.innerHTML = el.innerHTML.slice(0, -1);
+            }
+            el.parentElement.classList.add("overflow3lines");
+            el.classList.remove('no-word-break');
+        }
+
     }
 }
 </script>

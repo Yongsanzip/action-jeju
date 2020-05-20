@@ -393,7 +393,7 @@ export default {
             this.reviews[idx].showLongText = true;
             envt.target.style.display="none";
             envt.target.parentElement.getElementsByClassName("short")[0].style.display="none";
-            envt.target.parentElement.getElementsByClassName("long")[0].style.display="inline";
+            envt.target.parentElement.getElementsByClassName("long")[0].style.display="block";
         }
     },
     async created() {
@@ -443,7 +443,7 @@ export default {
             if(reviewTextBox[i].classList.value.indexOf("has-overflow") > -1) continue;
 
             reviewText = reviewTextBox[i].getElementsByClassName("short")[0];
-            if (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 75){
+            if (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 80){
                 reviewTextBox[i].classList.add("has-overflow");
                 this.reviews[i].isLong = true;
                 if(reviewTextBox[i].getElementsByTagName("a") != null && reviewTextBox[i].getElementsByTagName("a").style != null) {
@@ -452,7 +452,7 @@ export default {
                 if(reviewText.innerHTML.length > 150) reviewText.innerHTML.substring(0, 150);
                 reviewTextBox[i].getElementsByTagName("a")[0].style.display = "block";
             }
-            while (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 75) {
+            while (reviewText.scrollWidth > reviewText.offsetWidth * this.reviewLines - 80) {
                 reviewText.innerHTML = reviewText.innerHTML.slice(0, -1);
             }
             reviewText.innerHTML = reviewText.innerHTML.trim();

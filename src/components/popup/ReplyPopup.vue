@@ -22,7 +22,7 @@
                                 <button class="btn-more" v-if="item.mb_id == GET_MB_ID" @click="showReplyMenu(index)">메뉴</button>
                             </div>
                             <div>
-                                <p class="comment-text" @click="doViewAllText($event, index)">
+                                <p class="comment-text no-word-break" @click="doViewAllText($event, index)">
                                     {{item.comment}}
                                 </p>
                             </div>
@@ -263,7 +263,10 @@ export default {
                 }
                 el.parentElement.classList.add("overflow3lines");
             }
-            if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
+            if (el.scrollWidth > el.offsetWidth){
+                el.parentElement.classList.add("has-overflow");
+                el.classList.remove('no-word-break');
+            }
         }.bind(this));
     }
 }

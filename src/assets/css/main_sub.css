@@ -904,10 +904,45 @@
 }
 
 .con-profile .contents .list-contents .card-route .route-contents-box .route-text {
+  display: block;
   margin-top: 7px;
   font-size: 13px;
   line-height: 17px;
   color: #666666;
+  word-break: break-all;
+}
+
+.no-word-break {
+  word-break: keep-all;
+}
+.con-profile .contents .list-contents .card-route .route-contents-box .route-text.no-word-break {
+  word-break: keep-all;
+}
+
+.con-profile .contents .list-contents .card-route .route-contents-box.has-overflow .route-text p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-wrap: break-word;
+  white-space: initial;
+}
+
+.con-profile .contents .list-contents .card-route .route-contents-box.has-overflow .route-text:after {
+  content: '...';
+}
+
+.con-profile .contents .list-contents .card-route .route-contents-box.overflow3lines:after {
+  content: '더보기';
+  position: absolute;
+  right: 7px;
+  top: 58px;
+  color: #ffffff;
+  font-size: 9px;
+  line-height: 13px;
+  background: #cccccc;
+  padding: 1px 7px;
+  border-radius: 10px;
 }
 
 .con-profile .profile-edit-wrap {
@@ -2398,7 +2433,7 @@
 .con-route .comment-wrap .comment-list .comment-card .comment-box .overflow3lines:after {
   content: '더보기';
   position: absolute;
-  right: 35px;
+  right: 18px;
   top: 38px;
   color: #ffffff;
   font-size: 9px;
@@ -3694,13 +3729,13 @@
   word-wrap: break-word;
 }
 
-.con-place .place-review-list .place-review .review-contents .review-text.has-overflow p.shot:after {
+.con-place .place-review-list .place-review .review-contents .review-text.has-overflow p.short:after {
   content: '...';
 }
 
 .con-place .place-review-list .place-review .review-contents .review-text a {
   position: absolute;
-  right: 2px;
+  right: 13px;
   top: 38px;
   color: #ffffff;
   font-size: 9px;
@@ -4139,6 +4174,7 @@
   position: absolute;
   right: 19px;
   top: 38px;
+  z-index: -1;
   color: #ffffff;
   font-size: 9px;
   line-height: 13px;

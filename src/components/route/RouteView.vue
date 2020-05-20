@@ -859,8 +859,8 @@ export default {
                 reviewTextEl = boxEl.getElementsByTagName("p")[0];
                 if(reviewTextEl == null) return true;
 
-                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 74){
-                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 74) {
+                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 70){
+                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 70) {
                         reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
                     }
                     boxEl.classList.add("overflow2lines");
@@ -872,8 +872,8 @@ export default {
         const commentTextEl = document.getElementsByClassName("comment-text");
         if(commentTextEl.length < 1) return;
         commentTextEl.forEach(function(el){
-            if (el.scrollWidth > el.offsetWidth * this.commentLines - 60){
-                while (el.scrollWidth > el.offsetWidth * this.commentLines - 60) {
+            if (el.scrollWidth > el.offsetWidth * this.commentLines - 70){
+                while (el.scrollWidth > el.offsetWidth * this.commentLines - 70) {
                     el.innerHTML = el.innerHTML.slice(0, -1);
                 }
                 el.parentElement.classList.add("overflow3lines");
