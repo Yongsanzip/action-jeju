@@ -24,7 +24,7 @@ export default {
             settings.url = 'http://www.actionjeju.com/societive' + GET_URL;
         }
 
-        settings.url = 'http://www.actionjeju.com/societive' + SETTINGS.DOMAIN + GET_URL;
+        // settings.url = 'http://www.actionjeju.com/societive' + SETTINGS.DOMAIN + GET_URL;
 
         //console.log(settings)
         return axios(settings, settings.header != null? settings.header : null)

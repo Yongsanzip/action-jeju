@@ -247,22 +247,31 @@ export default {
         }
     }
 }
+//vc-day-content vc-focusable vc-font-bold vc-text-red-900 vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
+//vc-day-content vc-focusable vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
+//vc-day-content vc-focusable vc-font-bold vc-text-red-900 vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
 </script>
 
 <style>
     .vc-bg-red-200 {
-        background-color: #DFDFDF;
+        background-color: #DFDFDF !important;
     }
     .vc-bg-red-600 {
-        background-color: #F3645A;
+        background-color: #F3645A !important;
     }
     .vc-text-gray-500 {
-        color: #aaa;
+        color: #aaa !important;
     }
     .vc-border-red-700 {
-        border-color: #F3645A;
+        border-color: #F3645A !important;
     }
     .vc-text-red-900 {
         color: #F3645A;
+    }
+    .vc-highlights .vc-text-red-900 {
+        color: inherit;
+    }
+    .vc-day-content:focus {
+        background-color: transparent !important;
     }
 </style>
