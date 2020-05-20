@@ -247,9 +247,6 @@ export default {
         }
     }
 }
-//vc-day-content vc-focusable vc-font-bold vc-text-red-900 vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
-//vc-day-content vc-focusable vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
-//vc-day-content vc-focusable vc-font-bold vc-text-red-900 vc-font-medium vc-text-sm vc-cursor-pointer focus:vc-font-bold vc-rounded-full
 </script>
 
 <style>
@@ -265,12 +262,12 @@ export default {
     .vc-border-red-700 {
         border-color: #F3645A !important;
     }
-    .vc-text-red-900 {
-        color: #F3645A;
-    }
-    .vc-highlights .vc-text-red-900 {
-        color: inherit;
-    }
+    /*.vc-text-red-900 {*/
+    /*    color: #F3645A;*/
+    /*}*/
+    /*.vc-highlights .vc-text-red-900 {*/
+    /*    color: inherit;*/
+    /*}*/
     .vc-day-content:focus {
         background-color: transparent !important;
     }
