@@ -265,6 +265,17 @@ export default {
     .vc-text-red-900 {
         color: #F3645A !important;
     }
+    .vc-text-gray-600 {
+        color: #777 !important;
+    }
+    .hover\:vc-bg-gray-300:hover {
+        background-color: transparent !important;
+        opacity: 1 !important;
+    }
+    .focus\:vc-border-gray-300:focus {
+        background-color: transparent !important;;
+        border: 0 !important;
+    }
     .vc-day-content:focus {
         background-color: transparent !important;
     }
