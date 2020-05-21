@@ -328,7 +328,7 @@
 .con-profile .contents .list-contents {
   font-size: 0;
   padding-top: 5px;
-  padding-left: 0;
+  padding-left: 8px;
 }
 .con-profile .contents .list-contents .photo__list{
   /*display: inline-block;
@@ -2936,6 +2936,7 @@
 }
 .con-search .search-surface .search-result-box .search-result-list.fullOpen{
   max-height: calc(95vh - 190px);
+  height: calc(95vh - 190px);
   transition: all .4s;
 }
 
@@ -3680,6 +3681,7 @@
 
 .con-place .place-review-list .place-review .review-contents .score-wrap .place-score {
   display: inline-block;
+  vertical-align: middle;
   color: #aaaaaa;
   font-size: 13px;
   line-height: 14px;
