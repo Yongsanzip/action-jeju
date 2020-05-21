@@ -170,7 +170,7 @@ export default {
             postData.append('mb_id', this.GET_MB_ID);
             if(this.touridx != null) postData.append('idx', this.touridx);
             postData.append('tourname', this.title);
-            postData.append('tourimg', this.url);
+            postData.append('tourimg', this.$refs.myfile.files[0]);
             postData.append('adult_cnt', this.personnel[0].number);
             postData.append('kids_cnt', this.personnel[1].number);
             if (dayChk > 11){
