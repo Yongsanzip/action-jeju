@@ -23,10 +23,10 @@
                             <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
                         </div>
                         <div class="review-image-list">
-                            <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
-                                이미지 추가
-                                <input type="file" style="display: none;" accept="image/*" multiple/>
-                            </div>
+<!--                            <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">-->
+<!--                                이미지 추가0-->
+<!--                                <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>-->
+<!--                            </div>-->
                             <swiper :options="swiperOption">
                                 <swiper-slide :class="'image-item add-image-'+idx"
                                               v-for="(photoItem, idx) in photoList"
@@ -34,7 +34,7 @@
                                 >
                                     <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                         이미지 추가
-                                        <input type="file" style="display: none;" accept="image/*" multiple/>
+                                        <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
                                     </div>
 
                                     <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
@@ -105,8 +105,7 @@ export default {
                 loop: false,
                 speed: 400,
             },
-            photoList: null,
-            uploadImageList: null
+            photoList: null
         }
     },
     computed: {
@@ -118,46 +117,60 @@ export default {
         * 이미지 추가
          */
         addImage(idx){
+            if(this.photoList.length-1 >= 10){
+                //최대 10장 등록 가능
+                alert("후기 사진은 최대 10장 등록 가능합니다.");
+                return false;
+            }
+
             const addImgEl = document.getElementsByClassName('add-image-'+idx)[0];
-            const imgInput = addImgEl.getElementsByTagName("input");
+            console.log("addImgEl::", addImgEl);
+            var imgInput = null;
+            const cntImgInput = addImgEl.getElementsByClassName("imageFile").length;
+            for(var i = 0; i < cntImgInput; i++){
+                if(addImgEl.getElementsByClassName("imageFile")[i].files.length < 1) imgInput = addImgEl.getElementsByClassName("imageFile")[i];
+            }
 
             const imgChangeEvnt = function(e){
-                console.log(e.target.files);
-                // const file = e.target.files[0];
-                // this.photoList.push({
-                //     idx: idx,
-                //     src: URL.createObjectURL(file),
-                //     filename: file.name
-                // });
                 const files = e.target.files;
                 const filesArr = Array.prototype.slice.call(files);
+                let isOver = false;
                 filesArr.forEach(function(f) {
-                   if(!f.type.match("image.*")){
-                       alert("이미지만 업로드 가능합니다.");
-                       return;
-                   }
+                    if(this.photoList.length-1 >= 10){
+                        //최대 10장 등록 가능
+                        isOver = true;
+                        return false;
+                    }
+                    if(!f.type.match("image.*")){
+                        alert("이미지만 업로드 가능합니다.");
+                        return;
+                    }
 
-                   if(this.photoList.length == 0){
-                       this.photoList.push({
-                           idx: 0,
-                           src: "",
-                           filename: "이미지추가"
-                       })
-                   }
-
-                   if(this.uploadImageList == null) this.uploadImageList = [];
-                    this.uploadImageList.push(f);
                     this.photoList.push({
                         idx: idx,
                         src: URL.createObjectURL(f),
                         filename: f.name
                     });
                 }.bind(this));
-                imgInput[0].removeEventListener('change', imgChangeEvnt);
+                imgInput.removeEventListener('change', imgChangeEvnt);
+
+                if(isOver){
+                    alert("후기 사진은 최대 10장 등록 가능합니다.");
+                }
+
+                const newFileEl = document.createElement("input");
+                newFileEl.setAttribute("type", "file");
+                newFileEl.setAttribute("style", "display: none");
+                newFileEl.setAttribute("accept", "image/*");
+                newFileEl.setAttribute("multiple", "multiple");
+                newFileEl.classList.add('imageFile');
+
+                const parentEl = document.getElementsByClassName('add-image-'+idx)[0];
+                parentEl.appendChild(newFileEl);
             }.bind(this);
 
-            imgInput[0].addEventListener('change', imgChangeEvnt);
-            imgInput[0].click();
+            imgInput.addEventListener('change', imgChangeEvnt);
+            imgInput.click();
         },
         /*
         * removeImage
@@ -207,7 +220,15 @@ export default {
             postData.append('star', this.stars * 2);
             postData.append('comment', this.reviewText);
 
-            postData.append('images', this.uploadImageList);
+            const imgFileEls = document.getElementsByClassName("imageFile");
+            let cnt = 0;
+            for(let i=0; i<imgFileEls.length; i++){
+                imgFileEls[i].files.forEach(function(file){
+                    // console.log(file);
+                    postData.append('images'+cnt, file);
+                    cnt++;
+                })
+            }
 
             Route.writeReview(postData).then(res => {
                 console.log(res.data);
@@ -229,7 +250,6 @@ export default {
         },
     },
     created() {
-        console.log(this.location);
         if(this.location != null) {
             this.reviewText = this.location.review;
             this.pathidx = this.location.idx;
@@ -251,10 +271,22 @@ export default {
                 }.bind(this));
             }
             this.photoList = images;
+            if(this.photoList == null) this.photoList = [];
+            this.photoList.push({
+                idx: 0,
+                src: "",
+                filename: "이미지추가"
+            })
         }
         else{
             this.reviewText = this.review;
             this.pathidx = this.pathidx;
+            if(this.photoList == null) this.photoList = [];
+            this.photoList.push({
+                idx: 0,
+                src: "",
+                filename: "이미지추가"
+            })
         }
     }
 }
