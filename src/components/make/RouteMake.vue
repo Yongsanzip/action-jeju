@@ -227,6 +227,9 @@ export default {
             postData.append('tour_idx', this.touridx);
             Route.routeListDetail(postData).then(res => {
                 this.title = res.data.tourInfo.name;
+                if(res.data.tourInfo.image != null && res.data.tourInfo.image != "null" && res.data.tourInfo.image != ""){
+                    this.url = "http://img.actionjeju.com/data/user_route_image/"+res.data.tourInfo.image;
+                }
                 this.ranges.start = new Date(res.data.days[0].date);
                 this.ranges.end = new Date(res.data.days[res.data.days.length - 1].date);
 
