@@ -170,7 +170,8 @@ export default {
             }.bind(this);
 
             imgInput.addEventListener('change', imgChangeEvnt);
-            imgInput.click();
+            // imgInput.click();
+            imgInput.dispatchEvent(new MouseEvent("click"));
         },
         /*
         * removeImage
