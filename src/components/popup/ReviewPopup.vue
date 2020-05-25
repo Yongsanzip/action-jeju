@@ -28,13 +28,16 @@
 <!--                                <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>-->
 <!--                            </div>-->
                             <swiper :options="swiperOption">
-                                <swiper-slide :class="'image-item add-image-'+idx"
+                                <swiper-slide class="image-item"
                                               v-for="(photoItem, idx) in photoList"
                                               :key="idx"
                                 >
                                     <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                         이미지 추가
-                                        <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
+                                        <div class="imageFiles" style="display: none;">
+                                            <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
+                                        </div>
+
                                     </div>
 
                                     <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
@@ -106,7 +109,8 @@ export default {
                 speed: 400,
             },
             photoList: null,
-            removeFileList: null
+            removeFileList: null,
+            removeImageList: null
         }
     },
     computed: {
@@ -118,14 +122,14 @@ export default {
         * 이미지 추가
          */
         addImage(idx){
+            console.log(idx);
             if(this.photoList.length-1 >= 10){
                 //최대 10장 등록 가능
                 alert("후기 사진은 최대 10장 등록 가능합니다.");
                 return false;
             }
 
-            const addImgEl = document.getElementsByClassName('add-image-'+idx)[0];
-            console.log("addImgEl::", addImgEl);
+            const addImgEl = document.getElementsByClassName('imageFiles')[0];
             var imgInput = null;
             const cntImgInput = addImgEl.getElementsByClassName("imageFile").length;
             for(var i = 0; i < cntImgInput; i++){
@@ -166,7 +170,7 @@ export default {
                 newFileEl.setAttribute("multiple", "multiple");
                 newFileEl.classList.add('imageFile');
 
-                const parentEl = document.getElementsByClassName('add-image-'+idx)[0];
+                const parentEl = document.getElementsByClassName('imageFiles')[0];
                 parentEl.appendChild(newFileEl);
             }.bind(this);
 
@@ -185,6 +189,13 @@ export default {
 
             if(this.removeFileList == null || this.removeFileList.length < 1) this.removeFileList = [];
             this.removeFileList.push(removeimgItem.filename);
+
+            this.location.images.forEach(function(image){
+                if(removeimgItem.filename == image.name){
+                    if(this.removeImageList == null || this.removeImageList.length < 1) this.removeImageList = [];
+                    this.removeImageList.push(image.idx);
+                }
+            }.bind(this));
 
             const imgItemIdx = this.photoList.indexOf(removeimgItem);
             if (imgItemIdx > -1) this.photoList.splice(imgItemIdx, 1);
@@ -213,7 +224,6 @@ export default {
                     break;
             }
             this.stars = rating;
-            // console.log(rating)
         },
         /*
         * save
@@ -225,13 +235,22 @@ export default {
             postData.append('pathidx', this.pathidx);
             postData.append('star', this.stars * 2);
             postData.append('comment', this.reviewText);
+            if(this.removeImageList != null && this.removeImageList.length > 0){
+                postData.append('removeImages', this.removeImageList.join("&"));
+            }
 
             const imgFileEls = document.getElementsByClassName("imageFile");
             let cnt = 0;
             for(let i=0; i<imgFileEls.length; i++){
                 imgFileEls[i].files.forEach(function(file){
                     // console.log(file);
-                    if(this.removeFileList.indexOf(file.name) < 0){
+                    if(this.removeImageList == null || this.removeImageList.length < 1){
+                        postData.append('images'+cnt, file);
+                        cnt++;
+                    }
+                    else if(this.removeImageList != null
+                        && this.removeImageList.length > 0
+                        && this.removeFileList.indexOf(file.name) < 0){
                         //업로드 취소한 이미지 제외
                         postData.append('images'+cnt, file);
                         cnt++;
@@ -246,6 +265,7 @@ export default {
                     //성공
                     EventBus.$emit("Make2", 'review', true, this.showReview);
                 }
+                EventBus.$emit("Make2", 'review', true, this.showReview);
             }).catch(err => {
                 console.error(err);
             })
@@ -268,7 +288,7 @@ export default {
                 this.location.images.forEach(function(image, idx){
                     if(idx == 0){
                         this.photoList.push({
-                            idx: 0,
+                            idx: -1,
                             src: "",
                             filename: "이미지추가"
                         })
@@ -283,7 +303,7 @@ export default {
             if(this.photoList == null || this.photoList.length < 1){
                 this.photoList = [];
                 this.photoList.push({
-                    idx: 0,
+                    idx: -1,
                     src: "",
                     filename: "이미지추가"
                 })
@@ -294,11 +314,14 @@ export default {
             this.pathidx = this.pathidx;
             if(this.photoList == null) this.photoList = [];
             this.photoList.push({
-                idx: 0,
+                idx: -1,
                 src: "",
                 filename: "이미지추가"
             })
         }
+
+
+        console.log("this.photoList", this.photoList)
     }
 }
 </script>
