@@ -105,7 +105,8 @@ export default {
                 loop: false,
                 speed: 400,
             },
-            photoList: null
+            photoList: null,
+            removeFileList: null
         }
     },
     computed: {
@@ -178,10 +179,14 @@ export default {
         * 이미지 제거
          */
         removeImage(idx){
-            const imgItem = this.photoList.find(function(item) {
+            const removeimgItem = this.photoList.find(function(item) {
                 return item.idx === idx;
             });
-            const imgItemIdx = this.photoList.indexOf(imgItem);
+
+            if(this.removeFileList == null || this.removeFileList.length < 1) this.removeFileList = [];
+            this.removeFileList.push(removeimgItem.filename);
+
+            const imgItemIdx = this.photoList.indexOf(removeimgItem);
             if (imgItemIdx > -1) this.photoList.splice(imgItemIdx, 1);
         },
         /*
@@ -226,9 +231,13 @@ export default {
             for(let i=0; i<imgFileEls.length; i++){
                 imgFileEls[i].files.forEach(function(file){
                     // console.log(file);
-                    postData.append('images'+cnt, file);
-                    cnt++;
-                })
+                    if(this.removeFileList.indexOf(file.name) < 0){
+                        //업로드 취소한 이미지 제외
+                        postData.append('images'+cnt, file);
+                        cnt++;
+                    }
+
+                }.bind(this))
             }
 
             Route.writeReview(postData).then(res => {
@@ -254,30 +263,31 @@ export default {
         if(this.location != null) {
             this.reviewText = this.location.review;
             this.pathidx = this.location.idx;
-            const images = [];
+            if(this.photoList == null) this.photoList = [];
             if(this.location.images != null && this.location.images.length > 0){
                 this.location.images.forEach(function(image, idx){
                     if(idx == 0){
-                        images.push({
+                        this.photoList.push({
                             idx: 0,
                             src: "",
                             filename: "이미지추가"
                         })
                     }
-                    images.push({
+                    this.photoList.push({
                         idx: idx,
                         src: "http://img.actionjeju.com/data/user_route_after/"+image.name,
                         filename: image.name
                     });
                 }.bind(this));
             }
-            this.photoList = images;
-            if(this.photoList == null) this.photoList = [];
-            this.photoList.push({
-                idx: 0,
-                src: "",
-                filename: "이미지추가"
-            })
+            if(this.photoList == null || this.photoList.length < 1){
+                this.photoList = [];
+                this.photoList.push({
+                    idx: 0,
+                    src: "",
+                    filename: "이미지추가"
+                })
+            }
         }
         else{
             this.reviewText = this.review;
