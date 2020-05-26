@@ -383,7 +383,7 @@ export default {
             this.days.forEach(function(day){
                 if(day.path == null || day.path.length < 1) return;
                 day.path.forEach(function(path){
-                    console.log(path.images);
+                    // console.log(path.images);
                     if(path.images == null || path.images.length < 1) return;
                     path.images.forEach(function(img){
                         this.imageDataList.push(img);
@@ -448,7 +448,7 @@ export default {
             this.days.forEach(function(day, dayIdx){
                 let markerList = [];
                 if(day.path == null){
-                    console.log("no path in "+day.date);
+                    // console.log("no path in "+day.date);
                 }
                 else{
                     day.path.forEach(function(path, pathIdx){

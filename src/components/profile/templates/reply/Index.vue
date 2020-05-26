@@ -45,7 +45,6 @@ export default {
     },
     mounted() {
         const el = this.$refs.comment;
-        console.log(el, el.scrollWidth, el.offsetWidth * this.commentLines);
 
         if (el.scrollWidth > el.offsetWidth){
             el.parentElement.classList.add("has-overflow");

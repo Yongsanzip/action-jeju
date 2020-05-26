@@ -86,7 +86,7 @@ export default {
          */
         modifyRout(){
             this.isShowMenu = false;
-            console.log(this.selectedTourIdx);
+            // console.log(this.selectedTourIdx);
             this.$router.push({
                 name: 'RouteMake',
                 params: {

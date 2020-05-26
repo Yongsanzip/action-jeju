@@ -340,8 +340,6 @@ export default {
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.touridx);
 
-            console.log(this.locationList);
-
             let detailArr = [];
             this.dateList.forEach(function(dateItem){
                 for(let i=0; i<this.locationList[dateItem.fulldate2].length; i++){

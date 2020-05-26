@@ -265,7 +265,6 @@ export default {
                     //성공
                     EventBus.$emit("Make2", 'review', true, this.showReview);
                 }
-                EventBus.$emit("Make2", 'review', true, this.showReview);
             }).catch(err => {
                 console.error(err);
             })
@@ -319,9 +318,6 @@ export default {
                 filename: "이미지추가"
             })
         }
-
-
-        console.log("this.photoList", this.photoList)
     }
 }
 </script>

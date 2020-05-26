@@ -204,10 +204,8 @@ export default {
             //기획 미완
             this.isMenu=false;
             const reply = this.selectedReply;
-            console.log(this.replyIdx, reply);
             this.comment = reply.comment;
             this.$refs.comment.focus();
-            console.log("replyIdx:", this.$refs.comment);
         },
         /*
         * removeComment
