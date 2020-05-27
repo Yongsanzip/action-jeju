@@ -128,10 +128,11 @@ export default {
                 this.$alert('아이디 중복체크 해주세요');
                 return
             }
-
-            if (this.$v.$invalid) {
-                return;
-            }
+            //
+            // console.log(this.$v.$invalid);
+            // if (this.$v.$invalid) {
+            //     return;
+            // }
 
             const {
                 name: nick,
@@ -149,8 +150,8 @@ export default {
                     if (getResult.resultCode === '1000') {
                         this.$alert(getResult.resultMsg);
                         this.$router.push('/')
-                    }else if (getResult.resultCode === '0001'){
-                        this.$alert('가입된 아이디' + getResult.joinDate)
+                    }else{
+                        this.$alert(getResult.resultMsg)
                     }
                 }).catch(err => {
                     console.error(err);
