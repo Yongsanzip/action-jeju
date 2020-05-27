@@ -95,7 +95,12 @@ export default {
          */
         doCheckNick() {
             const postData = new FormData();
-            if( this.user.name.search(/\s/) !== -1){
+            if( this.user.name == null || this.user.name == ''){
+                this.$alert(' 닉네임을 입력해주세요. ');
+                this.nicksubmit = false;
+                return false;
+            }
+            else if( this.user.name.search(/\s/) !== -1){
                 this.$alert(' 공백은 사용할 수 없습니다. ');
                 this.nicksubmit = false;
                 return false;
@@ -108,10 +113,10 @@ export default {
                     const getResult = res.data;
 
                     if (getResult.result) {
-                        this.$alert('사용가능한 닉네임');
+                        this.$alert('사용가능한 닉네임입니다.');
                         this.nicksubmit = true;
                     }else{
-                        this.$alert('중복된 닉네임');
+                        this.$alert('중복된 닉네임입니다.');
                         this.nicksubmit = false;
                     }
             }).catch(err => {
@@ -125,7 +130,15 @@ export default {
         sendPost() {
             this.submitted = true;
             if (!this.nicksubmit){
-                this.$alert('아이디 중복체크 해주세요');
+                this.$alert('아이디 중복체크 해주세요.');
+                return
+            }
+            else if( this.user.password != this.user.confirmPassword) {
+                this.$alert('비밀번호가 동일하지 않습니다.');
+                return
+            }
+            else if( !this.user.terms ) {
+                this.$alert('약관에 동의 해주세요.');
                 return
             }
             //
