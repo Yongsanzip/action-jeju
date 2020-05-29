@@ -105,6 +105,13 @@ export const Route = {
             data
         })
     },
+    themerouteList(data){
+        return api.request({
+            method: 'post',
+            url: '/themerouteList.php',
+            data
+        })
+    },
     routeDrivePath(data){
         return api.request({
             method: 'post',
@@ -176,6 +183,13 @@ export const Route = {
 };
 
 export const search = {
+    searchMainTitle(data) {
+        return api.request({
+            method: 'post',
+            url: '/main_title_searchList.php',
+            data
+        })
+    },
     search(data) {
         return api.request({
             method: 'post',

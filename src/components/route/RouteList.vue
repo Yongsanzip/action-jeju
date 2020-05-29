@@ -34,7 +34,7 @@
                 </div>
                 <div class="con-main mt25">
                     <div class="list-card">
-                        <h2 class="section-title">제주 동부지역 1인 식당</h2>
+                        <h2 class="section-title">{{themeRouteName}}</h2>
                         <div class="card" v-for="(item, idx) in latestList" :key="idx">
                             <label class="btn-like">
 <!--                                <input type="checkbox">-->
@@ -47,9 +47,8 @@
                                  @click="doView(item.idx)"
                             >
                                 <h3 class="card-title">{{item.name}}</h3>
-                                <ul class="list-hashtag">
-                                    <li>제주도민만 안다는 그 곳</li>
-                                    <li>액션제주가 찾았어요!</li>
+                                <ul class="list-hashtag" v-if="item.hashes != null && item.hashes.length > 0">
+                                    <li v-for="(hash, hashIdx) in item.hashes.slice(0, 2)" :key="hashIdx">{{hash}}</li>
                                 </ul>
                                 <ul class="list-info">
                                     <li>{{item.days}}박 {{item.days+1}}일 여행</li>
@@ -83,6 +82,7 @@ export default {
             hashList: [],
             routeList: [],
             latestList:[],
+            themeRouteName: null,
             topSwiperOption: {
                 slidesPerView:'auto',
                 slidesPerGroup:1,
@@ -100,6 +100,20 @@ export default {
         }
     },
     methods:{
+        /*
+        * getThemeRouteList
+        * 테마경로 제목 조회
+        */
+        getThemeRouteList(){
+            const postData = new FormData;
+            postData.append('request_code', 'themeRouteList');
+            Route.themerouteList(postData).then(res => {
+                // console.log(res.data)
+                this.themeRouteName = res.data.themes.name;
+            }).catch(err => {
+                console.error(err);
+            })
+        },
         /*
         * getHashList
         * 해쉬태그 조회
@@ -176,6 +190,7 @@ export default {
     },
     created() {
         this.getHashList();
+        this.getThemeRouteList();
         this.getRouteList();
         this.getLatest();
     }

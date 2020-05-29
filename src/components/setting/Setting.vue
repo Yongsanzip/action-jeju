@@ -25,8 +25,8 @@
                     </li>
                 </ul>
                 <!-- 친구초대 -->
-                <h3 class="overline">친구초대</h3>
-                <ul class="list-setting">
+                <h3 class="overline" v-if="false">친구초대</h3>
+                <ul class="list-setting" v-if="false">
                     <li>
                         <p class="setting-name">친구에게 추천하기</p>
                     </li>
@@ -42,30 +42,30 @@
                     </li>
                     <li>
                         <p class="setting-name">회사소개</p>
-                        <a href="" class="link"></a>
+                        <a href="http://www.actionjeju.com/bbs/content.php?co_id=company" class="link"></a>
                     </li>
                     <li>
                         <p class="setting-name">버전 정보</p>
                         <p class="version">Ver.8.41.2</p>
                     </li>
-                    <li>
+                    <li v-if="false">
                         <p class="setting-name">오픈소스 라이선스</p>
                         <a href="" class="link"></a>
                     </li>
                     <li>
                         <p class="setting-name">서비스 이용약관</p>
-                        <a href="" class="link"></a>
+                        <a href="http://www.actionjeju.com/bbs/content.php?co_id=provision" class="link"></a>
                     </li>
                     <li>
-                        <p class="setting-name">개인정보 보호정책</p>
-                        <a href="" class="link"></a>
+                        <p class="setting-name">개인정보 취급방침</p>
+                        <a href="http://www.actionjeju.com/bbs/content.php?co_id=privacy" class="link"></a>
                     </li>
                 </ul>
                 <!-- 서비스이용 -->
                 <ul class="list-setting">
                     <li>
                         <p class="setting-name">업체등록하기</p>
-                        <a href="" class="link"></a>
+                        <a href="http://biz.actionjeju.com" class="link"></a>
                     </li>
                     <li @click="logOut">
                         <p class="setting-name">로그아웃</p>

@@ -2,7 +2,7 @@
     <div class="wrap">
         <main class="con-route">
             <!-- class:sticky toggle -->
-            <div v-if="!isReply">
+            <div v-if="!isReply" style="padding-bottom: 70px;">
                 <div class="post-wrap" :class="{sticky : isSticky}">
                     <div class="post-header">
                         <div class="text-box">
@@ -51,10 +51,8 @@
 
                 <div class="route-wrap">
                     <div class="route-contents">
-                        <div class="hashtag-list">
-                            <div class="hashtag">제주혼행</div>
-                            <div class="hashtag">제주혼행</div>
-                            <div class="hashtag">제주혼행</div>
+                        <div class="hashtag-list" v-if="tourInfo.hashes != null && tourInfo.hashes.length > 0">
+                            <div class="hashtag" v-for="(hash, hashIdx) in tourInfo.hashes" :key="hashIdx">#{{hash}}</div>
                         </div>
                         <!-- route item -->
                         <div class="route-item" v-for="(item, idx) in days" :key="idx">
@@ -77,6 +75,9 @@
     <!--                                            <img src="../../assets/images/img-dummy.png" alt="">-->
                                                 <img :src="`http://img.actionjeju.com/data/user_route_after${image.name}`" alt="">
                                             </div>
+                                        </div>
+                                        <div class="hashtag-list" v-if="path.hashes != null && path.hashes.length > 0">
+                                            <div class="hashtag" v-for="(hash, hashIdx) in path.hashes" :key="hashIdx">#{{hash}}</div>
                                         </div>
                                     </div>
                                 </li>
@@ -156,7 +157,7 @@
                         <a class="write-comment" @click="isReply=true">댓글쓰기</a>
                     </div>
                 </div>
-                <div class="recommend-wrap">
+                <div class="recommend-wrap" v-if="false">
                     <div>
                         <p class="title">이런 제주여행은 어떠세요?</p>
                         <a class="more" @click="$router.push('/route')">더보기</a>

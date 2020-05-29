@@ -21,7 +21,7 @@
                 </form>
                 <router-link to="/password" class="forget-btn">비밀번호를 잊어버리셨나요?</router-link>
                 <div class="w160">
-                    <a href="#" class="btn btn__sm basic mt35">업체등록하기</a>
+                    <a href="http://biz.actionjeju.com" class="btn btn__sm basic mt35">업체등록하기</a>
                 </div>
             </div>
         </div>

@@ -32,13 +32,13 @@
                     </div>
                     <div class="checkbox-custom">
                         <input type="checkbox" id="agree" v-model="user.terms" @change="$v.user.terms.$touch()">
-                        <label for="agree">액션제주의<a href="#"> 이용약관 </a> 및 <a href="#"> 개인정보취급방침 </a>에 동의합니다.</label>
+                        <label for="agree">액션제주의<a href="http://www.actionjeju.com/bbs/content.php?co_id=provision" target="_blank"> 이용약관 </a> 및 <a href="http://www.actionjeju.com/bbs/content.php?co_id=privacy" target="_blank"> 개인정보취급방침 </a>에 동의합니다.</label>
                     </div>
 <!--                    <p v-if="!user.terms" class="validate">약관에 동의 해주세요</p>-->
                     <button type="submit" class="btn btn__md skyblue mt35">회원가입</button>
                 </form>
                 <div class="w160">
-                    <a href="#" class="btn btn__sm basic mt35">업체등록하기</a>
+                    <a href="http://biz.actionjeju.com" class="btn btn__sm basic mt35">업체등록하기</a>
                 </div>
             </div>
         </div>

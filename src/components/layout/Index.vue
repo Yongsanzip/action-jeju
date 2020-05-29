@@ -9,7 +9,7 @@
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                 <div class="search-form" v-show="slideChk < 2">
-                    <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" placeholder="요즘 핫한 애월카페는 어디?" v-model="searchText">
+                    <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
                 </div>
                 <!-- search result -->
                 <div class="search-result-box" v-if="isSearch">
@@ -70,6 +70,7 @@ export default {
           searchList:[],
           type:'route',
           loading:false,
+          searchTitle: null,
           tabList:[
               {text: '여행경로' , type: 'route'},
               {text: '장소', type: 'place'},
@@ -86,6 +87,21 @@ export default {
       }
     },
     methods:{
+        /*
+        * getSearchTitle
+        * 검색키워드(placeholder) 조회
+         */
+        getSearchTitle(){
+            const postData = new FormData;
+            postData.append('request_code', 'mainTitleSearch');
+            search.searchMainTitle(postData).then(res => {
+                // console.log(res.data)
+                this.searchTitle = res.data.searches.name;
+                (this.isActive) ? this.isActive = false : this.isActive = true
+            }).catch(err => {
+                console.error(err);
+            })
+        },
         /*
         * openSearch
         * 검색 화면 표시
@@ -252,7 +268,7 @@ export default {
             const idx = this.navList.indexOf(nav);
             //console.log(idx);
             if (idx === 3){
-                (this.isActive) ? this.isActive = false : this.isActive = true
+                this.getSearchTitle();
             }else{
                 if(nav.path && nav.path !== this.$route.fullPath) this.$router.push(nav.path)
             }

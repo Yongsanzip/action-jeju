@@ -22,9 +22,13 @@
 <script>
 import {user} from '@/api';
 import { EventBus } from "../../assets/event-bus";
+import {mapGetters} from 'vuex';
 
 export default {
     name: 'LeavePopup',
+    computed: {
+        ...mapGetters(['GET_MB_ID'])
+    },
     data(){
         return{
             message: null,
@@ -39,9 +43,11 @@ export default {
         leave() {
             if(this.message == null || this.message == ""){
                 this.$alert('탈퇴사유를 입력해주세요.');
+                return true;
             }
             else if(!this.isChecked){
                 this.$alert('개인정보 및 제작경로 삭제에 동의해주세요.');
+                return true;
             }
 
             const postData = new FormData;

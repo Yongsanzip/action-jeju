@@ -45,8 +45,8 @@
                         <div class="title-box">
                             <span>{{tourInfo.days-1}}박 {{tourInfo.days}}일 여행</span>
                             <h2 class="dot">{{tourInfo.name}}</h2>
-                            <p class="dot">
-                                <a href="#">#제주도립미술관</a><a href="#">#저지문화예술인마을</a><a href="#">#제주현대미술관</a>
+                            <p class="dot" v-if="tourInfo.hashes">
+                                <a href="#" v-for="(hash, hashIdx) in tourInfo.hashes" :key="hashIdx">#{{hash}}</a>
                             </p>
                         </div>
                         <div class="slide-box">
@@ -65,7 +65,7 @@
                 </div>
                 <div class="con-main mt25">
                     <div class="list-card">
-                        <h2 class="section-title">제주 동부지역 1인 식당</h2>
+                        <h2 class="section-title">{{themeRouteName}}</h2>
                         <div class="card" v-for="(item, idx) in latestList.slice(0, 30)" :key="idx" @click="doView(item.idx)">
                             <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image/${item.image}`}">
                                 <h3 class="card-title">{{item.name}}</h3>
@@ -73,9 +73,8 @@
                                     <input type="checkbox">
                                     <div class="shape"></div>
                                 </label>
-                                <ul class="list-hashtag">
-                                    <li>제주도민만 안다는 그 곳</li>
-                                    <li>액션제주가 찾았어요!</li>
+                                <ul class="list-hashtag" v-if="item.hashes != null && item.hashes.length > 0">
+                                    <li v-for="(hash, hashIdx) in item.hashes.slice(0, 2)" :key="hashIdx">{{hash}}</li>
                                 </ul>
                                 <ul class="list-info">
                                     <li>{{item.days-1}}박 {{item.days}}일 여행</li>
@@ -108,6 +107,7 @@ export default {
             latestList: [],
             tourInfo: [],
             tourDays:[],
+            themeRouteName: null,
             touridx:0,
             topSwiperOption: {
                 slidesPerView: 'auto',
@@ -143,6 +143,20 @@ export default {
         }
     },
     methods: {
+        /*
+        * getThemeRouteList
+        * 테마경로 제목 조회
+        */
+        getThemeRouteList(){
+            const postData = new FormData;
+            postData.append('request_code', 'themeRouteList');
+            Route.themerouteList(postData).then(res => {
+                // console.log(res.data)
+                this.themeRouteName = res.data.themes.name;
+            }).catch(err => {
+                console.error(err);
+            })
+        },
         /*
         * getHashList
         * 해쉬태그 목록 조회
@@ -232,6 +246,7 @@ export default {
     },
     created() {
         this.getHomeRoute();
+        this.getThemeRouteList();
         this.getHashList();
         this.getHotList();
         this.getLatest();
