@@ -18,7 +18,7 @@
                     <p class="card-writer">{{data.nick}}</p>
                 </div>
                 <div class="list-hashtag" v-if="data.hashes != null && data.hashes.length > 0">
-                    <div class="hashtag" v-for="(hash, hashIdx) in tourInfo.hashes" :key="hashIdx">{{hash}}</div>
+                    <div class="hashtag" v-for="(hash, hashIdx) in data.hashes" :key="hashIdx">{{hash}}</div>
                 </div>
                 <div class="more" @click.self="showMenu(true, data.idx)"></div>
             </div>

@@ -10,18 +10,18 @@
                 <form @submit.prevent="getChangePW">
                     <div class="input-box mt15">
                         <input type="email" placeholder="이메일 주소 입력" v-model="user.email">
-                        <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>
-                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>
+<!--                        <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>-->
                     </div>
                     <div class="input-box">
                         <input type="password" placeholder="비밀번호 입력" v-model="user.password">
-                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>
-                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>
+<!--                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
                     </div>
                     <div class="input-box">
                         <input type="password" placeholder="비밀번호 재입력" v-model="user.confirmPassword">
                         <!--                        <p v-if="!$v.user.confirmPassword.required" class="validate">비밀번호 확인을 입력해주세요</p>-->
-                        <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>
+<!--                        <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>-->
                     </div>
                     <button type="submit" class="btn btn__md skyblue">비밀번호 변경하기</button>
                 </form>

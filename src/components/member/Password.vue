@@ -6,7 +6,7 @@
         </header>
         <div class="container">
             <div class="member-content">
-                <p class="input-text">찾으려는 비밀번호의 이메일 계정을 입력해주세요.</p>
+                <p class="validate">찾으려는 비밀번호의 이메일 계정을 입력해주세요.</p>
                 <div class="input-box mt15">
                     <input type="email" placeholder="이메일 주소 입력" v-model="user.email">
 <!--                    <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>-->
@@ -36,7 +36,6 @@ export default {
                 email: mb_id,
             } = this.user;
             const postData = new FormData();
-
             postData.append('mb_id', mb_id);
         }
     }

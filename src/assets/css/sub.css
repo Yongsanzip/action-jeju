@@ -115,11 +115,11 @@
 }
 
 p.validate{
-    font-size:12px;
-    line-height: 12px;
+    font-size:13px;
+    line-height: 19px;
     padding: 5px;
     font-weight: 400;
-    color: #cccccc;
+    color: #555555;
 }
 
 .input-box input{
