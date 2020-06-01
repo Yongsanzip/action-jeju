@@ -6,7 +6,7 @@
         </header>
         <div class="container">
             <div class="member-content">
-                <p class="input-text">변경하려는 비밀번호의 이메일 계정과 새 비밀번호를<br>입력해주세요.</p>
+                <p class="validate">변경하려는 비밀번호의 이메일 계정과 새 비밀번호를 입력해주세요.</p>
                 <form @submit.prevent="getChangePW">
                     <div class="input-box mt15">
                         <input type="email" placeholder="이메일 주소 입력" v-model="user.email">
@@ -64,8 +64,27 @@ export default {
     methods:{
         getChangePW(){
             if (this.$v.$invalid) {
+                if(!this.$v.user.email.required) {
+                    this.$alert('이메일 주소를 입력해주세요.');
+                }
+                else if(!this.$v.user.email.email) {
+                    this.$alert('이메일 형식이 아닙니다.');
+                }
+                else if(!this.$v.user.password.required) {
+                    this.$alert('비밀번호를 입력해주세요.');
+                }
+                else if(!this.$v.user.password.minLength){
+                    this.$alert('비밀번호를 8자리 이상 입력해주세요.');
+                }
+                else if(!this.$v.user.confirmPassword.required){
+                    this.$alert('비밀번호 확인을 입력해주세요.');
+                }
+                else if(!this.$v.user.confirmPassword.sameAsPassword){
+                    this.$alert('비밀번호가 동일하지 않습니다.');
+                }
                 return;
             }
+
             const {
                 email: mb_id,
                 password: mb_password

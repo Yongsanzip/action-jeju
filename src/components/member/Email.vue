@@ -61,6 +61,18 @@ export default {
          */
         getLogin(){
             if (this.$v.$invalid) {
+                if(!this.$v.user.email.required) {
+                    this.$alert('이메일 주소를 입력해주세요.');
+                }
+                else if(!this.$v.user.email.email) {
+                    this.$alert('이메일 형식이 아닙니다.');
+                }
+                else if(!this.$v.user.password.required) {
+                    this.$alert('비밀번호를 입력해주세요.');
+                }
+                else if(!this.$v.user.password.minLength){
+                    this.$alert('비밀번호를 8자리 이상 입력해주세요.');
+                }
                 return;
             }
 

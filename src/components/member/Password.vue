@@ -18,6 +18,8 @@
     </section>
 </template>
 <script>
+import { required, email} from "vuelidate/lib/validators";
+
 export default {
     name: 'Password',
     data(){
@@ -27,9 +29,23 @@ export default {
             },
         }
     },
+    validations: {
+        user: {
+            email: {
+                required,
+                email
+            }
+        }
+    },
     methods:{
         sendEmail(){
             if (this.$v.$invalid) {
+                if(!this.$v.user.email.required) {
+                    this.$alert('이메일 주소를 입력해주세요.');
+                }
+                else if(!this.$v.user.email.email) {
+                    this.$alert('이메일 형식이 아닙니다.');
+                }
                 return;
             }
             const {
