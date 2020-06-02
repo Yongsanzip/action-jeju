@@ -23,6 +23,9 @@
                         <!--                        <p v-if="!$v.user.confirmPassword.required" class="validate">비밀번호 확인을 입력해주세요</p>-->
 <!--                        <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>-->
                     </div>
+                    <div class="input-box">
+                        <input type="number" placeholder="이메일 인증번호 입력" v-model="user.verificationCode">
+                    </div>
                     <button type="submit" class="btn btn__md skyblue">비밀번호 변경하기</button>
                 </form>
             </div>
@@ -41,6 +44,7 @@ export default {
                 email : '',
                 password : '',
                 confirmPassword: "",
+                verificationCode: ''
             },
 
         }
@@ -84,14 +88,19 @@ export default {
                 }
                 return;
             }
+            else if(this.user.verificationCode == ''){
+                this.$alert('인증번호를 입력해주세요.');
+            }
 
             const {
                 email: mb_id,
-                password: mb_password
+                password: mb_password,
+                verificationCode: mb_email_certify
             } = this.user;
             const postData = new FormData();
             postData.append('mb_id', mb_id);
             postData.append('mb_password', mb_password);
+            postData.append('mb_email_certify', mb_email_certify);
             user.changePw(postData)
                 .then(res => {
                     const getResult = res.data;
@@ -99,9 +108,7 @@ export default {
                     if (getResult.resultCode === '1000') {
                         this.$alert(getResult.resultMsg)
                         this.$router.push('/')
-                    }else if (getResult.resultCode === '0001'){
-                        this.$alert(getResult.resultMsg)
-                    }else if (getResult.resultCode === '0002'){
+                    }else{
                         this.$alert(getResult.resultMsg)
                     }
                 }).catch(err => {

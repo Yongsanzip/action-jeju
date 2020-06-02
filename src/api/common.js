@@ -18,7 +18,10 @@ export default {
             }
         }*/
 
-        if (!GET_URL.startsWith('/ajax')) {
+        if(GET_URL.startsWith('/bbs')) {
+            settings.url = 'http://www.actionjeju.com' + GET_URL;
+        }
+        else if (!GET_URL.startsWith('/ajax')) {
             settings.url = 'http://www.actionjeju.com/societive' + SETTINGS.DOMAIN + GET_URL;
         }else{
             settings.url = 'http://www.actionjeju.com/societive' + GET_URL;

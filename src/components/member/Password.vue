@@ -19,6 +19,7 @@
 </template>
 <script>
 import { required, email} from "vuelidate/lib/validators";
+import {user} from '@/api'
 
 export default {
     name: 'Password',
@@ -48,11 +49,20 @@ export default {
                 }
                 return;
             }
-            const {
-                email: mb_id,
-            } = this.user;
+
             const postData = new FormData();
-            postData.append('mb_id', mb_id);
+            postData.append('mb_email', this.user.email);
+
+            user.sendEmail(postData)
+                .then(res => {
+                    const getResult = res.data;
+                    console.log(getResult);
+                    this.$confirm("메일이 전송되었습니다. 비밀번호 변경 화면으로 이동합니다.").then(()=> {
+                        this.$router.push("/passwordRe");
+                    })
+                }).catch(err => {
+                console.error(err);
+            })
         }
     }
 }

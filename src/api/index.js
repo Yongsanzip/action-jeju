@@ -35,6 +35,13 @@ export const user = {
             url: '/leave.php',
             data
         })
+    },
+    sendEmail(data) {
+        return api.request({
+            method: 'post',
+            url: '/bbs/register_email_update.php',
+            data
+        })
     }
 };
 
