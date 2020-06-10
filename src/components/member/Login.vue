@@ -15,6 +15,7 @@
 
 </style>
 <script>
+import {user} from '@/api';
 
 export default {
     name: 'Login',
@@ -30,12 +31,22 @@ export default {
         }
     },
     created() {
-        console.log(this.$route.params);
-        if(this.$route.params.mb_id != null){
-            // 로그인 완료
-            // this.$store.dispatch('SAVE_MB_ID', null);
-            // this.$store.dispatch('SAVE_MB_ID', this.$route.params.mb_id);
-            // this.$router.push('/main');
+        if(this.$route.query.accessToken != null){
+            const postData = new FormData();
+            postData.append('accessToken', this.$route.query.accessToken);
+            user.socialLogin(postData)
+                .then(res => {
+                    const {resultCode, resultMsg, mb_id} = res.data;
+                    if (resultCode === '1000') { // 성공
+                        this.$store.dispatch('SAVE_MB_ID', null);
+                        this.$store.dispatch('SAVE_MB_ID', mb_id);
+                        this.$router.push('/main');
+                    }else {
+                        this.$alert(resultMsg)
+                    }
+                }).catch(err => {
+                console.error(err);
+            })
         }
     }
 }

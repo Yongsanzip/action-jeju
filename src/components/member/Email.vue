@@ -81,7 +81,6 @@ export default {
                 password: mb_password
             } = this.user;
             const postData = new FormData();
-
             postData.append('mb_id', mb_id);
             postData.append('mb_password', mb_password);
             user.login(postData)
@@ -91,11 +90,7 @@ export default {
                         this.$store.dispatch('SAVE_MB_ID', null);
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
                         this.$router.push('/main');
-                    }else if (resultCode === '0001'){
-                        this.$alert(resultMsg)
-                    }else if (resultCode === '0002'){
-                        this.$alert(resultMsg)
-                    }else if (resultCode === '0003'){
+                    }else {
                         this.$alert(resultMsg)
                     }
                 }).catch(err => {
@@ -106,4 +101,5 @@ export default {
 }
 
 </script>
+
 

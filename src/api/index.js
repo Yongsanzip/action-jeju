@@ -22,6 +22,13 @@ export const user = {
             data
         })
     },
+    socialLogin(data) {
+        return api.request({
+            method: 'post',
+            url: '/social_login_check.php',
+            data
+        })
+    },
     changePw(data){
         return api.request({
             method: 'post',
