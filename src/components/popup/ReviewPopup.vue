@@ -15,6 +15,7 @@
                                          :star-size="28"
                                          :show-rating="false"
                                          :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
+                                         v-model="stars"
                                          @rating-selected="setCurrentSelectedRating"
                             ></star-rating>
                             <p class="rate-text">{{currentSelectedRating}}</p>
@@ -282,6 +283,9 @@ export default {
         if(this.location != null) {
             this.reviewText = this.location.review;
             this.pathidx = this.location.idx;
+            if(this.location.stars != null) {
+                this.setCurrentSelectedRating(this.location.stars/2);
+            }
             if(this.photoList == null) this.photoList = [];
             if(this.location.images != null && this.location.images.length > 0){
                 this.location.images.forEach(function(image, idx){
