@@ -7,7 +7,7 @@
             </div>
             <div class="route-contents-box">
                 <div>
-                    <p class="route-name">오롯이 혼자즐기는 혼행!</p>
+                    <p class="route-name">{{data.mytourname}}</p>
                     <p class="route-write">{{data.mb_nick}}</p>
                 </div>
                 <p class="route-text no-word-break" ref="comment">
