@@ -31,6 +31,8 @@ export default {
         }
     },
     created() {
+        //소셜 로그인 토큰 받은 경우
+        //로그인 실행
         if(this.$route.query.accessToken != null){
             const postData = new FormData();
             postData.append('accessToken', this.$route.query.accessToken);
