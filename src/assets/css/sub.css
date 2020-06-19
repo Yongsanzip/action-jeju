@@ -91,6 +91,12 @@
     background-image: url("../images/svg/naver-ico.svg");
 }
 
+.section-wrap.section-wrap__login ul li.ap-btn a{
+    background-color: rgb(255,255,255);
+    color: rgb(60,30,30);
+    background-image: url("../images/svg/apple-ico.svg");
+}
+
 .section-wrap.section-wrap__login ul li.register a{
     padding-left: 0;
 }

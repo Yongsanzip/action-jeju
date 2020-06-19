@@ -26,6 +26,7 @@ export default {
                 {text: '카카오로 로그인', path: '', class: 'ka-btn', social: 'kakao'},
                 {text: '페이스북으로 로그인' , path: '', class: 'fb-btn', social: 'facebook'},
                 {text: '네이버로 로그인' , path: '', class: 'na-btn', social: 'naver'},
+                {text: '애플로 로그인' , path: '', class: 'ap-btn', social: 'apple'},
                 {text: '이메일로 회원가입' , path: '/register', class: 'register'},
             ],
         }
