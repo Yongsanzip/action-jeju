@@ -95,6 +95,7 @@
     background-color: rgb(255,255,255);
     color: rgb(60,30,30);
     background-image: url("../images/svg/apple-ico.svg");
+    background-size: 14px;
 }
 
 .section-wrap.section-wrap__login ul li.register a{
