@@ -5,7 +5,7 @@
             <ul>
                 <li v-for="(item,idx) in loginList" :key="idx" :class="item.class">
                     <router-link  v-if="item.path != null && item.path != ''" :to="item.path"><span>{{item.text}}</span></router-link>
-                    <a v-else target="_self" :href="'https://www.actionjeju.com/societive/api/social.php?social='+item.social"><span>{{item.text}}</span></a>
+                    <a v-else-if="(item.social == 'apple' && isIos) || item.social != 'apple'" target="_self" :href="'https://www.actionjeju.com/societive/api/social.php?social='+item.social"><span>{{item.text}}</span></a>
                 </li>
             </ul>
         </div>
@@ -21,6 +21,7 @@ export default {
     name: 'Login',
     data(){
         return{
+            isIos: false,
             loginList:[
                 {text: '이메일로 로그인' , path: '/email', class: 'em-btn'},
                 {text: '카카오로 로그인', path: '', class: 'ka-btn', social: 'kakao'},
@@ -32,6 +33,16 @@ export default {
         }
     },
     created() {
+        var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+        if ( varUA.indexOf('android') > -1) {
+            //안드로이드
+        } else if ( varUA.indexOf("iphone") > -1||varUA.indexOf("ipad") > -1||varUA.indexOf("ipod") > -1 ) {
+            //IOS
+            this.isIos = true;
+        } else {
+            //아이폰, 안드로이드 외
+        }
+
         //소셜 로그인 토큰 받은 경우
         //로그인 실행
         if(this.$route.query.accessToken != null){
