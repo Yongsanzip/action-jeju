@@ -51,10 +51,10 @@
                     </div>
                 </div>
                 <ul class="place-menu-list">
-                    <li class="route">경로추가</li>
+<!--                    <li class="route">경로추가</li>-->
                     <li class="map" @click="doViewMap">지도보기</li>
-                    <li class="review" @click="doReview">후기쓰기</li>
-                    <li class="share">공유하기</li>
+<!--                    <li class="review" @click="doReview">후기쓰기</li>-->
+<!--                    <li class="share">공유하기</li>-->
                 </ul>
                 <ul class="place-detail-list">
                     <li class="hashtag-list">

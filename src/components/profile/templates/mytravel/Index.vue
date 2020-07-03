@@ -32,7 +32,7 @@
                 <ul class="overlay-menu">
                     <li><a @click="modifyRout">이 여행경로 편집</a></li>
                     <li><a @click="removeRout">이 여행일정 삭제</a></li>
-                    <li><a href="">SNS 공유하기</a></li>
+<!--                    <li><a href="">SNS 공유하기</a></li>-->
                 </ul>
             </div>
         </transition>
