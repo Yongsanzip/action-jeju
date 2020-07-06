@@ -371,6 +371,7 @@ export default {
         * 완료 버튼 선택
          */
         complete() {
+            this.setRouteDetail();
             this.$router.push("/route/" + this.touridx);
         }
     },
