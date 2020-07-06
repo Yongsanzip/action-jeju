@@ -1,5 +1,5 @@
 <template>
-    <div class="place-card" @click="doView($event, data.company_idx)">
+    <div class="place-card" @click="doView($event, data.company_idx)" :class="'idx-'+data.company_idx">
         <div>
             <p class="place-name">{{data.company_name}}</p>
             <p class="place-distance">2.5km</p>

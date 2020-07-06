@@ -279,7 +279,14 @@ export default {
          */
         setMapInformation(){
             this.$nextTick(() => {
-                EventBus.$emit("Map", this.searchList);
+                let placeList = this.searchList;
+                placeList.forEach(function(place, idx){
+                    placeList[idx].option = {
+                        'category': place.category,
+                        'company_idx': place.company_idx
+                    }
+                });
+                EventBus.$emit("Map", placeList);
             });
         }
     },

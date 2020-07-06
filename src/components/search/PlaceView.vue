@@ -209,6 +209,7 @@ export default {
             mapModalPlaceList: null,
             showReview:false,
             showModal:false,
+            category: null,
             placeInfo:[],
             hashes:[],
             salesTime:[],
@@ -249,8 +250,13 @@ export default {
             this.mapModalPlaceList.push({
                 latitude: this.placeInfo.latitude,
                 longitude: this.placeInfo.longitude,
-                company_idx: this.id
+                company_idx: this.id,
+                option: {
+                    category: this.category,
+                    company_idx: this.id
+                }
             });
+
             this.mapModal = true;
         },
         /*
@@ -404,6 +410,7 @@ export default {
             await Route.place(postData)
                 .then(res => res.data)
                 .then(info => {
+                    this.category = info.category;
                     this.placeInfo = info.placeInfo;
                     this.images = info.images;
                     this.hashes = info.hashes;
