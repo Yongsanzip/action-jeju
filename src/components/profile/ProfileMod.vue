@@ -243,6 +243,25 @@ export default {
         previewFile(e){
             const file = e.target.files[0];
             this.url = URL.createObjectURL(file)
+            this.doModifyImg();
+        },
+
+        /*
+        * doModifyImg
+        * 프로필 이미지 변경 저장
+         */
+        doModifyImg(){
+            const data = new FormData();
+            data.append('mb_id', this.GET_MB_ID);
+            data.append('myfile', this.$refs.myfile.files[0]);
+
+            profile.profileImage(data)
+                .then(res => {
+                    const getResult = res.data;
+                    console.log(getResult);
+                }).catch(err => {
+                console.error(err);
+            })
         },
         /*
         * doModify
@@ -277,18 +296,6 @@ export default {
                 chkEmail :chkEmail,
                 chkSMS : chkSMS
             } = this.user;
-
-            const data = new FormData();
-            data.append('mb_id', this.GET_MB_ID);
-            data.append('myfile', this.$refs.myfile.files[0]);
-
-            profile.profileImage(data)
-                .then(res => {
-                    const getResult = res.data;
-                    console.log(getResult);
-                }).catch(err => {
-                console.error(err);
-            })
 
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);

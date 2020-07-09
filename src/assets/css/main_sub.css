@@ -250,8 +250,10 @@
   background-position: center;
   background-repeat: no-repeat;
 }
-
-.con-profile .profile-box .edit-image > a {
+.con-profile .profile-box .edit-image > input {
+  display: none;
+}
+.con-profile .profile-box .edit-image > div {
   width: 100%;
   height: 100%;
 }

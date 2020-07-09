@@ -19,9 +19,10 @@
                     <div class="profile-image">
                         <img :src="profile.profile_img" alt="">
                     </div>
-                    <div class="edit-image">
-                        <a href=""></a>
-                    </div>
+                    <label class="edit-image">
+                        <input type="file" ref="profileImg" name="profileImg" @change="profileImgChanged">
+                        <div class="shape">이미지 업로드</div>
+                    </label>
                 </div>
                 <div>
                     <p class="nickname">{{profile.nick}}</p>
@@ -116,6 +117,34 @@ export default {
                 this.profile = getResult;
                 // console.log(getResult.result_code)
             }).catch(err => {
+                console.error(err);
+            })
+        },
+        /*
+        * profileImgChanged
+        * 프로필 이미지 변경
+         */
+        profileImgChanged(e) {
+            const file = e.target.files[0];
+            this.url = URL.createObjectURL(file)
+            this.doModifyImg();
+        },
+
+        /*
+        * doModifyImg
+        * 프로필 이미지 변경 저장
+         */
+        doModifyImg(){
+            const data = new FormData();
+            data.append('mb_id', this.GET_MB_ID);
+            data.append('myfile', this.$refs.profileImg.files[0]);
+
+            profile.profileImage(data)
+                .then(res => {
+                    const getResult = res.data;
+                    console.log(getResult);
+                    window.location.reload();
+                }).catch(err => {
                 console.error(err);
             })
         },
