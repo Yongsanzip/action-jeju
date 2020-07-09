@@ -1476,7 +1476,7 @@
 .btn-map-block {
   position: absolute;
   bottom: 0;
-  width: 82px;
+  width: 90px;
   height: 30px;
   margin-left: 50%;
 }
@@ -1484,6 +1484,7 @@
   bottom: 4px;
 }
 .btn-map-block .btn-map {
+  width: 100%;
   color: white;
   background-color: rgba(0, 0, 0, 0.5);
   text-align: center;
