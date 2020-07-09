@@ -313,7 +313,7 @@ export default {
                     const getResult = res.data;
                     if (getResult.resultCode === '1000') {
                         this.$alert("회원 정보가 변경되었습니다.");
-                        this.$router.push('/profile')
+                        history.back();
                     }else if (getResult.resultCode === '0001'){
                         this.$alert(getResult.joinDate)
                     }
