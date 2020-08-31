@@ -9,7 +9,9 @@
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                 <div class="search-form" v-show="slideChk < 2">
-                    <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
+                    <label>
+                        <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
+                    </label>
                 </div>
                 <!-- search result -->
                 <div class="search-result-box" v-if="isSearch">
@@ -24,13 +26,13 @@
                             :class="{ active : el_Active === index }"
                             @click="el_Active = index"
                         >
-                            <button type="button" @click="doSearch(item.type)"><span>{{item.text}}</span></button>
+                            <button type="button" @click="doChangeSearchType(item.type)"><span>{{item.text}}</span></button>
                         </li>
                     </ul>
                     <!-- search result -->
                     <div class="search-result-list" :class="{fullOpen : slideChk === 2}" ref="searchList">
                         <div class="loader" v-if="loading">Loading...</div>
-                        <div v-for="(item, idx) in searchList" :key="idx" :class="{photo__list : item.image_name}">
+                        <div v-for="(item, idx) in searchList" :key="idx" :class="setClass(item)">
                             <dynamic-list :data="item" :type="type"></dynamic-list>
                         </div>
                     </div>
@@ -42,9 +44,7 @@
         <nav class="navigation">
             <ul>
                 <li v-for="(nav, index) in navList" :key="index">
-                    <button type="button" @click="doNavAction(nav)" :ref="nav.class">
-                        <p :class="[nav.class, {active : ($route.fullPath === nav.path && !isActive) || (nav.class == 'nav-search' && isActive)}]">{{nav.text}}</p>
-                    </button>
+                    <div @click="doNavAction(nav)" :class="[nav.class, {active : ($route.fullPath === nav.path && !isActive) || (nav.class === 'nav-search' && isActive)}]">{{nav.text}}</div>
                 </li>
             </ul>
         </nav>
@@ -55,10 +55,16 @@
 import { EventBus } from "../../assets/event-bus";
 import { search } from "@/api";
 import DynamicList from "../search/DynamicList";
+import {mapGetters} from 'vuex';
 
 export default {
     name: "Index",
     components: {DynamicList},
+    computed: {
+        ...mapGetters(['GET_SEARCH_VALUE']),
+        ...mapGetters(['GET_SELECTED_SEARCH_TAB']),
+        ...mapGetters(['GET_SELECTED_SEARCH_ITEM'])
+    },
     data(){
       return{
           isActive : false,
@@ -87,20 +93,39 @@ export default {
       }
     },
     methods:{
+        setClass(item){
+            const type = this.tabList[this.el_Active].type;
+            let classList = [];
+
+            if(type === 'route' && item.tour_idx != null) classList.push("route__list");
+            else if(type === 'place' && item.company_idx != null) classList.push("place__list");
+            else if(item.image_name != null) classList.push("photo__list");
+
+            return classList.join(" ");
+        },
         /*
         * getSearchTitle
         * 검색키워드(placeholder) 조회
          */
         getSearchTitle(){
-            const postData = new FormData;
-            postData.append('request_code', 'mainTitleSearch');
-            search.searchMainTitle(postData).then(res => {
-                // console.log(res.data)
-                this.searchTitle = res.data.searches.name;
-                (this.isActive) ? this.isActive = false : this.isActive = true
-            }).catch(err => {
-                console.error(err);
-            })
+            if(!this.isActive){
+                const postData = new FormData;
+                postData.append('request_code', 'mainTitleSearch');
+                search.searchMainTitle(postData).then(res => {
+                    // console.log(res.data)
+                    this.searchTitle = res.data.searches.name;
+                    this.isActive = !this.isActive;
+                    if(this.GET_SEARCH_VALUE !== ''){
+                        this.searchText = this.GET_SEARCH_VALUE;
+                        this.doSearch(this.GET_SELECTED_SEARCH_TAB != null? this.GET_SELECTED_SEARCH_TAB : null);
+                    }
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+            else{
+                this.closeSearch();
+            }
         },
         /*
         * openSearch
@@ -154,12 +179,19 @@ export default {
             this.isSearch = false;
             this.searchText = '';
             this.type = 'route';
+            this.$store.dispatch('SAVE_SEARCH_VALUE', '');
+            this.$store.dispatch('SAVE_SELECTED_SEARCH_TAB', '');
+            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
             if (this.isSearch){
                 this.slideChk = 1;
             }else{
                 this.slideChk = 0;
             }
             this.$forceUpdate();
+        },
+        doChangeSearchType(type = this.tabList[this.el_Active].type){
+            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
+            this.clickSearch(type);
         },
         /*
         * clickSearch
@@ -177,7 +209,7 @@ export default {
 
                 if (this.$route.fullPath.indexOf("/map") < 0 ||
                     (this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null)){
-                    this.$router.push({
+                        this.$router.push({
                         name: 'mapComp',
                         params: {
                             searchText: this.searchText
@@ -206,14 +238,14 @@ export default {
                 if(event != null) event.preventDefault();
                 document.getElementsByClassName("search-field")[0].blur();
 
+                this.$store.dispatch('SAVE_SEARCH_VALUE', this.searchText);
+                this.$store.dispatch('SAVE_SELECTED_SEARCH_TAB', type);
+
                 const postData = new FormData();
                 postData.append('keyword', this.searchText);
                 postData.append('type', this.type);
-                if (this.type == 'route' || this.type =='photo' || this.type =='review'){
-                    //console.log('여행경로')
+                if (this.type === 'route' || this.type ==='photo' || this.type ==='review'){
                     search.search(postData).then(res => {
-                        // console.log(getResult)
-                        // console.log(getResult.result_code)
                         if (res.data.searchList == null){
                             this.$alert("검색 결과가 없습니다");
                             this.searchList = [];
@@ -222,19 +254,32 @@ export default {
                             if(this.slideChk < 1) this.slideChk = 1;
                             //return false
                         }else{
-                            this.el_Active = this.tabList.findIndex(tab => tab.type == this.type);
+                            this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
                             if(this.slideChk < 1) this.slideChk = 1;
+
+                            this.$forceUpdate();
+
+                            //하이라이트
+                            this.$nextTick(function(){
+                                if(Number(this.GET_SELECTED_SEARCH_ITEM) > 0){
+                                    if(this.type === 'route'){
+                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.tour_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                    }
+                                    else if(this.type === 'photo'){
+                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.image_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                    }
+                                }
+                            });
                         }
                         this.setMapInformation();
                     }).catch(err => {
                         console.error(err);
                     })
                 }
-                else if (this.type =='place'){
-                    //console.log('장소')
+                else if (this.type ==='place'){
                     const postData = new FormData();
                     postData.append('keyword', this.searchText);
 
@@ -246,12 +291,21 @@ export default {
                             this.isSearch = true;
                             this.loading = false;
                             if(this.slideChk < 1) this.slideChk = 1;
+                            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
                             return false
                         }else{
+                            this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
                             if(this.slideChk < 1) this.slideChk = 1;
+                            this.$forceUpdate();
+
+                            this.$nextTick(function(){
+                                if(Number(this.GET_SELECTED_SEARCH_ITEM) > 0){
+                                    this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.company_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                }
+                            });
                         }
                         this.setMapInformation();
                     }).catch(err => {
@@ -260,16 +314,23 @@ export default {
                 }
             }
         },
+        doFocusOnSelectedSearchItem(idx){
+            if(idx < 0) return false;
+
+            if(document.getElementsByClassName("search-result-list").length > 0 && document.getElementsByClassName("search-result-list")[0].children.length > 0){
+                document.getElementsByClassName("search-result-list")[0].scrollTo({top: document.getElementsByClassName("search-result-list")[0].children[idx].offsetTop, left: 0, behavior: 'smooth'})
+            }
+        },
         /*
         * doNavAction
         * 선택한 하단 메뉴 화면으로 이동
          */
         doNavAction(nav){
             const idx = this.navList.indexOf(nav);
-            //console.log(idx);
             if (idx === 3){
                 this.getSearchTitle();
             }else{
+                this.closeSearch();
                 if(nav.path && nav.path !== this.$route.fullPath) this.$router.push(nav.path)
             }
         },
@@ -291,6 +352,9 @@ export default {
         }
     },
     created() {
+        if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params.id == null){
+            this.getSearchTitle();
+        }
         EventBus.$on("Index", (hashName, type, isActive) => {
             this.searchText = hashName;
             this.type = type;
@@ -301,6 +365,5 @@ export default {
             EventBus.$off("Index");
         });
     }
-
 }
 </script>

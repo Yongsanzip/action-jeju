@@ -2943,6 +2943,9 @@
   transition: all .4s;
 }
 
+.con-search .search-surface .search-result-box .search-result-list .route__list {
+  height: 97px;
+}
 .con-search .search-surface .search-result-box .search-result-list .route-card {
   display: block;
   padding: 10px 0 10px;
@@ -3078,7 +3081,9 @@
   background-repeat: no-repeat;
   background-size: 12px 20px;
 }
-
+.con-search .search-surface .search-result-box .search-result-list .place__list {
+  height: 191px;
+}
 .con-search .search-surface .search-result-box .search-result-list .place-card {
   padding: 0 20px 20px;
 }

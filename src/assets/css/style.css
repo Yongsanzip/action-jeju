@@ -123,12 +123,13 @@ header .next {
   vertical-align: super;
 }
 
-.navigation ul li p {
+.navigation ul li div {
+  margin: 0 auto;
   font-size: 12px;
   color: #999;
 }
 
-.navigation ul li p::before {
+.navigation ul li div::before {
   position: relative;
   content: '';
   display: block;
