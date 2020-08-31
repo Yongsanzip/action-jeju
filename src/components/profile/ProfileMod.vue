@@ -15,7 +15,7 @@
                                 <img v-if="url" :src="url" alt="">
                             </div>
                             <label class="upload-image">
-                                <input type="file" ref="myfile" name="myfile" @change="previewFile">
+                                <input type="file" ref="myfile" name="myfile" accept="image/*" @change="previewFile">
                                 <div class="shape">이미지 업로드</div>
                             </label>
                         </div>
@@ -240,9 +240,9 @@ export default {
         * previewFile
         * 프로필 이미지 변경 후 미리보기
          */
-        previewFile(e){
-            const file = e.target.files[0];
-            this.url = URL.createObjectURL(file)
+        previewFile(){
+            // const file = e.target.files[0];
+            // this.url = URL.createObjectURL(file)
             this.doModifyImg();
         },
 
@@ -259,6 +259,7 @@ export default {
                 .then(res => {
                     const getResult = res.data;
                     console.log(getResult);
+                    window.location.reload();
                 }).catch(err => {
                 console.error(err);
             })
