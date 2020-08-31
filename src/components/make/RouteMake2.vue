@@ -6,7 +6,7 @@
             <button type="button" class="next" @click="complete">완료</button>
         </header>
         <div class="container con-route con-route-make" :class="{ 'overflow-y' : isReview === true}">
-            <div class="route-map" style="margin-top: 0;" :class="{middle: slideChk === 1, full: slideChk === 2}">
+            <div class="route-map" style="margin-top: 0;" :style="{height: Math.floor(mapHeights[slideChk]) + 'px'}">
                 <!-- map -->
                 <naver-maps
                         :height="mapHeights[0]"
@@ -129,10 +129,6 @@ export default {
         },
         touridx:{
             type: Number
-        },
-        mapHeights: {
-            type: Array,
-            default: function() { return [159, 370, 547]; }
         }
     },
     data(){
@@ -164,7 +160,8 @@ export default {
                 mapDataControl: false
             },
             mapWidth: 0,
-            mapHeight: this.mapHeights[0],
+            mapHeight: 159,
+            mapHeights: [159, 370, 547],
             initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
             selectedLocation: null
         }
@@ -256,7 +253,7 @@ export default {
                         }.bind(this));
 
                         this.locationList[date.fulldate2] = locationOrder;
-                    }.bind(this))
+                    }.bind(this));
 
                     this.setRouteDetail();
                 }
@@ -273,7 +270,7 @@ export default {
             const locationList = this.locationList[this.dateList[dateIdx]["fulldate2"]];
             let changedLocationList = [];
             editRouteItem.forEach(function(el, i){
-                if(i != locateIdx) changedLocationList.push(locationList[el.getAttribute("idx")]);
+                if(i !== locateIdx) changedLocationList.push(locationList[el.getAttribute("idx")]);
             });
             this.locationList[this.dateList[dateIdx]["fulldate2"]] = changedLocationList;
             this.$forceUpdate();
@@ -375,6 +372,8 @@ export default {
         }
     },
     created() {
+        this.mapHeights = [159, window.outerHeight*0.5, window.outerHeight*0.8];
+        console.log(this.mapHeights);
         this.setMapSetting();
         window.addEventListener("resize", this.setMapSetting);
 
@@ -382,25 +381,23 @@ export default {
         * 장소 검색 및 후기 작성 팝업 닫을 때 여행경로 상세 정보 재조회
          */
         EventBus.$on("Make2", (path, item, props) => {
-            if(path == 'place'){
+            if(path === 'place'){
                 this.showModal = props;
                 if(item != null){
-                    if(this.locationList[this.selectedDate] != null && item != null){
+                    if(this.locationList[this.selectedDate] != null){
                         this.locationList[this.selectedDate].push(item);
                         // console.log(3, this.locationList);
                     }
                     this.setRouteDetail();
-                    return;
                 }
             }
-            else if(path == 'review'){
+            else if(path === 'review'){
                 this.isReview = props;
                 if(item === true) this.getRouteDetail();
-                return;
             }
         });
         this.getTitle = this.title;
-        this.touridx = this.touridx;
+        // this.touridx = this.touridx;
         this.getDateList();
         this.getRouteDetail();
     },

@@ -14,15 +14,13 @@
                     </div>
                     <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}`}">
                         <div class="btn-map-block">
-                            <button class="btn-map" @click="openMap">지도보기 <img src="../../assets/images/svg/ic-triangle-up-white.svg"></button>
+                            <button class="btn-map" @click="openMap">지도보기 <img src="../../assets/images/svg/ic-triangle-up-white.svg" alt=""></button>
                         </div>
                         <h2 class="post-title">{{tourInfo.name}}</h2>
                         <p class="post-date">{{tourInfo.days-1}}박 {{tourInfo.days}}일 여행</p>
                         <p class="post-write">{{tourInfo.nick}}</p>
                     </div>
-                    <div class="route-map" v-if="isSticky" :height="mapHeights[0]+'px'" :class="{middle: slideChk === 1, full: slideChk === 2}">
-                        <!--<button class="btn-draw">맵 드로어</button>-->
-                        <!-- map -->
+                    <div class="route-map" v-if="isSticky" :style="{height: Math.floor(mapHeights[slideChk]) + 'px'}">
                         <naver-maps
                                 :height="mapHeights[0]"
                                 :width="mapWidth"
@@ -129,7 +127,7 @@
                                 <div>
                                     <p class="comment-name">{{item.mb_nick}}</p>
                                     <p class="comment-time">{{item.getReg}}</p>
-                                    <button v-if="item.mb_id == GET_MB_ID" class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
+                                    <button v-if="item.mb_id === GET_MB_ID" class="btn-more" @click="showReplyMenu(idx)">메뉴</button>
                                 </div>
                                 <div @click="doViewReply($event, idx)" style="white-space: nowrap;">
                                     <p class="comment-text">
@@ -139,7 +137,7 @@
                             </div>
                         </div>
                         <!-- //card -->
-                        <div class="overlay" :style="(isReplyMenu)? '' : 'display:none;'" @click.self="isReplyMenu=false;selectedReply=null;">
+                        <div class="overlay" :style="(isReplyMenu)? '' : 'display:none;'" @click.self="onClickReplyMenuOverlay">
                             <ul class="overlay-menu">
                                 <li><a @click="editComment">댓글 수정하기</a></li>
                                 <li><a @click="removeComment">댓글 삭제하기</a></li>
@@ -209,7 +207,7 @@
                             :tourIdx="id"
                             :tour-info="tourInfo"
                             :idx="replyIdx"
-                            :highlight="(showReplyCnt < 1 && replyIdx != null)? true : false"
+                            :highlight="showReplyCnt < 1 && replyIdx != null"
                             :editReply="selectedReply"
                 />
                 <modal-photo v-if="isPhoto"
@@ -255,10 +253,6 @@ export default {
             type: Number,
             default: 3
         },
-        mapHeights: {
-            type: Array,
-            default: function() { return [159, 370, 547]; }
-        },
         showReply: {
             type: Boolean,
             default: false
@@ -272,7 +266,8 @@ export default {
       return{
           showReplyCnt: 0,
           mapWidth: 400,
-          mapHeight: this.mapHeights[0],
+          mapHeight: 159,
+          mapHeights: [159, 370, 547],
           slideChk: 0,
           tourInfo:[],
           days:[],
@@ -314,6 +309,10 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        onClickReplyMenuOverlay() {
+            this.isReplyMenu=false;
+            this.selectedReply=null;
+        },
         onClickBtnBack() {
             this.$router.go(-1);
         },
@@ -368,7 +367,7 @@ export default {
                 this.tourInfo = res.data.tourInfo;
                 this.days = res.data.days;
 
-                this.isMine = this.GET_MB_ID == this.tourInfo.mb_id;
+                this.isMine = this.GET_MB_ID === this.tourInfo.mb_id;
                 this.setImageList();
 
                 if(this.showReply && this.showReplyCnt < 1){
@@ -404,7 +403,7 @@ export default {
         * 이미지 선택 시 해당 이미지 크게보기
          */
         showPhotoModal(imgData){
-            this.selectedPhotoIdx = this.imageDataList.findIndex(function(img){ return img.idx == imgData.idx; });
+            this.selectedPhotoIdx = this.imageDataList.findIndex(function(img){ return img.idx === imgData.idx; });
             this.isPhoto = true;
         },
         /*
@@ -465,7 +464,7 @@ export default {
                             lng: Number(path.long)
                         });
 
-                        if(dayIdx > 0 && pathIdx == 0){
+                        if(dayIdx > 0 && pathIdx === 0){
                             polylineData.start = polylineData.end;
                             polylineData.end = {
                                 'lat': path.lat,
@@ -484,7 +483,7 @@ export default {
                             };
                             this.getPolyLine(polylineData);
                         }
-                        else if(pathIdx == day.path.length - 1){
+                        else if(pathIdx === day.path.length - 1){
                             polylineData.end = {
                                 'lat': path.lat,
                                 'lng': path.long
@@ -631,11 +630,11 @@ export default {
             etc.Favorites(postData).then(res => {
                 //console.log(res.data)
                 if(res.data.isZzim === 'N'){
-                    this.tourInfo.zzim_count--
+                    this.tourInfo.zzim_count--;
                     this.isFavorites = false
                 }
                 else {
-                    this.tourInfo.zzim_count++
+                    this.tourInfo.zzim_count++;
                     this.isFavorites = true
                 }
             }).catch(err => {
@@ -808,7 +807,7 @@ export default {
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('tour_idx', this.id);
             Route.deleteRoute(postData).then(res => {
-                console.log(res.data)
+                console.log(res.data);
                 history.back();
             }).catch(err => {
                 console.error(err);
@@ -843,6 +842,7 @@ export default {
     created() {
         window.scrollTo(0,0);
 
+        this.mapHeights = [159, window.outerHeight*0.5, window.outerHeight*0.8];
         this.setMapSetting();
         window.addEventListener("resize", this.setMapSetting);
 
