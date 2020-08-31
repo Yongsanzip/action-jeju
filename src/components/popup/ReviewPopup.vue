@@ -21,7 +21,9 @@
                             <p class="rate-text">{{currentSelectedRating}}</p>
                         </div>
                         <div class="review-textarea">
-                            <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
+                            <label>
+                                <textarea placeholder="이 장소의 경험을 함께 공유해 보세요" spellcheck="false" v-model="reviewText"></textarea>
+                            </label>
                         </div>
                         <div class="review-image-list">
 <!--                            <div v-if="photoList.length == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">-->
@@ -33,7 +35,7 @@
                                               v-for="(photoItem, idx) in photoList"
                                               :key="idx"
                                 >
-                                    <div v-if="idx == 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
+                                    <div v-if="idx === 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                         이미지 추가
                                         <div class="imageFiles" style="display: none;">
                                             <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
@@ -192,7 +194,7 @@ export default {
             this.removeFileList.push(removeimgItem.filename);
 
             this.location.images.forEach(function(image){
-                if(removeimgItem.filename == image.name){
+                if(removeimgItem.filename === image.name){
                     if(this.removeImageList == null || this.removeImageList.length < 1) this.removeImageList = [];
                     this.removeImageList.push(image.idx);
                 }
@@ -235,7 +237,7 @@ export default {
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('pathidx', this.pathidx);
             postData.append('star', this.stars * 2);
-            postData.append('comment', this.reviewText);
+            postData.append('comment', this.reviewText == null? '' : this.reviewText);
             if(this.removeImageList != null && this.removeImageList.length > 0){
                 postData.append('removeImages', this.removeImageList.join("&"));
             }
@@ -249,8 +251,7 @@ export default {
                         postData.append('images'+cnt, file);
                         cnt++;
                     }
-                    else if(this.removeImageList != null
-                        && this.removeImageList.length > 0
+                    else if(this.removeImageList.length > 0
                         && this.removeFileList.indexOf(file.name) < 0){
                         //업로드 취소한 이미지 제외
                         postData.append('images'+cnt, file);
@@ -262,7 +263,7 @@ export default {
 
             Route.writeReview(postData).then(res => {
                 console.log(res.data);
-                if(res.data.resultCode == "1000"){
+                if(res.data.resultCode === "1000"){
                     //성공
                     EventBus.$emit("Make2", 'review', true, this.showReview);
                 }
@@ -289,7 +290,7 @@ export default {
             if(this.photoList == null) this.photoList = [];
             if(this.location.images != null && this.location.images.length > 0){
                 this.location.images.forEach(function(image, idx){
-                    if(idx == 0){
+                    if(idx === 0){
                         this.photoList.push({
                             idx: -1,
                             src: "",
@@ -314,7 +315,7 @@ export default {
         }
         else{
             this.reviewText = this.review;
-            this.pathidx = this.pathidx;
+            // this.pathidx = this.pathidx;
             if(this.photoList == null) this.photoList = [];
             this.photoList.push({
                 idx: -1,
