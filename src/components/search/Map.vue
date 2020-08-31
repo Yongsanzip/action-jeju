@@ -3,7 +3,7 @@
         <div class="post-wrap">
             <div class="post-header">
                 <a @click="close" class="prev">이전</a>
-                <button class="btn-more">메뉴</button>
+<!--                <button class="btn-more">메뉴</button>-->
             </div>
             <div class="map-wrap">
                 <naver-maps
@@ -124,6 +124,13 @@ export default {
         }
     },
     methods:{
+        setMapSetting() {
+            this.mapSettings.width = window.innerWidth;
+            this.mapSettings.height = (window.innerHeight - 60);
+            if(this.map != null){
+                this.map.setSize(this.mapSettings);
+            }
+        },
         onLoadMap(vue){
             this.map = vue;
             this.mapMarkerList = this.placeList;
@@ -153,7 +160,6 @@ export default {
             this.selectedMarker = evnt.overlay;
 
             //선택한 마커 항목으로 검색결과 목록 스크롤 이동
-            // console.log(evnt.overlay);
             if(evnt.overlay.company_idx != null
             && document.getElementsByClassName("search-result-list")[0].getElementsByClassName('idx-'+evnt.overlay.company_idx) != null
             && document.getElementsByClassName("search-result-list")[0].getElementsByClassName('idx-'+evnt.overlay.company_idx).length > 0){
@@ -248,8 +254,8 @@ export default {
         }
     },
     created() {
-        this.mapSettings.width = window.innerWidth;
-        this.mapSettings.height = (window.innerHeight - 60);
+        this.setMapSetting();
+        window.addEventListener("resize", this.setMapSetting);
 
         if(this.markPlace != null){
             this.placeList = this.markPlace;
@@ -263,7 +269,7 @@ export default {
             if(this.mapMarkers != null && this.mapMarkers.length > 0){
                 this.mapMarkers.forEach(function(marker){
                     marker.onRemove();
-                })
+                });
                 this.mapMarkers = [];
             }
 
@@ -277,6 +283,9 @@ export default {
                 }
             }
         })
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.setMapSetting);
     }
 }
 </script>

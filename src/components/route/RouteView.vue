@@ -9,7 +9,7 @@
                             <p class="post-title">{{tourInfo.name}}</p>
                             <p class="post-route-date">{{tourInfo.days-1}}박 {{tourInfo.days}}일 여행</p>
                         </div>
-                        <a href="javascript:history.back()" class="prev">이전</a>
+                        <button @click="onClickBtnBack" class="prev">이전</button>
                         <button class="btn-more" @click="isShowMenu=true">메뉴</button>
                     </div>
                     <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}`}">
@@ -314,6 +314,16 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods:{
+        onClickBtnBack() {
+            this.$router.go(-1);
+        },
+        setMapSetting() {
+            this.mapWidth = window.innerWidth;
+            this.mapHeight = this.mapHeights[this.slideChk];
+            if(this.map != null){
+                this.map.setSize({width: this.mapWidth, height: this.mapHeight});
+            }
+        },
         /*
         * doSlide
         * 지도 크기 조절
@@ -335,10 +345,7 @@ export default {
         slideUp(){
             if(this.slideChk <= 0) return true;
             this.slideChk = this.slideChk - 1;
-            this.map.setSize({
-                width: this.mapWidth,
-                height: this.mapHeights[this.slideChk]
-            });
+            this.setMapSetting();
         },
         /*
         * slidedown
@@ -347,10 +354,7 @@ export default {
         slidedown(){
             if(this.slideChk > 1) return true;
             this.slideChk = this.slideChk + 1;
-            this.map.setSize({
-                width: this.mapWidth,
-                height: this.mapHeights[this.slideChk]
-            });
+            this.setMapSetting();
         },
         /*
         * getRouteList
@@ -589,7 +593,7 @@ export default {
             postData.append('type', 'route');
             postData.append('idx', this.id);
             etc.like(postData).then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 res.data.isLike === 'N' ? this.tourInfo.user_like_count-- : this.tourInfo.user_like_count++
             }).catch(err => {
                 console.error(err);
@@ -838,6 +842,10 @@ export default {
     },
     created() {
         window.scrollTo(0,0);
+
+        this.setMapSetting();
+        window.addEventListener("resize", this.setMapSetting);
+
         this.getRouteList();
         this.getLike();
         this.getFavorites();
@@ -882,6 +890,9 @@ export default {
             if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
         }.bind(this));
 
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.setMapSetting);
     }
 }
 </script>

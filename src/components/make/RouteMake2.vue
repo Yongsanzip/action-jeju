@@ -9,10 +9,10 @@
             <div class="route-map" style="margin-top: 0;" :class="{middle: slideChk === 1, full: slideChk === 2}">
                 <!-- map -->
                 <naver-maps
-                        :width="mapSettings.width"
-                        :height="mapSettings.height"
-                        :initLayers="['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']"
-                        :mapOptions="mapOptions"
+                        :height="mapHeights[0]"
+                        :width="mapWidth"
+                        :map-options="mapOptions"
+                        :initLayers="initLayers"
                         @load="onLoadMap"
                 >
                 </naver-maps>
@@ -151,8 +151,8 @@ export default {
             dataArr:[],
             slideChk: 0,
             mapOptions: {
-                lat: 33.2411822578,
-                lng: 126.5935367973,
+                lat: 33.3811822578,
+                lng: 126.5585367973,
                 zoom: 9,
                 zoomControl: false,
                 scaleControl: false,
@@ -163,18 +163,23 @@ export default {
                 mapTypeControl: false,
                 mapDataControl: false
             },
-            mapWidth: null,
-            mapSettings:{
-                width:0,
-                height: this.mapHeights[0]
-            },
+            mapWidth: 0,
+            mapHeight: this.mapHeights[0],
+            initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
             selectedLocation: null
         }
     },
     computed: {
         ...mapGetters(['GET_MB_ID'])
     },
-    methods:{
+    methods: {
+        setMapSetting() {
+            this.mapWidth = window.innerWidth;
+            this.mapHeight = this.mapHeights[this.slideChk];
+            if(this.map != null){
+                this.map.setSize({width: this.mapWidth, height: this.mapHeight});
+            }
+        },
         /*
         * onLoadMap
         * 네이버 지도 컴포넌트 로드 완료 시 마커 표시
@@ -204,10 +209,7 @@ export default {
         slideUp(){
             if(this.slideChk <= 0) return true;
             this.slideChk = this.slideChk - 1;
-            this.map.setSize({
-                width: this.mapWidth,
-                height: this.mapHeights[this.slideChk]
-            });
+            this.setMapSetting();
         },
         /*
         * slidedown
@@ -216,10 +218,7 @@ export default {
         slidedown(){
             if(this.slideChk > 1) return true;
             this.slideChk = this.slideChk + 1;
-            this.map.setSize({
-                width: this.mapWidth,
-                height: this.mapHeights[this.slideChk]
-            });
+            this.setMapSetting();
         },
         /*
         * addRoute
@@ -376,8 +375,8 @@ export default {
         }
     },
     created() {
-        this.mapSettings.width = window.innerWidth;
-        this.mapSettings.height = window.innerHeight;
+        this.setMapSetting();
+        window.addEventListener("resize", this.setMapSetting);
 
         /*
         * 장소 검색 및 후기 작성 팝업 닫을 때 여행경로 상세 정보 재조회
@@ -404,6 +403,9 @@ export default {
         this.touridx = this.touridx;
         this.getDateList();
         this.getRouteDetail();
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.setMapSetting);
     }
 }
 </script>
