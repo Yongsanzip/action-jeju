@@ -20,7 +20,7 @@
                         <img :src="profile.profile_img" alt="">
                     </div>
                     <label class="edit-image">
-                        <input type="file" ref="profileImg" name="profileImg" @change="profileImgChanged">
+                        <input type="file" ref="profileImg" name="profileImg" accept="image/*" @change="profileImgChanged">
                         <div class="shape">이미지 업로드</div>
                     </label>
                 </div>
@@ -124,9 +124,9 @@ export default {
         * profileImgChanged
         * 프로필 이미지 변경
          */
-        profileImgChanged(e) {
-            const file = e.target.files[0];
-            this.url = URL.createObjectURL(file)
+        profileImgChanged() {
+            // const file = e.target.files[0];
+            // this.url = URL.createObjectURL(file)
             this.doModifyImg();
         },
 
