@@ -10,7 +10,7 @@
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 2" v-hammer:swipe="doSlide"></div>
                 <div class="search-form" v-show="slideChk < 2">
                     <label>
-                        <input type="text" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
+                        <input type="search" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
                     </label>
                 </div>
                 <!-- search result -->
@@ -55,16 +55,10 @@
 import { EventBus } from "../../assets/event-bus";
 import { search } from "@/api";
 import DynamicList from "../search/DynamicList";
-import {mapGetters} from 'vuex';
 
 export default {
     name: "Index",
     components: {DynamicList},
-    computed: {
-        ...mapGetters(['GET_SEARCH_VALUE']),
-        ...mapGetters(['GET_SELECTED_SEARCH_TAB']),
-        ...mapGetters(['GET_SELECTED_SEARCH_ITEM'])
-    },
     data(){
       return{
           isActive : false,
@@ -114,10 +108,11 @@ export default {
                 search.searchMainTitle(postData).then(res => {
                     // console.log(res.data)
                     this.searchTitle = res.data.searches.name;
-                    this.isActive = !this.isActive;
-                    if(this.GET_SEARCH_VALUE !== ''){
-                        this.searchText = this.GET_SEARCH_VALUE;
-                        this.doSearch(this.GET_SELECTED_SEARCH_TAB != null? this.GET_SELECTED_SEARCH_TAB : null);
+                    this.isActive = true;
+
+                    if(this.$route.query.text != null && this.$route.query.text !== ''){
+                        this.searchText = this.$route.query.text;
+                        this.doSearch(this.$route.query.type != null? this.$route.query.type : null);
                     }
                 }).catch(err => {
                     console.error(err);
@@ -174,23 +169,24 @@ export default {
         * 검색 화면 숨김
          */
         closeSearch(){
-            this.isActive = false;
-            this.slideChk = 0;
-            this.isSearch = false;
-            this.searchText = '';
-            this.type = 'route';
-            this.$store.dispatch('SAVE_SEARCH_VALUE', '');
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_TAB', '');
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
-            if (this.isSearch){
-                this.slideChk = 1;
-            }else{
-                this.slideChk = 0;
+            if(this.$route.query.text != null && this.$route.query.text !== '') {
+                this.$router.replace('/map');
             }
-            this.$forceUpdate();
+            else{
+                this.isActive = false;
+                this.slideChk = 0;
+                this.isSearch = false;
+                this.searchText = '';
+                this.type = 'route';
+                if (this.isSearch){
+                    this.slideChk = 1;
+                }else{
+                    this.slideChk = 0;
+                }
+                this.$forceUpdate();
+            }
         },
         doChangeSearchType(type = this.tabList[this.el_Active].type){
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
             this.clickSearch(type);
         },
         /*
@@ -207,12 +203,19 @@ export default {
                 this.searchList = [];
                 this.navActive = 3;
 
-                if (this.$route.fullPath.indexOf("/map") < 0 ||
-                    (this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null)){
-                        this.$router.push({
-                        name: 'mapComp',
-                        params: {
-                            searchText: this.searchText
+                if (this.$route.fullPath.indexOf("/map") < 0){
+                    this.$router.push({
+                        path: 'map',
+                        query: {
+                            text: this.searchText
+                        }
+                    });
+                }
+                else if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null){
+                        this.$router.replace({
+                        path: 'map',
+                        query: {
+                            text: this.searchText
                         }
                     });
                 }
@@ -238,9 +241,6 @@ export default {
                 if(event != null) event.preventDefault();
                 document.getElementsByClassName("search-field")[0].blur();
 
-                this.$store.dispatch('SAVE_SEARCH_VALUE', this.searchText);
-                this.$store.dispatch('SAVE_SELECTED_SEARCH_TAB', type);
-
                 const postData = new FormData();
                 postData.append('keyword', this.searchText);
                 postData.append('type', this.type);
@@ -264,12 +264,12 @@ export default {
 
                             //하이라이트
                             this.$nextTick(function(){
-                                if(Number(this.GET_SELECTED_SEARCH_ITEM) > 0){
+                                if(this.$route.query.idx != null && this.$route.query.idx !== ''){
                                     if(this.type === 'route'){
-                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.tour_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.tour_idx) === Number(this.$route.query.idx)));
                                     }
                                     else if(this.type === 'photo'){
-                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.image_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                        this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.image_idx) === Number(this.$route.query.idx)));
                                     }
                                 }
                             });
@@ -291,7 +291,6 @@ export default {
                             this.isSearch = true;
                             this.loading = false;
                             if(this.slideChk < 1) this.slideChk = 1;
-                            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', 0);
                             return false
                         }else{
                             this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
@@ -302,8 +301,8 @@ export default {
                             this.$forceUpdate();
 
                             this.$nextTick(function(){
-                                if(Number(this.GET_SELECTED_SEARCH_ITEM) > 0){
-                                    this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.company_idx) === Number(this.GET_SELECTED_SEARCH_ITEM)));
+                                if(this.$route.query.idx != null && this.$route.query.idx !== ''){
+                                    this.doFocusOnSelectedSearchItem(this.searchList.findIndex(searchItem => Number(searchItem.company_idx) === Number(this.$route.query.idx)));
                                 }
                             });
                         }
@@ -354,6 +353,9 @@ export default {
     created() {
         if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params.id == null){
             this.getSearchTitle();
+        }
+        else if(this.$route.query.type != null && this.$route.query.type !== ''){
+            this.getSearchTitle()
         }
         EventBus.$on("Index", (hashName, type, isActive) => {
             this.searchText = hashName;

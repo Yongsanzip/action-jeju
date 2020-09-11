@@ -35,7 +35,7 @@ export default {
         doView(e, idx){
             if(e.target.className.indexOf("place-call") > -1) return false;
 
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', idx);
+            this.$router.replace({path: this.$route.path, query: {type: 'place', idx: idx, text: document.querySelector("input[type=search]").value}});
             const path = `/map/${idx}`;
             if (this.$route.path !== path) this.$router.push(path).catch(err => {console.error(err)})
         },

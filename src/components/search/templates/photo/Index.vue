@@ -11,7 +11,7 @@ export default {
     props:['data'],
     methods:{
         doView(image_idx, tour_idx){
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', image_idx);
+            this.$router.replace({path: this.$route.path, query: {type: 'route', idx: tour_idx, text: document.querySelector("input[type=search]").value}});
             this.$router.push(`/route/${tour_idx}`).catch(err => {err})
         }
     }

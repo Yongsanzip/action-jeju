@@ -24,7 +24,7 @@ export default {
     props:['data'],
     methods:{
         doView(idx){
-            this.$store.dispatch('SAVE_SELECTED_SEARCH_ITEM', idx);
+            this.$router.replace({path: this.$route.path, query: {type: 'route', idx: idx, text: document.querySelector("input[type=search]").value}});
             const path = `/route/${idx}`;
             if (this.$route.path !== path) this.$router.push(path).catch(err => {console.error(err)})
         }

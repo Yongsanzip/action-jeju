@@ -161,6 +161,7 @@ export default {
 
             //선택한 마커 항목으로 검색결과 목록 스크롤 이동
             if(evnt.overlay.company_idx != null
+            && document.getElementsByClassName("search-result-list").length > 0
             && document.getElementsByClassName("search-result-list")[0].getElementsByClassName('idx-'+evnt.overlay.company_idx) != null
             && document.getElementsByClassName("search-result-list")[0].getElementsByClassName('idx-'+evnt.overlay.company_idx).length > 0){
                 document.getElementsByClassName("search-result-list")[0].scrollTo({
