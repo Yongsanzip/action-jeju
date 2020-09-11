@@ -47,14 +47,14 @@
 <!--                                <p v-if="!$v.user.confirmPassword.sameAsPassword" class="validate">비밀번호가 동일하지 않습니다.</p>-->
                             </div>
                         </div>
-                        <div>
-                            <h4 class="subtitle">간편 로그인계정 관리</h4>
-                        </div>
-                        <div class="list-sns">
-                            <div class="sns kakao">kakao</div>
-                            <div class="sns facebook disable">facebook</div>
-                            <div class="sns naver disable">naver</div>
-                        </div>
+<!--                        <div>-->
+<!--                            <h4 class="subtitle">간편 로그인계정 관리</h4>-->
+<!--                        </div>-->
+<!--                        <div class="list-sns">-->
+<!--                            <div class="sns kakao">kakao</div>-->
+<!--                            <div class="sns facebook disable">facebook</div>-->
+<!--                            <div class="sns naver disable">naver</div>-->
+<!--                        </div>-->
                     </div>
                     <div class="surface">
                         <h3 class="title">선택정보</h3>
