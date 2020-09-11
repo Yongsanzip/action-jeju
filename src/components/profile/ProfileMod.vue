@@ -38,7 +38,7 @@
 <!--                                <p v-if="$v.user.name.sameAs" class="validate">공백</p>-->
                             </div>
                             <div class="input-box" style="text-align: left">
-                                <input class="input-pwd" type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
+                                <input class="input-pwd" type="password" placeholder="비밀번호 (6자리 이상 숫자, 문자 조합)" v-model="user.password">
 <!--                                <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
 <!--                                <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
                             </div>
@@ -198,7 +198,12 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(8)
+                minLength: minLength(6),
+                pattern: (value, vm) => {
+                    const pwdRule1 = /[0-9]/g;
+                    const pwdRule2 = /[A-z]/g;
+                    return pwdRule1.test(vm.password) && pwdRule2.test(vm.password);
+                }
             },
             confirmPassword: {
                 required,
@@ -275,8 +280,12 @@ export default {
                 return
             }
             else if(this.user.password != ""){
-                if(this.user.password.length < 8){
-                    this.$alert('비밀번호는 최소8자이상 사용해주세요.');
+                if(!this.$v.user.password.required) {
+                    this.$alert('비밀번호를 입력해주세요.');
+                    return
+                }
+                else if(!this.$v.user.password.pattern || !this.$v.user.password.minLength) {
+                    this.$alert('비밀번호를 숫자, 문자 포함 6자리 이상 입력해주세요.');
                     return
                 }
                 else if(this.user.password != this.user.confirmPassword){

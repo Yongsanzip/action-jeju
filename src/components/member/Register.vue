@@ -21,9 +21,9 @@
 <!--                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>-->
                     </div>
                     <div class="input-box">
-                        <input type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
+                        <input type="password" placeholder="비밀번호 (6자리 이상 숫자, 문자 조합)" v-model="user.password">
 <!--                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
-<!--                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.password.minLength" class="validate">6자리 이상 입력해주세요</p>-->
                     </div>
                     <div class="input-box">
                         <input type="password" placeholder="비밀번호 확인" v-model="user.confirmPassword">
@@ -77,7 +77,12 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(8)
+                minLength: minLength(6),
+                pattern: (value, vm) => {
+                    const pwdRule1 = /[0-9]/g;
+                    const pwdRule2 = /[A-z]/g;
+                    return pwdRule1.test(vm.password) && pwdRule2.test(vm.password);
+                }
             },
             confirmPassword: {
                 required,
@@ -131,21 +136,28 @@ export default {
             this.submitted = true;
             if (!this.nicksubmit){
                 this.$alert('아이디 중복체크 해주세요.');
-                return
-            }
-            else if( this.user.password != this.user.confirmPassword) {
-                this.$alert('비밀번호가 동일하지 않습니다.');
-                return
+                return;
             }
             else if( !this.user.terms ) {
                 this.$alert('약관에 동의 해주세요.');
                 return
             }
-            //
-            // console.log(this.$v.$invalid);
-            // if (this.$v.$invalid) {
-            //     return;
-            // }
+
+            if (this.$v.$invalid) {
+                if(!this.$v.user.email.required) {
+                    this.$alert('이메일 주소를 입력해주세요.');
+                }
+                else if(!this.$v.user.email.email) {
+                    this.$alert('이메일 형식이 아닙니다.');
+                }
+                else if(!this.$v.user.password.required) {
+                    this.$alert('비밀번호를 입력해주세요.');
+                }
+                else if(!this.$v.user.password.pattern || !this.$v.user.password.minLength) {
+                    this.$alert('비밀번호를 숫자, 문자 포함 6자리 이상 입력해주세요.');
+                }
+                return;
+            }
 
             const {
                 name: nick,
@@ -169,7 +181,6 @@ export default {
                 }).catch(err => {
                     console.error(err);
             })
-
         }
     }
 }

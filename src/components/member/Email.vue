@@ -13,9 +13,9 @@
 <!--                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>-->
                     </div>
                     <div class="input-box">
-                        <input type="password" placeholder="비밀번호 (8자리 이상 숫자, 문자 조합)" v-model="user.password">
+                        <input type="password" placeholder="비밀번호 (6자리 이상 숫자, 문자 조합)" v-model="user.password">
 <!--                        <p v-if="!$v.user.password.required" class="validate">비밀번호를 입력해주세요</p>-->
-<!--                        <p v-if="!$v.user.password.minLength" class="validate">8자리 이상 입력해주세요</p>-->
+<!--                        <p v-if="!$v.user.password.minLength" class="validate">6자리 이상 입력해주세요</p>-->
                     </div>
                     <button type="submit" class="btn btn__md skyblue mt10">로그인</button>
                 </form>
@@ -50,7 +50,7 @@ export default {
             },
             password: {
                 required,
-                minLength: minLength(8)
+                minLength: minLength(6)
             }
         }
     },
@@ -71,7 +71,7 @@ export default {
                     this.$alert('비밀번호를 입력해주세요.');
                 }
                 else if(!this.$v.user.password.minLength){
-                    this.$alert('비밀번호를 8자리 이상 입력해주세요.');
+                    this.$alert('비밀번호를 6자리 이상 입력해주세요.');
                 }
                 return;
             }
