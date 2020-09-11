@@ -7,7 +7,7 @@
         <div class="container con-route">
             <div class="place-wrap">
                 <div class="search-form">
-                    <input type="text" class="search-field" placeholder="장소를 검색하세요" v-model="searchText">
+                    <input type="search" class="search-field" placeholder="장소를 검색하세요" v-model="searchText" @keyup="onKeyUpSearch">
                     <button type="button" class="btn-search" @click="doSearch"></button>
                 </div>
                 <div class="loader" v-if="loading">Loading...</div>
@@ -43,6 +43,16 @@ export default {
         }
     },
     methods: {
+        /*
+        * onKeyUpSearch
+        * 검색 필드 키이벤트
+         */
+        onKeyUpSearch(e) {
+            if(e.keyCode === 13){
+                //enter key
+                this.doSearch();
+            }
+        },
         /*
         * doSearch
         * 검색 버튼 선택
