@@ -373,7 +373,6 @@ export default {
     },
     created() {
         this.mapHeights = [159, window.outerHeight*0.5, window.outerHeight*0.8];
-        console.log(this.mapHeights);
         this.setMapSetting();
         window.addEventListener("resize", this.setMapSetting);
 
