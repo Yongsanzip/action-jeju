@@ -221,6 +221,13 @@ export const search = {
 };
 
 export const etc = {
+    intro(data) {
+        return api.request({
+            method: 'post',
+            url: '/intro.php',
+            data
+        })
+    },
     fetchList(data) {
         return api.request({
             method: 'post',

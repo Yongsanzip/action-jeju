@@ -1,7 +1,7 @@
 <template>
-    <section class="wrap login-bg">
+    <section class="wrap login-bg" :style="bgImage">
         <div class="section-wrap section-wrap__login">
-            <h1><img src="../../assets/images/logo.png" alt="액션제주"></h1>
+            <h1><img :src="logoImage" alt="액션제주"></h1>
             <ul>
                 <li v-for="(item,idx) in loginList" :key="idx" :class="item.class">
                     <router-link  v-if="item.path != null && item.path != ''" :to="item.path"><span>{{item.text}}</span></router-link>
@@ -16,6 +16,8 @@
 </style>
 <script>
 import {user} from '@/api';
+import {etc} from "../../api";
+import defaultLogo from "@/assets/images/new_logo.png";
 
 export default {
     name: 'Login',
@@ -30,6 +32,8 @@ export default {
                 {text: 'Apple로 로그인' , path: '', class: 'ap-btn', social: 'apple'},
                 {text: '이메일로 회원가입' , path: '/register', class: 'register'},
             ],
+            logoImage: defaultLogo,
+            bgImage: null
         }
     },
     created() {
@@ -42,6 +46,20 @@ export default {
         } else {
             //아이폰, 안드로이드 외
         }
+
+        const postData = new FormData();
+        etc.intro(postData)
+            .then(res => {
+                const types = res.data.types;
+                if(types != null && types.length > 0){
+                    if(types[0] != null) this.logoImage = "http://www.actionjeju.com/data/editor/2008/" + types[0]['filename'];
+                    if(types[1] != null) this.bgImage = {
+                        "background-image": "url("+"http://www.actionjeju.com/data/editor/2008/" + types[1]['filename']+")"
+                    };
+                }
+            }).catch(err => {
+            console.error(err);
+        });
 
         //소셜 로그인 토큰 받은 경우
         //로그인 실행
