@@ -109,7 +109,7 @@ export default {
             user.changePw(postData)
                 .then(res => {
                     const getResult = res.data;
-                    console.log(getResult)
+                    // console.log(getResult)
                     if (getResult.resultCode === '1000') {
                         this.$alert(getResult.resultMsg)
                         this.$router.push('/')

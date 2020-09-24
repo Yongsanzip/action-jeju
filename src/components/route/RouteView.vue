@@ -747,7 +747,7 @@ export default {
             postData.append('edate', this.days[this.days.length - 1].date);
 
             Route.saveRoute(postData).then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.touridx = Number(res.data.touridx);
 
                 const postData = new FormData();

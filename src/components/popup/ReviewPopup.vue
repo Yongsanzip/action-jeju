@@ -125,7 +125,7 @@ export default {
         * 이미지 추가
          */
         addImage(idx){
-            console.log(idx);
+            // console.log(idx);
             if(this.photoList.length-1 >= 10){
                 //최대 10장 등록 가능
                 alert("후기 사진은 최대 10장 등록 가능합니다.");
