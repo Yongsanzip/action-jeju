@@ -2,7 +2,8 @@
     <section class="wrap">
         <header class="header sub-header" style="z-index: 1;">
             <router-link to="/main" class="close">이전</router-link>
-            <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>
+            <h1>여행경로 만들기</h1>
+<!--            <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>-->
             <button type="button" class="next" @click="complete">완료</button>
         </header>
         <div class="container con-route con-route-make" :class="{ 'overflow-y' : isReview === true}">
@@ -331,7 +332,7 @@ export default {
         * setRouteDetail
         * 여행경로 상세 정보 저장
          */
-        setRouteDetail(){
+        setRouteDetail(callback = null){
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.touridx);
@@ -349,6 +350,9 @@ export default {
                 console.log(res.data);
                 this.getRouteDetail();
                 this.isDiff = false;
+                if(callback != null) {
+                    callback();
+                }
             }).catch(err => {
                 console.error(err);
             })
@@ -367,8 +371,10 @@ export default {
         * 완료 버튼 선택
          */
         complete() {
-            this.setRouteDetail();
-            this.$router.push("/route/" + this.touridx);
+            this.setRouteDetail(function(){
+                this.$router.push("/route/" + this.touridx);
+            }.bind(this));
+
         }
     },
     created() {

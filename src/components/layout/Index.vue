@@ -30,11 +30,30 @@
                         </li>
                     </ul>
                     <!-- search result -->
-                    <div class="search-result-list" :class="{fullOpen : slideChk === 2}" ref="searchList">
+                    <div class="search-result-list" :class="{fullOpen : slideChk === 2, noResult: searchList.length === 0}" ref="searchList">
+                        <template v-if="type === 'place' && searchList != null && searchList.length > 0">
+                            <div class="regist-place">
+                                <button class="regist-place-btn" @click="showRegistPlaceModal">장소추가</button>
+                            </div>
+                        </template>
                         <div class="loader" v-if="loading">Loading...</div>
-                        <div v-for="(item, idx) in searchList" :key="idx" :class="setClass(item)">
-                            <dynamic-list :data="item" :type="type"></dynamic-list>
-                        </div>
+                        <template v-if="searchList != null && searchList.length > 0">
+                            <div v-for="(item, idx) in searchList" :key="idx" :class="setClass(item)">
+                                <dynamic-list :data="item" :type="type"></dynamic-list>
+                            </div>
+                        </template>
+                        <template v-else >
+                            <div class="no-result">
+                                <div>
+                                    <button v-if="type === 'route'" @click="doNavAction(navList[2])">여행경로 만들기</button>
+                                    <button v-else @click="showRegistPlaceModal">새로운 장소 등록</button>
+                                </div>
+                                <div class="description">
+                                    <template v-if="type === 'route'">찾으시는 여행경로가 없다면 액션제주에서<br/>직접 만들어 보세요 :)</template>
+                                    <template v-else>찾으시는 장소가 없다면 액션제주에<br/>직접 알려주세요 :)</template>
+                                </div>
+                            </div>
+                        </template>
                     </div>
                     <!-- //search result -->
                 </div>
@@ -48,6 +67,7 @@
                 </li>
             </ul>
         </nav>
+        <place-make v-if="isshowRegistPlaceModal"></place-make>
     </div>
 </template>
 
@@ -55,10 +75,11 @@
 import { EventBus } from "../../assets/event-bus";
 import { search } from "@/api";
 import DynamicList from "../search/DynamicList";
+import PlaceMake from "../make/placeMake";
 
 export default {
     name: "Index",
-    components: {DynamicList},
+    components: {PlaceMake, DynamicList},
     data(){
       return{
           isActive : false,
@@ -83,10 +104,14 @@ export default {
               {text: '경로작성', path : '/make', class : 'nav-write'},
               {text: '검색', path : '', class : 'nav-search'},
               {text: '프로필', path : '/profile', class : 'nav-profile'},
-          ]
+          ],
+          isshowRegistPlaceModal: false,
       }
     },
     methods:{
+        showRegistPlaceModal(){
+            this.isshowRegistPlaceModal = true;
+        },
         setClass(item){
             const type = this.tabList[this.el_Active].type;
             let classList = [];
@@ -247,7 +272,7 @@ export default {
                 if (this.type === 'route' || this.type ==='photo' || this.type ==='review'){
                     search.search(postData).then(res => {
                         if (res.data.searchList == null){
-                            this.$alert("검색 결과가 없습니다");
+                            // this.$alert("검색 결과가 없습니다");
                             this.searchList = [];
                             this.isSearch = true;
                             this.loading = false;
@@ -286,7 +311,7 @@ export default {
                     search.searchPlace(postData).then(res => {
                         const getResult = res.data;
                         if (getResult.searchCnt === 0){
-                            this.$alert("검색 결과가 없습니다");
+                            // this.$alert("검색 결과가 없습니다");
                             this.searchList = [];
                             this.isSearch = true;
                             this.loading = false;
@@ -366,6 +391,10 @@ export default {
             //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
             EventBus.$off("Index");
         });
+
+        this.$on("close-place-make", function(){
+            this.isshowRegistPlaceModal = false;
+        }.bind(this));
     }
 }
 </script>

@@ -140,6 +140,20 @@ export const Route = {
             data
         })
     },
+    placeNameOverlap(data) {
+        return api.request({
+            method: 'post',
+            url: '/ajax/ajax_place_check.php',
+            data
+        })
+    },
+    registPlace(data) {
+        return api.request({
+            method: 'post',
+            url: '/ajax/ajax_company_user_reg.php',
+            data
+        })
+    },
     saveRoute(data) {//경로 등록1
         return api.request({
             method: 'post',

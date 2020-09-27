@@ -245,6 +245,10 @@
 .wrap.modal .container{
     background-color: #ffffff;
 }
+.wrap.modal.post-card{
+    height: 100%;
+    background: #ececec;
+}
 .search-result-list .photo__list{
     display: inline-block;
     width:33.333%;

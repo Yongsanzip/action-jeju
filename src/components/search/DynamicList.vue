@@ -7,7 +7,8 @@ export default {
     props:['data','type'],
     data(){
         return{
-            component: null
+            component: null,
+            compType: this.type
         }
     },
     computed:{
