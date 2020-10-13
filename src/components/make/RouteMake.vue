@@ -139,16 +139,16 @@ export default {
             if (item.number <= 0){
                 return false
             }
-            item.text === '성인' ? item.number -- : item.number --;
-            this.num = item.number;
+            item.text === '성인' ? this.personnel[0].number -- : this.personnel[1].number --;
+            this.num = this.personnel[0].number + this.personnel[1].number;
         },
         /*
         * upCount
         * 여행 인원 수 증가
          */
         upCount(item){
-            item.text === '성인' ? item.number ++ : item.number ++;
-            this.num = item.number;
+            item.text === '성인' ? this.personnel[0].number ++ : this.personnel[1].number ++;
+            this.num = this.personnel[0].number + this.personnel[1].number;
         },
         /*
         * doNext
