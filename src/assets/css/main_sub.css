@@ -4457,49 +4457,44 @@
 
 
 .swal2-styled.swal2-confirm {
-  border: 0;
-  border-radius: 20px;
-  background: initial;
+  border: 0 !important;
+  border-radius: 20px !important;
+  background: initial !important;
   background-color: #00c7c9!important;
-  color: #fff;
-  font-size: 16px;
+  color: #fff !important;
+  font-size: 16px !important;
 }
 .swal2-icon.swal2-warning {
-  border-color: #b2eeef;
-  color: #00c7c9;
+  border-color: #b2eeef !important;
+  color: #00c7c9 !important;
 }
 .swal2-icon.swal2-info {
-  border-color: #b2eeef;
-  color: #00c7c9;
+  border-color: #b2eeef !important;
+  color: #00c7c9 !important;
 }
 .swal2-icon.swal2-question {
-  border-color: #b2eeef;
-  color: #00c7c9;
+  border-color: #b2eeef !important;
+  color: #00c7c9 !important;
 }
 .swal2-icon.swal2-success {
-  border-color: #00c7c9;
+  border-color: #00c7c9 !important;
 }
 .swal2-icon.swal2-error, .swal2-icon.swal2-success {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px 0 !important;
 }
 .swal2-icon.swal2-success [class^=swal2-success-line] {
-  display: block;
-  position: absolute;
-  z-index: 2;
-  height: 0.3125em;
-  border-radius: 0.125em;
-  background-color: #00c7c9;
+  background-color: #00c7c9 !important;
 }
 .swal2-icon.swal2-success .swal2-success-ring {
-  border: 0.25em solid rgba(0, 199, 201, 0.3);
+  border: 0.25em solid rgba(0, 199, 201, 0.3) !important;
 }
 .swal2-content {
-  font-size: 12px;
-  color: #969696;
+  font-size: 12px !important;
+  color: #969696 !important;
 }
 .swal2-actions {
-  margin: 20px 0 0 0;
+  margin: 20px 0 0 0 !important;
 }
 .swal2-styled.swal2-confirm {
-  margin: 0;
+  margin: 0 !important;
 }

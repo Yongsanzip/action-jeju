@@ -150,7 +150,7 @@ export const Route = {
     registPlace(data) {
         return api.request({
             method: 'post',
-            url: '/ajax/ajax_company_user_reg.php',
+            url: '/company_user_reg.php',
             data
         })
     },

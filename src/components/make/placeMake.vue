@@ -33,16 +33,16 @@
                             <div>
                                 <select class="text-field" v-model="category">
                                     <option value="">선택</option>
-                                    <option value="">음식점</option>
-                                    <option value="">카페</option>
-                                    <option value="">숙박</option>
-                                    <option value="">체험</option>
-                                    <option value="">쇼핑</option>
-                                    <option value="">레저</option>
-                                    <option value="">트래킹</option>
-                                    <option value="">액티비티</option>
-                                    <option value="">전시</option>
-                                    <option value="">휴양</option>
+                                    <option value="01">음식점</option>
+                                    <option value="02">카페</option>
+                                    <option value="03">숙박</option>
+                                    <option value="04">체험</option>
+                                    <option value="05">쇼핑</option>
+                                    <option value="06">레저</option>
+                                    <option value="07">트래킹</option>
+                                    <option value="08">액티비티</option>
+                                    <option value="09">전시</option>
+                                    <option value="10">휴양</option>
                                 </select>
                             </div>
                             <label>
@@ -59,9 +59,7 @@
                                         <div class="imageFiles" style="display: none;">
                                             <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
                                         </div>
-
                                     </div>
-
                                     <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
                                         <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
                                     </div>
@@ -85,18 +83,23 @@
 <script>
 import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import {Route} from "../../api";
+import {mapGetters} from 'vuex';
 
     export default {
         name: "placeMake",
         components:{
             swiper, swiperSlide
         },
+        computed: {
+            ...mapGetters(['GET_MB_ID'])
+        },
         data() {
             return {
                 name: '',
                 isOverlapChecked: false,
-                address: '',
                 isShowAddressSearch: false,
+                zipcode: '',
+                address: '',
                 addressDetail: '',
                 phone: '',
                 category: '',
@@ -122,25 +125,41 @@ import {Route} from "../../api";
             save() {
                 if(!this.isOverlapChecked) {
                     this.$alert('장소명을 입력해주세요!');
+                    return;
                 }
                 else if(this.address === "") {
                     this.$alert('주소를 입력해주세요!');
+                    return;
                 }
 
                 const postData = new FormData;
                 postData.append('place_name', this.name);
                 postData.append('place_addr1', this.address);
                 postData.append('place_addr2', this.addressDetail);
+                postData.append('place_zipcode', this.zipcode);
                 postData.append('place_tel', this.phone);
                 postData.append('cate1', this.category);
+                postData.append('mb_id', this.GET_MB_ID);
 
-                this.photoList.forEach(function(img){
-                    console.log(img);
+                // this.photoList.forEach(function(img){
+                //     console.log(img);
+                // });
+                // postData.append('image_idx_arr', "");
+
+                let cnt = 0;
+                this.$refs.imageList.querySelectorAll('input[type=file]').forEach(function(input) {
+                    if(input.files.length > 0){
+                        input.files.forEach(function(file){
+                            postData.append('images'+cnt, file);
+                            cnt++;
+                        });
+                    }
                 });
-                postData.append('image_idx_arr', "");
 
                 Route.registPlace(postData).then(res => {
                     console.log(res);
+                    this.close();
+                    this.$parent.$emit("research");
                 }).catch(err => {
                     console.error(err);
                 })
@@ -204,6 +223,7 @@ import {Route} from "../../api";
 
                 // $("[name=place_zipcode]").val(data.zonecode);
                 // $("[name=place_addr1]").val(fullRoadAddr);
+                this.zipcode = data.zonecode;
                 this.address = fullRoadAddr;
 
                 //document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용

@@ -395,6 +395,9 @@ export default {
         this.$on("close-place-make", function(){
             this.isshowRegistPlaceModal = false;
         }.bind(this));
+        this.$on("research", function(){
+           this.doSearch();
+        });
     }
 }
 </script>
