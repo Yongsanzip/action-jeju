@@ -4463,6 +4463,13 @@
   background-color: #00c7c9!important;
   color: #fff !important;
   font-size: 16px !important;
+  margin: 0;
+}
+.swal2-styled.swal2-cancel {
+  border-radius: 20px !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  margin: 0;
 }
 .swal2-icon.swal2-warning {
   border-color: #b2eeef !important;
@@ -4495,6 +4502,9 @@
 .swal2-actions {
   margin: 20px 0 0 0 !important;
 }
-.swal2-styled.swal2-confirm {
-  margin: 0 !important;
+.swal2-actions > * {
+  margin-left: 10px !important;
+}
+.swal2-actions > *:first-child {
+  margin-left: 0 !important;
 }

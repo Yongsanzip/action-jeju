@@ -1,6 +1,6 @@
 <template>
     <section class="wrap">
-        <header class="header sub-header" style="z-index: 1;">
+        <header class="header sub-header">
             <router-link to="/main" class="close">이전</router-link>
             <h1>여행경로 만들기</h1>
 <!--            <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>-->

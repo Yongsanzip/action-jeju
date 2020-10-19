@@ -83,7 +83,6 @@ export default {
         * 여행경로 메뉴 > 여행경로 편집 선택
          */
         modifyRout(){
-            this.isShowMenu = false;
             // console.log(this.selectedTourIdx);
             this.$router.push({
                 name: 'RouteMake',
@@ -92,14 +91,13 @@ export default {
                     'isChk_flag': true
                 }
             });
+            this.showMenu(false);
         },
         /*
         * removeRout
         * 여행경로 메뉴 > 여행경로 삭제 선택
          */
         removeRout(){
-            this.isShowMenu = false;
-
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('tour_idx', this.selectedTourIdx);
@@ -111,6 +109,7 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
+            this.showMenu(false);
         }
     }
 }
