@@ -27,7 +27,7 @@
                         <div class="detail-footer">
                             <label class="favorite">
                                 <input type="checkbox"
-                                       :checked="isChecked || allLike"
+                                       :checked="photoList[pageInfo.current - 1].checked"
                                        @change="setThisPhotoLike">
                                 <div class="shape"></div>
                             </label>
@@ -41,7 +41,7 @@
                         <img :src="'http://img.actionjeju.com/data/user_route_after/'+item.name" @click="showDetail(idx)"/>
                         <label class="btn-like">
                             <input type="checkbox" :class="'photoLike_'+item.idx"
-                                   :checked="item.checked || item.like_yn || allLike"
+                                   :checked="item.checked"
                                    @change="setPhotoLike(idx, item.idx)">
                             <div class="shape"></div>
                         </label>
@@ -141,7 +141,9 @@ export default {
         ChangeSwiperSlide(){
             this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;
             this.writerNick = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].mb_nick;
-            this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked || this.photoList[this.$refs.imgSwiper.swiper.activeIndex].like_yn;
+            this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked || this.photoList[this.$refs.imgSwiper.swiper.activeIndex].like_yn === 'Y';
+
+            this.$forceUpdate();
         },
         /*
         * showDetail
@@ -163,7 +165,7 @@ export default {
             postData.append('type', 'photo');
             postData.append('idx', idx);
             etc.like(postData).then(res => {
-                this.photoList[imgIdx].checked = (res.data.isLike === "Y")? true : false;
+                this.photoList[imgIdx].checked = res.data.isLike === "Y";
                 // console.log(res.data)
             }).catch(err => {
                 console.error(err);
@@ -180,12 +182,17 @@ export default {
         }
     },
     created() {
+        this.photoList.map(function(item){
+            return {
+                ...item,
+                checked: item.checked || this.photoList[this.idx].like_yn === 'Y' || this.allLike
+            }
+        }.bind(this));
         if(this.idx == null){
             this.isShowList=true;
         }
         else{
             this.writerNick = this.photoList[this.idx].mb_nick;
-            this.isChecked = this.photoList[this.idx].checked || this.photoList[this.idx].like_yn;
         }
     }
 }

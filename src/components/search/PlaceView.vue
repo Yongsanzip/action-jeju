@@ -309,23 +309,6 @@ export default {
             })
         },
         /*
-        * getPhotoLike
-        * 이미지 별 좋아요 여부 조회
-         */
-        getPhotoLike(idx){
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'get');
-            postData.append('type', 'photo');
-            postData.append('idx', idx);
-            return etc.like(postData)
-                .then(res => res.data)
-                .then(({isLike}) => isLike)
-                .catch(err => {
-                    console.error(err);
-                })
-        },
-        /*
         * setPhotoLike
         * 이미지 별 좋아요 여부 적용
          */
@@ -382,6 +365,7 @@ export default {
         callToPlace(phoneNumb){
             if(phoneNumb == null){
                 this.$alert('전화번호가 등록되지 않은 업체입니다.');
+                return;
             }
             location.href="tel:"+phoneNumb;
         },
@@ -401,11 +385,8 @@ export default {
             envt.target.style.display="none";
             envt.target.parentElement.getElementsByClassName("short")[0].style.display="none";
             envt.target.parentElement.getElementsByClassName("long")[0].style.display="block";
-        }
-    },
-    async created() {
-        try {
-            window.scrollTo(0,0);
+        },
+        async getPlaceData() {
             const postData = new FormData();
             postData.append('place_idx', this.id);
             postData.append('mb_id', this.GET_MB_ID);
@@ -419,18 +400,22 @@ export default {
                     this.salesTime = info.salesTime;
                     this.facilities = info.facilities;
                     if (info.reviewImages){
-                        info.reviewImages.forEach(async (e) => {
-                            const getLike = await this.getPhotoLike(e.idx);
-                            e.checked = getLike === 'Y';
+                        info.reviewImages.forEach((e) => {
+                            e.checked = e.like_yn === 'Y';
                             if(document.getElementsByClassName("photoLike_"+e.idx).length > 0) document.getElementsByClassName("photoLike_"+e.idx)[0].checked = e.checked;
                         });
                     }
                     this.reviewImages = info.reviewImages;
                     this.reviews = info.reviews;
                     this.setReviewText();
-                    //console.log(this.reviewImages)
                 })
                 .catch(console.error);
+        }
+    },
+    created() {
+        try {
+            window.scrollTo(0,0);
+            this.getPlaceData();
             EventBus.$on("PlaceView", props => {
                 this.showModal = props;
                 this.showReview = props;

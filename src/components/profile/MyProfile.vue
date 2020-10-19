@@ -200,7 +200,13 @@ export default {
                 postData.append('mb_id', this.GET_MB_ID);
 
                 profile.likePhoto(postData).then(res => {
-                    this.profileList = res.data.photos;
+                    this.profileList = res.data.photos.map(function(item){
+                        return {
+                            ...item,
+                            name: item.image_name
+                        }
+                    });
+                    console.log(this.profileList);
                     this.noDataText = "좋아요 사진이 없습니다."
                 }).catch(err => {
                     console.error(err);
