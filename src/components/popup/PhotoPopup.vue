@@ -16,8 +16,7 @@
                         <div class="detail-view">
                             <swiper :options="visualOption" ref="imgSwiper" @slideChange="ChangeSwiperSlide">
                                 <swiper-slide v-for="(item, idx) in photoList" :key="idx">
-                                    <div class="place-slide" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${item.image_name})`}">
-                                        <!--<img :src="`http://img.actionjeju.com/data/user_route_after${item.image_name}`" alt="">-->
+                                    <div class="place-slide" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${item.name})`}">
                                     </div>
                                 </swiper-slide>
                                 <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
@@ -39,10 +38,10 @@
                 <transition name="fade">
                 <div class="image-list image-viewer-block" v-show="isShowList">
                     <div class="image-item" v-for="(item, idx) in photoList" :key="idx">
-                        <img :src="'http://img.actionjeju.com/data/user_route_after/'+item.image_name" @click="showDetail(idx)"/>
+                        <img :src="'http://img.actionjeju.com/data/user_route_after/'+item.name" @click="showDetail(idx)"/>
                         <label class="btn-like">
                             <input type="checkbox" :class="'photoLike_'+item.idx"
-                                   :checked="item.checked || allLike"
+                                   :checked="item.checked || item.like_yn || allLike"
                                    @change="setPhotoLike(idx, item.idx)">
                             <div class="shape"></div>
                         </label>
@@ -142,7 +141,7 @@ export default {
         ChangeSwiperSlide(){
             this.pageInfo.current = this.$refs.imgSwiper.swiper.activeIndex + 1;
             this.writerNick = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].mb_nick;
-            this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked;
+            this.isChecked = this.photoList[this.$refs.imgSwiper.swiper.activeIndex].checked || this.photoList[this.$refs.imgSwiper.swiper.activeIndex].like_yn;
         },
         /*
         * showDetail
@@ -164,7 +163,7 @@ export default {
             postData.append('type', 'photo');
             postData.append('idx', idx);
             etc.like(postData).then(res => {
-                this.photoList[imgIdx].checked = (res.data.isLike == "N")? false : true;
+                this.photoList[imgIdx].checked = (res.data.isLike === "Y")? true : false;
                 // console.log(res.data)
             }).catch(err => {
                 console.error(err);
@@ -177,7 +176,7 @@ export default {
         setThisPhotoLike(){
             const listIdx = this.$refs.imgSwiper.swiper.activeIndex;
             const selectedPhoto = this.photoList[listIdx];
-            this.setPhotoLike(listIdx, selectedPhoto.image_idx);
+            this.setPhotoLike(listIdx, selectedPhoto.idx);
         }
     },
     created() {
@@ -186,7 +185,7 @@ export default {
         }
         else{
             this.writerNick = this.photoList[this.idx].mb_nick;
-            this.isChecked = this.photoList[this.idx].checked;
+            this.isChecked = this.photoList[this.idx].checked || this.photoList[this.idx].like_yn;
         }
     }
 }

@@ -389,12 +389,7 @@ export default {
                 day.path.forEach(function(path){
                     // console.log(path.images);
                     if(path.images == null || path.images.length < 1) return;
-                    path.images.forEach(function(img){
-                        this.imageDataList.push(img);
-                        this.imageList.push({
-                            image_name: img.name
-                        });
-                    }.bind(this));
+                    this.imageList = path.images;
                 }.bind(this));
             }.bind(this));
         },

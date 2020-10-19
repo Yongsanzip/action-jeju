@@ -1,7 +1,7 @@
 <template>
     <div class="img-list"
          @click="doView(data.image_idx, data.tour_idx)"
-         :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${data.image_name}`}"
+         :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${data.name}`}"
     >
     </div>
 </template>

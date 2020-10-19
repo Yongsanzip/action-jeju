@@ -92,10 +92,10 @@
                                 {{reviewImages.length - 6}}+
                             </div>
                         </div>
-                        <img :src="`http://img.actionjeju.com/data/user_route_after${item.image_name}`" :alt="item.idx" @click="doPhoto(idx)">
+                        <img :src="`http://img.actionjeju.com/data/user_route_after${item.name}`" :alt="item.idx" @click="doPhoto(idx)">
                         <label class="btn-like">
                             <input type="checkbox" :class="'photoLike_'+item.idx"
-                                   :checked="item.checked"
+                                   :checked="item.like_yn === 'Y'"
                                    @change="setPhotoLike(idx, item.idx)">
                             <div class="shape"></div>
                         </label>
@@ -152,6 +152,7 @@
                           :title="placeInfo.company_name"
             />
             <modal-photo v-if="showModal"
+                         :fullScreen="true"
                          :photo-list="reviewImages"
                          :idx="reviewImageIdx"
                          :title="placeInfo.company_name"
@@ -335,7 +336,7 @@ export default {
             postData.append('type', 'photo');
             postData.append('idx', idx);
             etc.like(postData).then(res => {
-                this.reviewImages[imgIdx].checked = (res.data.isLike == "N")? false : true;
+                this.reviewImages[imgIdx].like_yn = res.data.isLike === "Y";
                 // console.log(res.data)
             }).catch(err => {
                 console.error(err);
@@ -380,7 +381,7 @@ export default {
          */
         callToPlace(phoneNumb){
             if(phoneNumb == null){
-                alert("전화번호가 등록되지 않은 업체입니다.")
+                this.$alert('전화번호가 등록되지 않은 업체입니다.');
             }
             location.href="tel:"+phoneNumb;
         },
@@ -407,6 +408,7 @@ export default {
             window.scrollTo(0,0);
             const postData = new FormData();
             postData.append('place_idx', this.id);
+            postData.append('mb_id', this.GET_MB_ID);
             await Route.place(postData)
                 .then(res => res.data)
                 .then(info => {
