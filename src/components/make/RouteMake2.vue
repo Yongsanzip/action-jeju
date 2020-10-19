@@ -407,6 +407,7 @@ export default {
         this.getRouteDetail();
     },
     destroyed() {
+        EventBus.$off("Make2");
         window.removeEventListener("resize", this.setMapSetting);
     }
 }

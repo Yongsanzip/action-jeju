@@ -262,6 +262,9 @@ export default {
                 }
             }
         });
+    },
+    destroyed() {
+        EventBus.$off("MyProfile");
     }
 }
 </script>

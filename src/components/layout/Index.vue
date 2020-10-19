@@ -398,6 +398,9 @@ export default {
         this.$on("research", function(){
            this.doSearch();
         });
+    },
+    destroyed() {
+        EventBus.$off("Index");
     }
 }
 </script>

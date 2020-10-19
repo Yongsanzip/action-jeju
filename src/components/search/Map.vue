@@ -286,6 +286,7 @@ export default {
         })
     },
     destroyed() {
+        EventBus.$off("Map");
         window.removeEventListener("resize", this.setMapSetting);
     }
 }

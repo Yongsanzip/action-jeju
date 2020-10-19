@@ -887,6 +887,7 @@ export default {
 
     },
     destroyed() {
+        EventBus.$off("RouteView");
         window.removeEventListener("resize", this.setMapSetting);
     }
 }

@@ -468,7 +468,9 @@ export default {
             reviewText.style['white-space'] = 'inherit';
 
         }
-
+    },
+    destroyed() {
+        EventBus.$off("PlaceView");
     }
 }
 </script>

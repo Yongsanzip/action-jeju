@@ -117,6 +117,9 @@ export default {
         EventBus.$on("Setting", prop => {
             this.isLeave = prop;
         });
+    },
+    destroyed() {
+        EventBus.$off("Setting");
     }
 }
 </script>
