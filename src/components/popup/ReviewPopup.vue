@@ -44,7 +44,7 @@
                                     </div>
 
                                     <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
-                                        <button class="btn-remove" @click="removeImage(photoItem.idx)">사진삭제</button>
+                                        <button class="btn-remove" @touchstart="removeImage(photoItem.idx)" @click="removeImage(photoItem.idx)">사진삭제</button>
                                     </div>
                                     <!--                                        <div v-if="idx+1 == photoList.length" style="width: 30px;">-->
 
