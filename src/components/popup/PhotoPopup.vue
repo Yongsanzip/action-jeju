@@ -193,7 +193,7 @@ export default {
             this.isShowList=true;
         }
         else{
-            this.writerNick = this.imageList[this.idx].mb_nick;
+            this.writerNick = this.imageList[this.idx] != null? this.imageList[this.idx].mb_nick : "";
         }
     }
 }
