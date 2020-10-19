@@ -96,10 +96,9 @@ export default {
     data() {
         return {
             imageList: this.photoList.map(function(item){
-                console.log(item.checked || this.photoList[this.idx].like_yn === 'Y' || this.allLike);
                 return {
                     ...item,
-                    checked: item.checked || this.photoList[this.idx].like_yn === 'Y' || this.allLike
+                    checked: item.checked || item.like_yn === 'Y' || this.allLike
                 }
             }.bind(this)),
             isShowList: false,
