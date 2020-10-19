@@ -63,7 +63,7 @@
                                 <li v-for="(path, pathIdx) in item.path" :key="pathIdx">
                                     <div class="place-number noto-sans">{{pathIdx+1}}</div>
                                     <p class="place-name" @click="doViewPlace(path)">{{path.company_name}}</p>
-                                    <p class="place-time"></p>
+                                    <p class="place-time">{{path.distance_data}} {{path.duration_data}}</p>
                                     <div class="travel-contents">
                                         <div class="review-text" @click="doViewAllReviewText($event, idx, pathIdx)">
                                             <p v-if="path.review != null">{{path.review}}</p>
