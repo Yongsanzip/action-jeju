@@ -146,6 +146,8 @@ export default {
         * 댓글 작성
          */
         writeComment(){
+            if(this.comment === "" || this.comment == null) return;
+
             const postData = new FormData;
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.tourIdx);
