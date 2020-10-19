@@ -277,7 +277,6 @@ export default {
           isFavorites: false,
           isPhoto: false,
           imageList: [],
-          imageDataList: [],
           isReply:false,
           replyList:[],
           isReplyMenu: false,
@@ -389,7 +388,12 @@ export default {
                 day.path.forEach(function(path){
                     // console.log(path.images);
                     if(path.images == null || path.images.length < 1) return;
-                    this.imageList = path.images;
+                    path.images.forEach(function(item){
+                        this.imageList.push({
+                            ...item,
+                            checked: item.like_yn === 'Y'
+                        });
+                    }.bind(this))
                 }.bind(this));
             }.bind(this));
         },
@@ -398,7 +402,8 @@ export default {
         * 이미지 선택 시 해당 이미지 크게보기
          */
         showPhotoModal(imgData){
-            this.selectedPhotoIdx = this.imageDataList.findIndex(function(img){ return img.idx === imgData.idx; });
+            this.selectedPhotoIdx = this.imageList.findIndex(function(img){ return img.idx === imgData.idx; });
+            this.selectedPhotoIdx = this.selectedPhotoIdx < 0? 0 : this.selectedPhotoIdx;
             this.isPhoto = true;
         },
         /*
