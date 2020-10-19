@@ -417,6 +417,9 @@ export default {
             window.scrollTo(0,0);
             this.getPlaceData();
             EventBus.$on("PlaceView", props => {
+                if(this.showModal){
+                    this.getPlaceData();
+                }
                 this.showModal = props;
                 this.showReview = props;
                 this.mapModal = props;

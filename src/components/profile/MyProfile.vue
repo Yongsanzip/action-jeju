@@ -153,7 +153,7 @@ export default {
         * 선택된 탭 별 목록 조회
          */
         getList(type, isReload = false){
-            if(this.type == type && !isReload) return;
+            if(this.type === type && !isReload) return;
             this.profileList = [];
             this.listLimit = this.originListLimit;
             if (type) this.type = type;
@@ -246,18 +246,19 @@ export default {
         this.getProfile();
         this.getList(this.navList[this.el_Active].type);
         EventBus.$on("MyProfile", (type, idx) => {
-            if(type == "myTravel"){
+            if(type === "myTravel"){
                 this.getList("mytravel", true);
             }
-            else if(type == "photo"){
+            else if(type === "photo"){
                 if(idx == null){
                     this.showPhotoModal = false;
+                    this.getList(this.type, true);
                     document.getElementsByClassName("container")[0].style['z-index'] = 1;
                 }
                 else{
                     let selectedPhotoIdx = null;
                     this.profileList.filter(function(item, i){
-                        if(item.image_idx == idx){
+                        if(item.image_idx === idx){
                             selectedPhotoIdx = i;
                             return i;
                         }
