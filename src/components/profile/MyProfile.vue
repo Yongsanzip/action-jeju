@@ -206,7 +206,6 @@ export default {
                             name: item.image_name
                         }
                     });
-                    console.log(this.profileList);
                     this.noDataText = "좋아요 사진이 없습니다."
                 }).catch(err => {
                     console.error(err);
