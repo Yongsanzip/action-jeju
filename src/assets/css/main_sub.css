@@ -1739,7 +1739,7 @@
   background-color: #f3645a;
 }
 
-.con-route .route-wrap .route-contents .route-item:nth-child(3n+1) .travel-day {
+.con-route .route-wrap .route-contents .route-item:nth-child(3n+2) .travel-day {
   background-color: #5899fb;
 }
 
