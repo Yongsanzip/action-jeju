@@ -1764,7 +1764,7 @@
   display: block;
   margin-bottom: 6px;
 }
-.con-route .route-wrap .route-contents .route-item .travel-list > div> li.edit-route-item {
+.con-route .route-wrap .route-contents .route-item .travel-list > div.edit-route-block > li.edit-route-item {
   margin-bottom: 10px;
   display: block;
   padding: 8px;

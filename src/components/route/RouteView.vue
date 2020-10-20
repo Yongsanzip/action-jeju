@@ -361,10 +361,32 @@ export default {
         getRouteList() {
             const postData = new FormData;
             postData.append('tour_idx', this.id);
+            postData.append('mb_id', this.GET_MB_ID);
             Route.routeListDetail(postData).then(res => {
-                //console.log(res.data)
                 this.tourInfo = res.data.tourInfo;
-                this.days = res.data.days;
+
+                const tourDate = new Date(res.data.tourInfo.sdate);
+                let i = 0;
+                while (i < res.data.tourInfo.days){
+                    this.days[i] = {
+                        date: this.$moment(new Date(tourDate)).format('YYYY-MM-DD'),
+                        day: i+1,
+                        idx: null,
+                        path: []
+                    };
+                    tourDate.setDate(tourDate.getDate() + 1);
+                    i++;
+                }
+                if(res.data.days != null){
+                    res.data.days.forEach(function(day) {
+                        const idx = this.days.findIndex((d) => d.date === day.date);
+                        if(idx > -1){
+                            this.days[idx].date = day.date;
+                            this.days[idx].idx = day.idx;
+                            this.days[idx].path = day.path;
+                        }
+                    }.bind(this));
+                }
 
                 this.isMine = this.GET_MB_ID === this.tourInfo.mb_id;
                 this.setImageList();
@@ -403,7 +425,16 @@ export default {
          */
         showPhotoModal(imgData){
             this.selectedPhotoIdx = this.imageList.findIndex(function(img){ return img.idx === imgData.idx; });
-            this.selectedPhotoIdx = this.selectedPhotoIdx < 0? 0 : this.selectedPhotoIdx;
+            const postData = new FormData;
+            postData.append('mb_id', this.GET_MB_ID);
+            postData.append('action', 'get');
+            postData.append('type', 'route');
+            postData.append('idx', imgData.idx);
+            etc.like(postData).then(res => {
+                console.log("selected photo idx::", imgData.idx);
+                console.log("selected photo like_yn::", imgData.like_yn);
+                console.log("get like.php result ::", res.data.isLike);
+            })
             this.isPhoto = true;
         },
         /*

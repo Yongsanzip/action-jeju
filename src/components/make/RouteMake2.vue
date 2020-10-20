@@ -39,6 +39,7 @@
                     </div>
                     <div class="route-contents">
                         <!-- route item -->
+                        <draggable v-bind="dragOptionsDays" v-model="locationList" :sort="false">
                         <div class="route-item" v-for="(date, dateIdx) in dateList" :idx="dateIdx" :key="dateIdx">
                             <div class="travel-header">
                                 <div class="travel-day noto-sans">D-{{dateIdx+1}}</div>
@@ -46,13 +47,13 @@
                                 <p class="travel-date noto-sans">{{date.fulldate}}</p>
                             </div>
                             <ul class="travel-list">
-                                <template v-if="!isEditRoute">
-                                    <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx">
-                                        <div class="place-number noto-sans">{{idx+1}}</div>
+                                <draggable v-bind="dragOptions" :class="{'edit-route-block': isEditRoute}" :sort="isEditRoute" :list="locationList[dateIdx]" @start="drag=true" @end="drag=false">
+                                    <li v-for="(item, idx) in locationList[dateIdx]" :idx="idx" :key="idx" :class="'edit-route-item '+date.date" >
+                                        <div class="place-number">{{idx+1}}</div>
                                         <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
-                                        <p class="place-time"></p>
-                                        <div class="travel-contents">
-                                            <!-- add travel this -->
+                                        <p class="place-time">{{item.distance_data}} {{item.duration_data}}</p>
+                                        <button v-if="isEditRoute" class="btn-close" @touchstart="deletePlace($event, dateIdx, idx)" @click="deletePlace($event, dateIdx, idx)">장소제거</button>
+                                        <div class="travel-contents" v-if="!isEditRoute">
                                             <p class="review-text">
                                                 {{item.review}}
                                             </p>
@@ -63,24 +64,13 @@
                                             </div>
                                         </div>
                                     </li>
-                                </template>
-                                <template v-if="isEditRoute">
-                                    <draggable class="edit-route-block"  draggable=".edit-route-item">
-                                        <li v-for="(item, idx) in locationList[date.fulldate2]" :key="idx" :idx="idx" :class="'edit-route-item '+date.date">
-                                            <div class="place-number">{{idx+1}}</div>
-                                            <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
-                                            <p class="place-time"></p>
-<!--                                            <p class="place-time">약 1시간 55분 소요</p>-->
-                                            <button class="btn-close" @click="deletePlace($event, dateIdx, idx)">장소제거</button>
-                                        </li>
-                                    </draggable >
-                                </template>
-
+                                </draggable>
                             </ul>
                             <div class="btn-wrap" v-if="!isEditRoute">
-                                <button class="btn-white" @click="addRoute(date.fulldate2)">장소추가</button>
+                                <button class="btn-white" @click="addRoute(dateIdx)">장소추가</button>
                             </div>
                         </div>
+                        </draggable>
                         <!-- //route item -->
                     </div>
                 </div>
@@ -93,7 +83,7 @@
             </a>
         </div>
         <transition name="fade">
-            <modal-search v-if="showModal" :date="selectedDate"/>
+            <modal-search v-if="showModal"/>
             <ReviewPopup v-if="isReview"
                          :location="selectedLocation"
                          :title="selectedLocation.company_name"
@@ -105,7 +95,7 @@
 <script>
 import {mapGetters} from 'vuex';
 import ModalSearch from "../popup/SearchPopup";
-import { EventBus } from "../../assets/event-bus";
+// import { EventBus } from "../../assets/event-bus";
 import { Route } from "@/api";
 import "moment/locale/ko";
 import ReviewPopup from "../popup/ReviewPopup";
@@ -142,9 +132,10 @@ export default {
             isTitle:true,
             marker: null,
             map: null,
+            routeList: [],
             dateList:[],
             locationList:[],
-            selectedDate:null,
+            selectedDateIdx:null,
             dataArr:[],
             slideChk: 0,
             mapOptions: {
@@ -168,9 +159,26 @@ export default {
         }
     },
     computed: {
+        dragOptionsDays() {
+            return {
+                animation: 0,
+                group: "description",
+                disabled: true,
+            };
+        },
+        dragOptions() {
+            return {
+                animation: 0,
+                group: "description",
+                disabled: !this.isEditRoute,
+            };
+        },
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        dragEmitter(value){
+            console.log(value);
+        },
         setMapSetting() {
             this.mapWidth = window.innerWidth;
             this.mapHeight = this.mapHeights[this.slideChk];
@@ -222,9 +230,8 @@ export default {
         * addRoute
         * 장소추가 버튼 선택
          */
-        addRoute(selectedDate){
-            // console.log("selectedDate::", selectedDate);
-            this.selectedDate = selectedDate;
+        addRoute(selectedDateIdx){
+            this.selectedDateIdx = selectedDateIdx;
             this.showModal = true;
         },
         /*
@@ -244,21 +251,20 @@ export default {
             let routeItems = null;
             if(this.isEditRoute){
                 if(this.dateList != null){
-                    this.dateList.forEach(function(date){
+                    this.dateList.forEach(function(date, idx){
                         routeItems = document.getElementsByClassName("edit-route-item "+date.date);
                         if(routeItems.length < 1) return;
 
                         locationOrder = [];
                         routeItems.forEach(function(routeItem){
-                            locationOrder.push(this.locationList[date.fulldate2][routeItem.getAttribute("idx")]);
+                            locationOrder.push(this.locationList[idx][routeItem.getAttribute("idx")]);
                         }.bind(this));
 
-                        this.locationList[date.fulldate2] = locationOrder;
+                        this.locationList[idx] = locationOrder;
                     }.bind(this));
 
-                    this.setRouteDetail();
+                    // this.setRouteDetail();
                 }
-                // console.log(this.locationList);
             }
             this.isEditRoute=!this.isEditRoute;
         },
@@ -267,16 +273,18 @@ export default {
         * 장소 제거
          */
         deletePlace(e, dateIdx, locateIdx){
+            e.stopPropagation();
+            e.preventDefault();
+
             const editRouteItem = document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"]);
-            const locationList = this.locationList[this.dateList[dateIdx]["fulldate2"]];
+            const locationList = this.locationList[dateIdx];
             let changedLocationList = [];
             editRouteItem.forEach(function(el, i){
                 if(i !== locateIdx) changedLocationList.push(locationList[el.getAttribute("idx")]);
             });
-            this.locationList[this.dateList[dateIdx]["fulldate2"]] = changedLocationList;
+            this.locationList[dateIdx] = changedLocationList;
             this.$forceUpdate();
             this.isDiff = true;
-            // document.getElementsByClassName("edit-route-item "+this.dateList[dateIdx]["date"])[locateIdx].remove();
         },
         /*
         * getDateList
@@ -307,21 +315,28 @@ export default {
         getRouteDetail() {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
+            postData.append('mb_id', this.GET_MB_ID);
             Route.routeListDetail(postData).then(res => {
-                //console.log(res.data)
-                // this.tourInfo = res.data.tourInfo;
-                // this.days = res.data.days;
-
                 this.getTitle = res.data.tourInfo.name;
                 this.locationList = [];
+                this.routeList = [];
 
-                this.dateList.forEach(function(item){
-                    this.locationList[item.fulldate2] = [];
+                this.dateList.forEach(function(item, idx){
+                    this.locationList[idx] = [];
                 }.bind(this));
 
                 if(res.data.days != null){
+                    this.routeList = res.data.days;
                     res.data.days.forEach(function(item){
-                        this.locationList[item.date] = item.path;
+                        if(item.day > this.locationList.length && item.path != null) {
+                            item.path.forEach(function(pathItem){
+                                if(this.locationList[this.locationList.length - 1] == null) this.locationList[this.locationList.length - 1] = [];
+                                this.locationList[this.locationList.length - 1].push(pathItem);
+                            }.bind(this))
+                        }
+                        else {
+                            this.locationList[item.day - 1] = item.path;
+                        }
                     }.bind(this));
                 }
             }).catch(err => {
@@ -333,19 +348,27 @@ export default {
         * 여행경로 상세 정보 저장
          */
         setRouteDetail(callback = null){
+            let is_full_days_location = true;
+            this.locationList.forEach(function (locations) {
+                if(locations == null || locations.length < 1) is_full_days_location = false;
+            });
+            if(!is_full_days_location) {
+                this.$alert('모든 여행 일자에 여행 장소를 추가해주세요.');
+                return;
+            }
+
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.touridx);
 
             let detailArr = [];
-            this.dateList.forEach(function(dateItem){
-                for(let i=0; i<this.locationList[dateItem.fulldate2].length; i++){
-                    if(this.locationList[dateItem.fulldate2][i] != null) detailArr.push(dateItem.fulldate2+"/"+this.locationList[dateItem.fulldate2][i].company_idx);
+            this.dateList.forEach(function(dateItem, dateIdx){
+                for(let i=0; i<this.locationList[dateIdx].length; i++){
+                    if(this.locationList[dateIdx][i] != null) detailArr.push(dateItem.fulldate2+"/"+this.locationList[dateIdx][i].company_idx);
                 }
             }.bind(this));
-            //console.log("detailArr::", detailArr);
             postData.append('details', detailArr.join("&"));
-
+            
             Route.saveRouteDetail(postData).then(res => {
                 console.log(res.data);
                 this.getRouteDetail();
@@ -362,7 +385,6 @@ export default {
         * 장소 후기 작성 팝업 표시
          */
         writeReview(date, location){
-            // console.log(date, location);
             this.isReview = true;
             this.selectedLocation = location;
         },
@@ -385,15 +407,13 @@ export default {
         /*
         * 장소 검색 및 후기 작성 팝업 닫을 때 여행경로 상세 정보 재조회
          */
-        EventBus.$on("Make2", (path, item, props) => {
+        this.$on("Make2", function(path, item, props) {
             if(path === 'place'){
                 this.showModal = props;
                 if(item != null){
-                    if(this.locationList[this.selectedDate] != null){
-                        this.locationList[this.selectedDate].push(item);
-                        // console.log(3, this.locationList);
-                    }
-                    this.setRouteDetail();
+                    if(this.locationList[this.selectedDateIdx] == null) this.locationList[this.selectedDateIdx] = [];
+                    this.locationList[this.selectedDateIdx].push(item);
+                    // this.setRouteDetail();
                 }
             }
             else if(path === 'review'){
@@ -402,12 +422,11 @@ export default {
             }
         });
         this.getTitle = this.title;
-        // this.touridx = this.touridx;
         this.getDateList();
         this.getRouteDetail();
     },
     destroyed() {
-        EventBus.$off("Make2");
+        this.$off("Make2");
         window.removeEventListener("resize", this.setMapSetting);
     }
 }

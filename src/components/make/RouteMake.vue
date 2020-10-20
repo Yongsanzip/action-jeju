@@ -89,6 +89,7 @@ export default {
     },
     data(){
         return{
+            tourInfo: null,
             profile: null,
             ranges:{
                 start: new Date(),
@@ -161,19 +162,40 @@ export default {
                 this.isChk = false;
                 return false
             }
-            if (this.num === 0){
+            else if (this.num === 0){
                 this.$alert('인원을 선택해주세요');
                 this.isChk = false;
                 return false
             }
-            const dayChk = this.$el.getElementsByClassName('vc-highlights').length;
+
+            if(this.tourInfo != null) {
+                const sdate = this.$moment(this.ranges.start).format('YYYY-MM-DD');
+                const edate = this.$moment(this.ranges.end).format('YYYY-MM-DD');
+
+                if(this.tourInfo.sdate !== sdate || this.tourInfo.edate !== edate) {
+                    this.$confirm("일정을 변경하면 내용이 변경될 수 있습니다.").then(()=> {
+                        this.saveRouteDetail();
+                    }).catch(()=> {
+                        //cancel
+                    })
+                }
+                return;
+            }
+
+            this.saveRouteDetail();
+        },
+        saveRouteDetail() {
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
-            if(this.touridx != null) postData.append('idx', this.touridx);
+            if(this.touridx != null){
+                postData.append('idx', this.touridx);
+            }
             postData.append('tourname', this.title);
             postData.append('tourimg', this.$refs.myfile.files[0]);
             postData.append('adult_cnt', this.personnel[0].number);
             postData.append('kids_cnt', this.personnel[1].number);
+
+            const dayChk = this.$el.getElementsByClassName('vc-highlights').length;
             if (dayChk > 11){
                 this.$alert('최대 10일까지 선택가능합니다.');
                 return false
@@ -182,17 +204,13 @@ export default {
                 postData.append('edate', this.$moment(this.ranges.end).format('YYYY-MM-DD'));
             }
             Route.saveRoute(postData).then(res => {
-                console.log(res.data);
-
-                //임시
-                // this.touridx = (res.data.touridx > 0)? res.data.touridx : 1;
                 this.touridx = Number(res.data.touridx);
-                this.isChk = true;
-                // if (this.isChk) this.$router.push(`/make/${getResult.touridx}`);
+                this.getRouteDetail(function(){
+                    this.isChk = true;
+                }.bind(this));
             }).catch(err => {
                 console.error(err);
             })
-
         },
         /*
         * getRandomNumb
@@ -204,35 +222,21 @@ export default {
             if(Number(numb) < 10) numb = "0" + numb;
 
             return numb;
-        }
-    },
-    created() {
-        const postData = new FormData();
-        postData.append('mb_id', this.GET_MB_ID);
-
-        profile.profile(postData).then(res => {
-            this.profile = res.data;
-            if(this.title == "") this.title = this.profile.nick + "님의 액션제주";
-            // console.log(getResult.result_code)
-        }).catch(err => {
-            console.error(err);
-        })
-
-        /*
-        * 여행경로 수정
-         */
-        if(this.idx != null){
-            this.touridx = this.idx;
-
+        },
+        async getRouteDetail(callback) {
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
-            Route.routeListDetail(postData).then(res => {
+            await Route.routeListDetail(postData).then(res => {
+                this.tourInfo = res.data.tourInfo;
                 this.title = res.data.tourInfo.name;
                 if(res.data.tourInfo.image != null && res.data.tourInfo.image != "null" && res.data.tourInfo.image != ""){
                     this.url = "http://img.actionjeju.com/data/user_route_image/"+res.data.tourInfo.image;
                 }
-                this.ranges.start = new Date(res.data.days[0].date);
-                this.ranges.end = new Date(res.data.days[res.data.days.length - 1].date);
+                this.ranges.start = new Date(res.data.tourInfo.sdate);
+                const edate = new Date(res.data.tourInfo.sdate);
+                edate.setDate(edate.getDate() + (res.data.tourInfo.days - 1));
+                this.ranges.end = new Date(this.$moment(edate).format('YYYY-MM-DD'));
+                this.tourInfo.edate = this.$moment(edate).format('YYYY-MM-DD');
 
                 this.personnel[0].number = Number(res.data.tourInfo.adult_cnt);
                 this.personnel[1].number = Number(res.data.tourInfo.kids_cnt);
@@ -245,9 +249,34 @@ export default {
 
                 //데이터 얻은 후 상세 수정 이동
                 this.isChk = this.isChk_flag;
+                if(callback != null) callback();
             }).catch(err => {
                 console.error(err);
             })
+        }
+    },
+    created() {
+        if(this.idx != null){
+            /*
+            * 여행경로 수정 화면 : 여행경로 상세 정보 조회
+             */
+            this.touridx = this.idx;
+            this.getRouteDetail();
+        }
+        else {
+            /*
+            * 여행경로 신규 작성 화면 : 사용자 정보 조회
+             */
+            const postData = new FormData();
+            postData.append('mb_id', this.GET_MB_ID);
+            profile.profile(postData).then(res => {
+                this.profile = res.data;
+                if(this.title === "") this.title = this.profile.nick + "님의 액션제주";
+                // console.log(getResult.result_code)
+            }).catch(err => {
+                console.error(err);
+            })
+
         }
     }
 }

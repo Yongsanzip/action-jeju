@@ -276,7 +276,8 @@ export default {
         * 닫기 버튼 선택
          */
         close() {
-            EventBus.$emit("Make2", 'review', null, this.showReview);
+            // EventBus.$emit("Make2", 'review', null, this.showReview);
+            this.$parent.$emit('Make2', 'review', null, this.showReview)
             EventBus.$emit("PlaceView", this.showReview);
         },
     },

@@ -26,7 +26,6 @@
     </section>
 </template>
 <script>
-import { EventBus } from "../../assets/event-bus";
 import { search } from "@/api";
 
 export default {
@@ -114,14 +113,14 @@ export default {
         * 선택 버튼 선택
          */
         doSelect(item){
-            EventBus.$emit("Make2", 'place', item, this.showModal);
+            this.$parent.$emit('Make2', 'place', item, this.showModal);
         },
         /*
         * close
         * 닫기 버튼 선택
          */
         close() {
-            EventBus.$emit("Make2", 'place', null, this.showModal);
+            this.$parent.$emit("Make2", 'place', null, this.showModal);
         }
     }
 }
