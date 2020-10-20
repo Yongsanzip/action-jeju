@@ -243,9 +243,11 @@ export default {
                 this.num = this.personnel[0].number + this.personnel[1].number;
 
                 this.locationList = [];
-                res.data.days.forEach(function(item){
-                    this.locationList[item.date] = item.path;
-                }.bind(this));
+                if(res.data.days != null) {
+                    res.data.days.forEach(function(item){
+                        this.locationList[item.date] = item.path;
+                    }.bind(this));
+                }
 
                 //데이터 얻은 후 상세 수정 이동
                 this.isChk = this.isChk_flag;

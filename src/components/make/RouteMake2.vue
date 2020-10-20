@@ -39,7 +39,7 @@
                     </div>
                     <div class="route-contents">
                         <!-- route item -->
-                        <draggable v-bind="dragOptionsDays" v-model="locationList" :sort="false">
+                        <draggable v-bind="dragOptionsDays" :list="locationList" :sort="false">
                         <div class="route-item" v-for="(date, dateIdx) in dateList" :idx="dateIdx" :key="dateIdx">
                             <div class="travel-header">
                                 <div class="travel-day noto-sans">D-{{dateIdx+1}}</div>
@@ -47,7 +47,7 @@
                                 <p class="travel-date noto-sans">{{date.fulldate}}</p>
                             </div>
                             <ul class="travel-list">
-                                <draggable v-bind="dragOptions" :class="{'edit-route-block': isEditRoute}" :sort="isEditRoute" :list="locationList[dateIdx]" @start="drag=true" @end="drag=false">
+                                <draggable v-bind="dragOptions" :class="{'edit-route-block': isEditRoute}" :sort="isEditRoute" :list="locationList[dateIdx]" @end="updateLocationListOrder">
                                     <li v-for="(item, idx) in locationList[dateIdx]" :idx="idx" :key="idx" :class="'edit-route-item '+date.date" >
                                         <div class="place-number">{{idx+1}}</div>
                                         <p class="place-name" @click="writeReview(date.fulldate2, item)">{{item.company_name}}</p>
@@ -176,8 +176,8 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
-        dragEmitter(value){
-            console.log(value);
+        updateLocationListOrder() {
+            this.$forceUpdate();
         },
         setMapSetting() {
             this.mapWidth = window.innerWidth;
@@ -247,25 +247,6 @@ export default {
         * 일정 순서 변경 가능 상태 토글
          */
         doEditRouteOrder(){
-            let locationOrder = null;
-            let routeItems = null;
-            if(this.isEditRoute){
-                if(this.dateList != null){
-                    this.dateList.forEach(function(date, idx){
-                        routeItems = document.getElementsByClassName("edit-route-item "+date.date);
-                        if(routeItems.length < 1) return;
-
-                        locationOrder = [];
-                        routeItems.forEach(function(routeItem){
-                            locationOrder.push(this.locationList[idx][routeItem.getAttribute("idx")]);
-                        }.bind(this));
-
-                        this.locationList[idx] = locationOrder;
-                    }.bind(this));
-
-                    // this.setRouteDetail();
-                }
-            }
             this.isEditRoute=!this.isEditRoute;
         },
         /*
@@ -368,7 +349,7 @@ export default {
                 }
             }.bind(this));
             postData.append('details', detailArr.join("&"));
-            
+
             Route.saveRouteDetail(postData).then(res => {
                 console.log(res.data);
                 this.getRouteDetail();
@@ -385,6 +366,7 @@ export default {
         * 장소 후기 작성 팝업 표시
          */
         writeReview(date, location){
+            if(this.isEditRoute) return;
             this.isReview = true;
             this.selectedLocation = location;
         },
