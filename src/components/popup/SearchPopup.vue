@@ -84,30 +84,6 @@ export default {
                 console.error(err);
             })
         },
-        infiniteHandler($state) {
-            const postData = new FormData();
-            if(this.isFirst && this.searchText == ""){
-                $state.loaded();
-                $state.complete();
-            }
-            else{
-                postData.append('keyword', this.searchText);
-                search.searchPlace(postData,{
-                    params: {
-                        page: this.page,
-                    },
-                }).then((res) => {
-                    console.log(res)
-                    if (res.data.searchList) {
-                        this.page += 1;
-                        this.searchList.push(...res.data.searchList);
-                        $state.loaded();
-                    } else {
-                        //$state.complete();
-                    }
-                });
-            }
-        },
         /*
         * doSelect
         * 선택 버튼 선택

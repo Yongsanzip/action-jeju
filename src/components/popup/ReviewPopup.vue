@@ -265,7 +265,7 @@ export default {
                 console.log(res.data);
                 if(res.data.resultCode === "1000"){
                     //성공
-                    EventBus.$emit("Make2", 'review', true, this.showReview);
+                    this.$parent.$emit('Make2', 'review', true, this.showReview)
                 }
             }).catch(err => {
                 console.error(err);
