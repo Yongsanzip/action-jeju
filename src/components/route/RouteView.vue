@@ -580,10 +580,10 @@ export default {
             let strokeColor = '#00c7c9';
             switch (tourDay) {
                 case 1:
-                    strokeColor = '#f3645a';
+                    strokeColor = '#5899fb';
                     break;
                 case 2:
-                    strokeColor = '#5899fb';
+                    strokeColor = '#f3645a';
                     break;
                 default:
                     strokeColor = '#00c7c9';
