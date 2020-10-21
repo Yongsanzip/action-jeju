@@ -1,5 +1,19 @@
 
 /* main page*/
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100vh;
+  background: #00000030;
+}
+.loading-overlay > .spinner {
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+}
+
 .con-main .main-list-hashtag {
   padding: 16px 0;
   white-space: nowrap;
@@ -1843,7 +1857,7 @@
 
 
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents {
-  display: block;
+  display: table;
   margin: 6px 0;
   margin-left: 10px;
   padding: 0px 0 15px;
@@ -4407,28 +4421,28 @@
   background-repeat: no-repeat;
 }
 .markerContent .routeMarker.day2 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
 }
 .markerContent .routeMarker.day3 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
 }
 .markerContent .routeMarker.day4 {
   background-image: url("../images/mappin/ic-mappin-bg-green.svg");
 }
 .markerContent .routeMarker.day5 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
 }
 .markerContent .routeMarker.day6 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
 }
 .markerContent .routeMarker.day7 {
   background-image: url("../images/mappin/ic-mappin-bg-green.svg");
 }
 .markerContent .routeMarker.day8 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
 }
 .markerContent .routeMarker.day9 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
 }
 .markerContent .routeMarker.day10 {
   background-image: url("../images/mappin/ic-mappin-bg-green.svg");

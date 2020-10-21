@@ -26,7 +26,7 @@
     "vue-cookies": "^1.6.1",
     "vue-daum-postcode": "^0.9.0",
     "vue-gallery": "^2.0.1",
-    "vue-infinite-loading": "^2.4.4",
+    "vue-loading-spinner": "^1.0.11",
     "vue-moment": "^4.1.0",
     "vue-multipane": "^0.9.5",
     "vue-naver-maps": "^0.11.11",
