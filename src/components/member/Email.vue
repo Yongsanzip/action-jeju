@@ -8,7 +8,7 @@
             <div class="member-content">
                 <form @submit.prevent="getLogin">
                     <div class="input-box">
-                        <input type="email" placeholder="이메일 주소 입력" v-model="user.email">
+                        <input type="text" placeholder="이메일 주소 입력" v-model="user.email">
 <!--                        <p v-if="!$v.user.email.required" class="validate">이메일을 입력해주세요</p>-->
 <!--                        <p v-if="!$v.user.email.email" class="validate">이메일 형식이 아닙니다.</p>-->
                     </div>
@@ -63,17 +63,24 @@ export default {
             if (this.$v.$invalid) {
                 if(!this.$v.user.email.required) {
                     this.$alert('이메일 주소를 입력해주세요.');
+                    return;
                 }
-                else if(!this.$v.user.email.email) {
+                else if(this.user.email !== "admin" && !this.$v.user.email.email) {
                     this.$alert('이메일 형식이 아닙니다.');
+                    return;
                 }
                 else if(!this.$v.user.password.required) {
                     this.$alert('비밀번호를 입력해주세요.');
+                    return;
                 }
                 else if(!this.$v.user.password.minLength){
                     this.$alert('비밀번호를 6자리 이상 입력해주세요.');
+                    return;
                 }
-                return;
+
+                if(this.user.email !== "admin"){
+                    return;
+                }
             }
 
             const {
