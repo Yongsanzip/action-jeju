@@ -843,7 +843,43 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
-        }
+        },
+        setReviewTextOverflow(){
+            const reviewTextBox = document.getElementsByClassName("review-text");
+            let reviewTextEl = null;
+            if(reviewTextBox.length >= 0){
+                reviewTextBox.forEach(function(boxEl){
+                    let boxWidth = boxEl.parentElement.parentElement.offsetWidth - 30;
+                    reviewTextEl = boxEl.getElementsByTagName("p")[0];
+                    if(reviewTextEl == null) return true;
+
+                    if (reviewTextEl.scrollWidth > boxWidth * this.reviewLines){
+                        while (reviewTextEl.scrollWidth > boxWidth * this.reviewLines - 70) {
+                            reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
+                            this.$forceUpdate();
+                        }
+
+                        boxEl.classList.add("overflow2lines");
+                        boxEl.classList.add("has-overflow");
+                    }
+                    else if (reviewTextEl.scrollWidth > boxWidth || reviewTextEl.scrollWidth > boxWidth * this.reviewLines - 70){
+                        boxEl.classList.add("has-overflow");
+                    }
+                }.bind(this))
+            }
+
+            const commentTextEl = document.getElementsByClassName("comment-text");
+            if(commentTextEl.length < 1) return;
+            commentTextEl.forEach(function(el){
+                if (el.scrollWidth > el.offsetWidth * this.commentLines){
+                    while (el.scrollWidth > el.offsetWidth * this.commentLines - 70) {
+                        el.innerHTML = el.innerHTML.slice(0, -1);
+                    }
+                    el.parentElement.classList.add("overflow3lines");
+                }
+                if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
+            }.bind(this));
+        },
         /*
         ,shareLink(){
             const snsCode = "vIconTw";
@@ -892,35 +928,10 @@ export default {
         });
     },
     updated() {
-        const reviewTextBox = document.getElementsByClassName("review-text");
-        let reviewTextEl = null;
-        if(reviewTextBox.length >= 0){
-            reviewTextBox.forEach(function(boxEl){
-                reviewTextEl = boxEl.getElementsByTagName("p")[0];
-                if(reviewTextEl == null) return true;
-
-                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 70){
-                    while (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth * this.reviewLines - 70) {
-                        reviewTextEl.innerHTML = reviewTextEl.innerHTML.slice(0, -1);
-                    }
-                    boxEl.classList.add("overflow2lines");
-                }
-                if (reviewTextEl.scrollWidth > reviewTextEl.offsetWidth) reviewTextEl.parentElement.classList.add("has-overflow");
-            }.bind(this))
-        }
-
-        const commentTextEl = document.getElementsByClassName("comment-text");
-        if(commentTextEl.length < 1) return;
-        commentTextEl.forEach(function(el){
-            if (el.scrollWidth > el.offsetWidth * this.commentLines - 70){
-                while (el.scrollWidth > el.offsetWidth * this.commentLines - 70) {
-                    el.innerHTML = el.innerHTML.slice(0, -1);
-                }
-                el.parentElement.classList.add("overflow3lines");
-            }
-            if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
-        }.bind(this));
-
+        this.setReviewTextOverflow();
+    },
+    mounted() {
+        this.setReviewTextOverflow();
     },
     destroyed() {
         EventBus.$off("RouteView");
