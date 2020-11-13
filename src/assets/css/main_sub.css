@@ -1869,12 +1869,12 @@
   font-size: 11px;
   line-height: 17px;
   color: #888888;
+    /*width: 90vw;*/
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text p {
   font-size: 14px;
   line-height: 17px;
-  height: 35px;
   white-space: nowrap;
 }
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.has-overflow p {
@@ -1907,7 +1907,7 @@
   margin-top: 8px;
   white-space: nowrap;
   overflow: auto;
-  width: calc(100% + 15px);
+  width: calc(100vw - 38px);
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-image-list .review-image {
@@ -1930,6 +1930,9 @@
   margin-right: 15px;
 }
 
+.con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .hashtag-list {
+    margin-top: 8px;
+}
 
 .con-route .route-wrap .route-contents .route-item .travel-list-edit > li {
   display: block;
