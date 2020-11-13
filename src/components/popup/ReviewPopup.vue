@@ -5,9 +5,8 @@
                 <div class="place-review">
                     <div class="input-place-review-block">
                         <div class="review-header">
-                            <button type="button" class="btn-close" @click="close()">모달닫기</button>
                             <h3 class="place-name">{{title}} <span>후기쓰기</span></h3>
-                            <div class="btn-write" @click="save">완료</div>
+                            <button type="button" class="btn-close" @click="close()">모달닫기</button>
                         </div>
                         <div class="rate-wrap">
                             <star-rating :rounded-corners="true"

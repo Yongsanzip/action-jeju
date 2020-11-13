@@ -1,10 +1,9 @@
 <template>
     <section class="wrap">
         <header class="header sub-header">
-            <router-link to="/main" class="close">이전</router-link>
             <h1>여행경로 만들기</h1>
 <!--            <h1>{{(isTitle)? '여행경로 수정' : '여행경로 만들기'}}</h1>-->
-            <button type="button" class="next" @click="complete">완료</button>
+            <button class="close" @click="close">이전</button>
         </header>
         <div class="container con-route con-route-make" :class="{ 'overflow-y' : isReview === true}">
             <div class="route-map" style="margin-top: 0;" :style="{height: Math.floor(mapHeights[slideChk]) + 'px'}">

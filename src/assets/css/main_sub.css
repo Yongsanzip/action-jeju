@@ -2506,7 +2506,7 @@
   background-image: url("../images/svg/ic-cross-gray.svg");
   background-repeat: no-repeat;
   position: absolute;
-  left: 0;
+  right: 0;
 }
 
 .con-route .overlay .place-review .btn-write {

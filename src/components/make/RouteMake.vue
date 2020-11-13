@@ -3,10 +3,9 @@
         <div :class="{hide : isChk}">
             <section class="wrap">
                 <header class="header sub-header">
-                    <router-link to="/main" class="close">이전</router-link>
                     <h1>여행경로 만들기</h1>
 <!--                    <h1>{{(this.touridx == null)? '여행경로 만들기' : '여행경로 일정 수정'}}</h1>-->
-                    <button type="button" class="next" @click="doNext">다음</button>
+                    <router-link to="/main" class="close">이전</router-link>
                 </header>
                 <div class="container con-route con-route-make">
                     <div class="route-cover">

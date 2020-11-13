@@ -28,7 +28,7 @@
   width: 24px;
   height: 24px;
   position: absolute;
-  left: 12px;
+  right: 12px;
   top: 8px;
   background-image: url("../images/svg/ic-cross-gray.svg");
   background-repeat: no-repeat;
