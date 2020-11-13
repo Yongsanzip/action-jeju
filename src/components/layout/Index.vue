@@ -16,7 +16,7 @@
                 <!-- search result -->
                 <div class="search-result-box" v-if="isSearch">
                     <p class="search-keyword">
-                        <span>{{searchText}}</span>
+                        <span v-text="$route.query.text"></span>
                         검색결과
                         <button class="btn-close" @click="closeSearch()"></button>
                     </p>
@@ -195,7 +195,13 @@ export default {
          */
         closeSearch(){
             if(this.$route.query.text != null && this.$route.query.text !== '') {
-                this.$router.replace('/map');
+                this.$router.replace({
+                    path: 'map',
+                    query: {
+                        text: this.searchText,
+                        type: this.type
+                    }
+                });
             }
             else{
                 this.isActive = false;
@@ -223,29 +229,19 @@ export default {
                 this.$alert("검색어를 입력해주세요");
                 return false;
             }else{
-                if (type) this.type = type;
-                this.loading = true;
                 this.searchList = [];
                 this.navActive = 3;
 
+                const url = document.location.origin + "/map?text=" + this.searchText + "&type=" + type;
                 if (this.$route.fullPath.indexOf("/map") < 0){
-                    this.$router.push({
-                        path: 'map',
-                        query: {
-                            text: this.searchText
-                        }
-                    });
+                    document.location.href = url;
                 }
                 else if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null){
-                        this.$router.replace({
-                        path: 'map',
-                        query: {
-                            text: this.searchText
-                        }
-                    });
+                    document.location.href = url;
                 }
                 else{
-                    this.doSearch(type);
+                    if(type) this.type = type;
+                    this.doSearch(this.type);
                 }
             }
         },
