@@ -15,6 +15,14 @@
                         :initLayers="initLayers"
                         @load="onLoadMap"
                 >
+                    <template v-for="(pathList, idx) in mapMarkList">
+                        <naver-marker v-for="(path, pathIdx) in pathList" :otherOptions="path" :key="idx + '-' + pathIdx" :lat="path.lat" :lng="path.lng" @load="onMarkerLoaded">
+                        </naver-marker>
+                    </template>
+
+                    <template v-for="(polyline, idx) in polylineList">
+                        <naver-polyline :path="polyline" :tour-day="polylineOrder[idx]" :key="'polyline_'+idx" @load="onPolylineLoaded" />
+                    </template>
                 </naver-maps>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 0" v-hammer:swipe="doSlide"></div>
                 <div class="slide-drawer" :class="slideChk" v-show="slideChk === 1" v-hammer:swipe="doSlide"></div>
@@ -153,6 +161,9 @@ export default {
             mapWidth: 0,
             mapHeight: 159,
             mapHeights: [159, 370, 547],
+            mapMarkList: [],
+            polylineList: [],
+            polylineOrder: [],
             initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE'],
             selectedLocation: null
         }
@@ -175,7 +186,12 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
+        /*
+        * updateLocationListOrder
+        * 장소 순서 변경
+         */
         updateLocationListOrder() {
+            this.isDiff = true;
             this.$forceUpdate();
         },
         setMapSetting() {
@@ -192,6 +208,129 @@ export default {
         onLoadMap(vue){
             this.mapWidth = document.body.offsetWidth;
             this.map = vue;
+            if(this.dateList != null) this.drawMapMarker();
+        },
+        /*
+        * drawMapMarker
+        * 여행 일정 별 장소 정보와 이동 동선 정보를 얻어 마커 표시 및 폴리라인 조회 위한 데이터 준비
+         */
+        drawMapMarker(){
+            if(this.locationList.length < 1 || this.dateList.length < 1) {
+                return;
+            }
+
+            let polylineData = {};
+            this.dateList.forEach(function(day, dayIdx) {
+                let markerList = [];
+                this.locationList[dayIdx].forEach(function(path, pathIdx){
+                    polylineData.tour_day = dayIdx;
+                    markerList.push({
+                        day: dayIdx + 1,
+                        title: pathIdx,
+                        lat: Number(path.lat),
+                        lng: Number(path.long)
+                    });
+
+                    if(dayIdx > 0 && pathIdx === 0){
+                        polylineData.start = polylineData.end;
+                        polylineData.end = {
+                            'lat': path.lat,
+                            'lng': path.long
+                        };
+                        this.getPolyLine(polylineData);
+                    }
+                    if(pathIdx > 0){
+                        polylineData.start = {
+                            'lat': this.locationList[dayIdx][pathIdx-1].lat,
+                            'lng': this.locationList[dayIdx][pathIdx-1].long
+                        };
+                        polylineData.end = {
+                            'lat': path.lat,
+                            'lng': path.long
+                        };
+                        this.getPolyLine(polylineData);
+                    }
+                    else if(pathIdx === this.locationList[dayIdx].length - 1){
+                        polylineData.end = {
+                            'lat': path.lat,
+                            'lng': path.long
+                        };
+                    }
+
+                }.bind(this));
+
+                this.mapMarkList.push(markerList);
+
+            }.bind(this));
+        },
+        /*
+        * getPolyLine
+        * 폴리라인 목록 조회
+         */
+        getPolyLine(data){
+            const postData = new FormData;
+            postData.append('tour_day', data.tour_day);
+            postData.append('s_lat', data.start.lat);
+            postData.append('s_lon', data.start.lng);
+            postData.append('e_lat', data.end.lat);
+            postData.append('e_lon', data.end.lng);
+            Route.routeDrivePath(postData).then(res => {
+                const points = res.data.points;
+                points.forEach(function(point){
+                    point.lng = point.lon;
+                });
+                this.polylineList.push(points);
+                this.polylineOrder[this.polylineList.length-1] = postData.get("tour_day");
+            }).catch(err => {
+                console.error(err);
+            })
+        },
+        /*
+        * onMarkerLoaded
+        * 이동 장소 별 마커 로드 완료 시 해당 장소의 여행일, 동선 순서 순으로 마커 이미지 표시
+         */
+        onMarkerLoaded(marker){
+            const markerIcon = document.createElement('div');
+            markerIcon.classList.add('markerContent');
+            markerIcon.title = marker.otherOptions.day+"일차";
+            const routeMarker = document.createElement('div');
+            routeMarker.classList.add('routeMarker');
+            routeMarker.classList.add('day'+marker.otherOptions.day);
+            markerIcon.appendChild( routeMarker );
+
+            const routeMarkerTitle = document.createElement('div');
+            routeMarkerTitle.classList.add('order_number');
+            routeMarkerTitle.innerText = marker.otherOptions.title+1;
+            routeMarker.appendChild( routeMarkerTitle );
+
+            marker.setIcon({
+                content: markerIcon
+            });
+            marker.setCursor('');
+        },
+        /*
+        * onPolylineLoaded
+        * 폴리라인 로드 완료 시 여행일자 별 색상 표시
+         */
+        onPolylineLoaded(polyline){
+            const tourDay = Number(polyline.$el.getAttribute("tour-day")) % 3;
+            let strokeColor = '#00c7c9';
+            switch (tourDay) {
+                case 1:
+                    strokeColor = '#5899fb';
+                    break;
+                case 2:
+                    strokeColor = '#f3645a';
+                    break;
+                default:
+                    strokeColor = '#00c7c9';
+                    break;
+            }
+            polyline.setOptions({
+                strokeWeight: '3',
+                strokeColor: strokeColor
+            });
+            polyline.map = this.map;
         },
         /*
         * doSlide
@@ -282,7 +421,6 @@ export default {
                     fulldate2: this.$moment(dt_date).format('YYYY-MM-DD'),
                     date: dt_date.getDate()
                 });
-                this.locationList[dt] = [];
 
                 dt_date.setDate(dt_date.getDate() + 1);
                 dt = this.$moment(dt_date).format('YYYY-MM-DD');
@@ -319,8 +457,12 @@ export default {
                         }
                     }.bind(this));
                 }
+
+                if(this.map != null) this.drawMapMarker();
+                // this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             }).catch(err => {
                 console.error(err);
+                // this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             })
         },
         /*
