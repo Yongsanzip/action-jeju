@@ -67,6 +67,7 @@
                      :sdate="this.$moment(this.ranges.start).format('YYYY-MM-DD')"
                      :edate="this.$moment(this.ranges.end).format('YYYY-MM-DD')"
                      :touridx="touridx"
+                     :isNew="isNew"
         />
     </div>
 </template>
@@ -88,6 +89,7 @@ export default {
     },
     data(){
         return{
+            isNew: true,
             tourInfo: null,
             profile: null,
             ranges:{
@@ -177,8 +179,8 @@ export default {
                     }).catch(()=> {
                         //cancel
                     })
+                    return;
                 }
-                return;
             }
 
             this.saveRouteDetail();
@@ -202,6 +204,7 @@ export default {
                 postData.append('sdate', this.$moment(this.ranges.start).format('YYYY-MM-DD'));
                 postData.append('edate', this.$moment(this.ranges.end).format('YYYY-MM-DD'));
             }
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
             Route.saveRoute(postData).then(res => {
                 this.touridx = Number(res.data.touridx);
                 this.getRouteDetail(function(){
@@ -209,6 +212,7 @@ export default {
                 }.bind(this));
             }).catch(err => {
                 console.error(err);
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             })
         },
         /*
@@ -223,6 +227,7 @@ export default {
             return numb;
         },
         async getRouteDetail(callback) {
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
             await Route.routeListDetail(postData).then(res => {
@@ -254,6 +259,7 @@ export default {
             }).catch(err => {
                 console.error(err);
             })
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
         }
     },
     created() {
@@ -263,6 +269,7 @@ export default {
              */
             this.touridx = this.idx;
             this.getRouteDetail();
+            this.isNew = false;
         }
         else {
             /*

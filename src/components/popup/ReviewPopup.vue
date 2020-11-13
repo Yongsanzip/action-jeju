@@ -260,14 +260,16 @@ export default {
                 }.bind(this))
             }
 
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
             Route.writeReview(postData).then(res => {
-                console.log(res.data);
                 if(res.data.resultCode === "1000"){
                     //성공
                     this.$parent.$emit('Make2', 'review', true, this.showReview)
                 }
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             }).catch(err => {
                 console.error(err);
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             })
         },
         /*

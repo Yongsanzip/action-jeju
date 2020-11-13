@@ -127,6 +127,9 @@ export default {
         },
         touridx:{
             type: Number
+        },
+        isNew: {
+            type: Boolean,
         }
     },
     data(){
@@ -431,6 +434,7 @@ export default {
         * 여행경로 상세 정보 셋팅
          */
         getRouteDetail() {
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
             const postData = new FormData;
             postData.append('tour_idx', this.touridx);
             postData.append('mb_id', this.GET_MB_ID);
@@ -459,26 +463,18 @@ export default {
                 }
 
                 if(this.map != null) this.drawMapMarker();
-                // this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             }).catch(err => {
                 console.error(err);
-                // this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             })
         },
         /*
-        * setRouteDetail
+        * saveRouteDetail
         * 여행경로 상세 정보 저장
          */
-        setRouteDetail(callback = null){
-            let is_full_days_location = true;
-            this.locationList.forEach(function (locations) {
-                if(locations == null || locations.length < 1) is_full_days_location = false;
-            });
-            if(!is_full_days_location) {
-                this.$alert('모든 여행 일자에 여행 장소를 추가해주세요.');
-                return;
-            }
-
+        saveRouteDetail(callback = null){
+            this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
             const postData = new FormData();
             postData.append('mb_id', this.GET_MB_ID);
             postData.append('touridx', this.touridx);
@@ -498,8 +494,10 @@ export default {
                 if(callback != null) {
                     callback();
                 }
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             }).catch(err => {
                 console.error(err);
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             })
         },
         /*
@@ -512,11 +510,52 @@ export default {
             this.selectedLocation = location;
         },
         /*
+        * close
+        * 닫기 버튼 선택
+         */
+        close() {
+            if(this.isDiff || this.isNew) {
+                console.log(this.isNew);
+                console.log(this.isDiff);
+                //
+                // //변경된 내용 존재
+                // //신규 작성 경로 && 작성 내용 없음
+                this.$confirm("현재 작성한 경로를 저장하지 않고 화면을 닫으시겠습니까?").then(()=> {
+                    if(this.isNew){
+                        const postData = new FormData;
+                        postData.append('mb_id', this.GET_MB_ID);
+                        postData.append('tour_idx', this.touridx);
+                        Route.deleteRoute(postData).then(res => {
+                            console.log(res.data);
+                            this.$router.go(-1);
+                        }).catch(err => {
+                            console.error(err);
+                        })
+                    }
+                    else {
+                        this.$router.go(-1);
+                    }
+                })
+            }
+            else {
+                this.$router.go(-1);
+            }
+        },
+        /*
         * complete
         * 완료 버튼 선택
          */
         complete() {
-            this.setRouteDetail(function(){
+            let is_full_days_location = true;
+            this.locationList.forEach(function (locations) {
+                if(locations == null || locations.length < 1) is_full_days_location = false;
+            });
+            if(!is_full_days_location) {
+                this.$alert('모든 여행 일자에 여행 장소를 추가해주세요.');
+                return;
+            }
+
+            this.saveRouteDetail(function(){
                 this.$router.push("/route/" + this.touridx);
             }.bind(this));
 
@@ -532,12 +571,16 @@ export default {
          */
         this.$on("Make2", function(path, item, props) {
             if(path === 'place'){
-                this.showModal = props;
                 if(item != null){
                     if(this.locationList[this.selectedDateIdx] == null) this.locationList[this.selectedDateIdx] = [];
                     this.locationList[this.selectedDateIdx].push(item);
-                    // this.setRouteDetail();
+                    this.saveRouteDetail(function(){
+                        this.showModal = props;
+                        this.isDiff = true;
+                    }.bind(this));
+                    return;
                 }
+                this.showModal = props;
             }
             else if(path === 'review'){
                 this.isReview = props;
