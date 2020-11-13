@@ -1749,12 +1749,43 @@
   font-weight: 500;
 }
 
-.con-route .route-wrap .route-contents .route-item:nth-child(3n) .travel-day {
-  background-color: #f3645a;
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+1) .travel-day {
 }
 
-.con-route .route-wrap .route-contents .route-item:nth-child(3n+2) .travel-day {
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+2) .travel-day {
+  background-color: #F3645A;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+3) .travel-day {
   background-color: #5899fb;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+4) .travel-day {
+  background-color: #f48a0c;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+5) .travel-day {
+  background-color: #1fc97b;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+6) .travel-day {
+  background-color: #647aea;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+7) .travel-day {
+  background-color: #df56af;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+8) .travel-day {
+  background-color: #c15e9f;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+9) .travel-day {
+  background-color: #e45c5c;
+}
+
+.con-route .route-wrap .route-contents .route-item:nth-child(10n+10) .travel-day {
+  background-color: #c1cd10;
 }
 
 .con-route .route-wrap .route-contents .route-item .travel-title {
@@ -4420,36 +4451,36 @@
   vertical-align: middle;
   text-align: center;
   min-width: 19px;
-  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+  background-image: url("../images/svg/ic-mappin-bg-1.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
 .markerContent .routeMarker.day2 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/svg/ic-mappin-bg-2.svg");
 }
 .markerContent .routeMarker.day3 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/svg/ic-mappin-bg-3.svg");
 }
 .markerContent .routeMarker.day4 {
-  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+  background-image: url("../images/svg/ic-mappin-bg-4.svg");
 }
 .markerContent .routeMarker.day5 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/svg/ic-mappin-bg-5.svg");
 }
 .markerContent .routeMarker.day6 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/svg/ic-mappin-bg-6.svg");
 }
 .markerContent .routeMarker.day7 {
-  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+  background-image: url("../images/svg/ic-mappin-bg-7.svg");
 }
 .markerContent .routeMarker.day8 {
-  background-image: url("../images/mappin/ic-mappin-bg-blue.svg");
+  background-image: url("../images/svg/ic-mappin-bg-8.svg");
 }
 .markerContent .routeMarker.day9 {
-  background-image: url("../images/mappin/ic-mappin-bg-red.svg");
+  background-image: url("../images/svg/ic-mappin-bg-9.svg");
 }
 .markerContent .routeMarker.day10 {
-  background-image: url("../images/mappin/ic-mappin-bg-green.svg");
+  background-image: url("../images/svg/ic-mappin-bg-10.svg");
 }
 .markerContent .routeMarker .order_number {
   display: inline;

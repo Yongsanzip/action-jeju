@@ -298,7 +298,7 @@ export default {
             markerIcon.title = marker.otherOptions.day+"일차";
             const routeMarker = document.createElement('div');
             routeMarker.classList.add('routeMarker');
-            routeMarker.classList.add('day'+marker.otherOptions.day);
+            routeMarker.classList.add('day'+ (marker.otherOptions.day%10 === 0? 10 : marker.otherOptions.day%10));
             markerIcon.appendChild( routeMarker );
 
             const routeMarkerTitle = document.createElement('div');
