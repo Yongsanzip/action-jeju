@@ -1885,6 +1885,7 @@
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   overflow: hidden;
+    padding-right: 10px;
 
 }
 .con-route .route-wrap .route-contents .route-item .travel-list .travel-contents .review-text.overflow2lines p:after {
