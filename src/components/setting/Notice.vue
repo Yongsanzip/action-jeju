@@ -7,7 +7,7 @@
         <div class="container">
             <div class="con-notice">
                 <ul class="list-notice">
-                    <li v-for="notice in noticeList"
+                    <li v-for="notice in noticeList.slice(0, currentPage * 5)"
                         :key="notice.idx"
                         @click="doView(notice.idx)"
                     >
@@ -15,7 +15,7 @@
                         <p class="date">{{notice.reg_date.slice(0, 11)}}</p>
                     </li>
                 </ul>
-                <div class="more-wrap">
+                <div class="more-wrap" v-if="currentPage < noticeList.length/5">
                     <p class="more"  @click="nextPage">공지사항 더보기</p>
                 </div>
             </div>
@@ -42,13 +42,10 @@ export default {
             const postData = new FormData();
             postData.append('request_code', 'noticeList');
             notice.fetchList(postData).then(res => {
-                this.noticeList = res.data.noticeList.slice(0, this.currentPage * 5);
+                this.noticeList = res.data.noticeList;
             }).catch(err => {
                 console.error(err);
             })
-        },
-        totalPages() {
-            return Math.ceil( this.noticeList.length / 5);
         },
         /*
         * doView
@@ -58,7 +55,7 @@ export default {
             this.$router.push(`/notice/${idx}`)
         },
         nextPage(){
-            if(this.currentPage <  this.totalPages) this.currentPage++;
+            if(this.currentPage <  this.noticeList.length/5) this.currentPage++;
         }
     },
     created() {
