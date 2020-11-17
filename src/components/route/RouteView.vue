@@ -12,7 +12,7 @@
                         <button @click="onClickBtnBack" class="prev">이전</button>
                         <button class="btn-more" @click="isShowMenu=true">메뉴</button>
                     </div>
-                    <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}`}">
+                    <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: tourInfo.image != null? `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}` : ''}">
                         <div class="btn-map-block">
                             <button class="btn-map" @click="openMap">지도보기 <img src="../../assets/images/svg/ic-triangle-up-white.svg" alt=""></button>
                         </div>
@@ -1027,34 +1027,6 @@ export default {
             this.$alert("링크가 복사되었습니다.");
             this.isShowSNSMenu = false;
         }
-    },
-    beforeCreate() {
-        // console.log(document.getElementsByTagName('head')[0].getElementsByTagName('meta'));
-        const metaList = document.getElementsByTagName('head')[0].getElementsByTagName('meta');
-        metaList.forEach((tag)=> {
-            if(tag.getAttribute('property') != null){
-                switch (tag.getAttribute('property')) {
-                    case "title":
-                        tag.setAttribute('content', 'aaa')
-                }
-                console.log(tag);
-            }
-        })
-    //     console.log("===================beforeCreate begin===================");
-    //     const postData = new FormData;
-    //     postData.append('tour_idx', this.$route.params.id);
-    //     if(this.GET_MB_ID != null) postData.append('mb_id', this.GET_MB_ID);
-    //     Route.routeListDetail(postData).then(res => {
-    //         this.tourInfo = res.data.tourInfo;
-    //         this.setMetaTags("og:title", res.data.tourInfo.name);
-    //         this.setMetaTags("og:image", `http://img.actionjeju.com/data/user_route_image${res.data.tourInfo.image}`);
-    //         this.setMetaTags("og:image:width", "400");
-    //         this.setMetaTags("og:image:height", "300");
-    //
-    //     }).catch(err => {
-    //         console.error(err);
-    //     })
-    //     console.log("===================beforeCreate end===================");
     },
     created() {
         window.scrollTo(0,0);
