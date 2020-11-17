@@ -147,39 +147,45 @@ export default {
          */
         writeComment(){
             if(this.comment === "" || this.comment == null) return;
+            if(this.GET_MB_ID != null){
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('touridx', this.tourIdx);
+                postData.append('commentidx', (this.replyIdx == null)? '' : this.replyIdx);
+                postData.append('comment', this.comment);
 
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('touridx', this.tourIdx);
-            postData.append('commentidx', (this.replyIdx == null)? '' : this.replyIdx);
-            postData.append('comment', this.comment);
+                if(this.replyIdx == null){
+                    // 신규작성
+                    Route.writeReply(postData).then(res => {
+                        console.log(res.data);
 
-            if(this.replyIdx == null){
-                // 신규작성
-                Route.writeReply(postData).then(res => {
-                    console.log(res.data);
+                        this.comment = null;
+                        this.getReplyList();
 
-                    this.comment = null;
-                    this.getReplyList();
+                    }).catch(err => {
+                        console.error(err);
+                    })
+                }
+                else{
+                    // 수정
+                    Route.writeReply(postData).then(res => {
+                        console.log(res.data);
 
-                }).catch(err => {
-                    console.error(err);
-                })
+                        this.comment = null;
+                        this.replyIdx = null;
+                        this.selectedReply = null;
+                        this.$refs.comment.value = "";
+                        this.getReplyList();
+                        this.cnt++;
+                    }).catch(err => {
+                        console.error(err);
+                    })
+                }
             }
-            else{
-                // 수정
-                Route.writeReply(postData).then(res => {
-                    console.log(res.data);
-
-                    this.comment = null;
-                    this.replyIdx = null;
-                    this.selectedReply = null;
-                    this.$refs.comment.value = "";
-                    this.getReplyList();
-                    this.cnt++;
-                }).catch(err => {
-                    console.error(err);
-                })
+            else {
+                this.$confirm("로그인이 필요한 기능입니다. 로그인을 하시겠습니까?").then(()=> {
+                    this.$router.push("/")
+                });
             }
         },
         /*
@@ -188,6 +194,7 @@ export default {
          */
         close(){
             EventBus.$emit("RouteView", this.isReply);
+            this.$parent.$emit("close-modal");
         },
         /*
         * showReplyMenu
@@ -218,18 +225,25 @@ export default {
             this.$confirm("삭제하시겠습니까?").then(result=> {
                 if(!result) return;
 
-                const postData = new FormData;
-                postData.append('mb_id', this.GET_MB_ID);
-                postData.append('commentidx', this.replyIdx);
-                Route.deleteReply(postData).then(res => {
-                    console.log(res.data);
-                    this.comment = null;
-                    this.replyIdx = null;
-                    this.selectedReply = null;
-                    this.getReplyList();
-                }).catch(err => {
-                    console.error(err);
-                })
+                if(this.GET_MB_ID != null){
+                    const postData = new FormData;
+                    postData.append('mb_id', this.GET_MB_ID);
+                    postData.append('commentidx', this.replyIdx);
+                    Route.deleteReply(postData).then(res => {
+                        console.log(res.data);
+                        this.comment = null;
+                        this.replyIdx = null;
+                        this.selectedReply = null;
+                        this.getReplyList();
+                    }).catch(err => {
+                        console.error(err);
+                    })
+                }
+                else {
+                    this.$confirm("로그인이 필요한 기능입니다. 로그인을 하시겠습니까?").then(()=> {
+                        this.$router.push("/")
+                    });
+                }
             })
             .catch(error => {
                 console.log(error);

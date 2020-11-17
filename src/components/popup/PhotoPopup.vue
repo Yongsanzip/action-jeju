@@ -138,7 +138,8 @@ export default {
         close() {
             EventBus.$emit("PlaceView", this.showModal, this.imageList);
             EventBus.$emit('MyProfile', "photo", null);
-            EventBus.$emit('RouteView', this.showModal);
+            EventBus.$emit('RouteView', false);
+            this.$parent.$emit("close-modal");
         },
         /*
         * ChangeSwiperSlide
@@ -165,17 +166,32 @@ export default {
         * 사진 좋아요
          */
         setPhotoLike(imgIdx, idx){
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'set');
-            postData.append('type', 'photo');
-            postData.append('idx', idx);
-            etc.like(postData).then(res => {
-                this.imageList[imgIdx].checked = res.data.isLike === "Y";
-                // console.log(res.data)
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null){
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'set');
+                postData.append('type', 'photo');
+                postData.append('idx', idx);
+                etc.like(postData).then(res => {
+                    this.imageList[imgIdx].checked = res.data.isLike === "Y";
+                    // console.log(res.data)
+                }).catch(err => {
+                    console.error(err);
+                    this.imageList[imgIdx].checked = false;
+                    this.$forceUpdate();
+                })
+            }
+            else {
+                this.$confirm("로그인이 필요한 기능입니다. 로그인을 하시겠습니까?").then(()=> {
+                    this.$router.push("/")
+                });
+                const checkbox = this.$el.querySelector('.image-viewer-block .detail-footer input[type=checkbox]');
+                checkbox.style.display = 'block';
+                checkbox.checked = false;
+                checkbox.style.display = 'none';
+                this.imageList[imgIdx].checked = false;
+                this.$forceUpdate();
+            }
         },
         /*
         * setThisPhotoLike

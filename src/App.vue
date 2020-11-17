@@ -17,7 +17,6 @@ export default {
     },
     created() {
         this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
-        document.title = "액션제주";
     },
 }
 </script>

@@ -105,7 +105,7 @@
                                 <p v-else>{{tourInfo.reply_count}}</p>
                             </li>
 <!--                            <li>-->
-<!--                                <button class="btn-share">공유</button>-->
+<!--                                <button class="btn-share" @click="showSNSMenu">공유</button>-->
 <!--                                <p>공유하기</p>-->
 <!--                            </li>-->
                         </ul>
@@ -223,7 +223,16 @@
                 <li v-show="isMine"><a @click="modifyRout">이 여행경로 편집</a></li>
                 <li v-show="isMine"><a @click="removeRout">이 여행경로 삭제</a></li>
                 <li v-show="!isMine"><a @click="setFavorites">이 여행경로 찜하기</a></li>
-<!--                <li><a href="">SNS 공유하기</a></li>-->
+<!--                <li><a @click="showSNSMenu">SNS 공유하기</a></li>-->
+            </ul>
+        </div>
+        <div class="overlay" :style="(isShowSNSMenu)? '' : 'display:none;'" @click.self="isShowSNSMenu=false">
+            <ul class="overlay-menu sns">
+                <li><a @click="shareLink('facebook')" class="facebook">페이스북</a></li>
+<!--                <li><a @click="shareLink('instagram')" class="instagram">인스타그램</a></li>-->
+                <li><a @click="shareLink('naver')" class="naver">네이버블로그</a></li>
+                <li><a @click="shareLink('kakao')" class="kakao">카카오톡</a></li>
+                <li><a @click="copyLink" class="copy">링크복사</a></li>
             </ul>
         </div>
     </div>
@@ -282,6 +291,7 @@ export default {
           isReplyMenu: false,
           selectedReply: null,
           isShowMenu:false,
+          isShowSNSMenu: false,
           mapMarkList: [],
           polyLineList: [],
           info: false,
@@ -304,8 +314,23 @@ export default {
           initLayers: ['BACKGROUND', 'BACKGROUND_DETAIL', 'POI_KOREAN', 'TRANSIT', 'ENGLISH', 'CHINESE', 'JAPANESE']
       }
     },
+    // metaInfo() {
+    //     return {
+    //         meta: [
+    //             //OpenGraph
+    //             {property: 'og:site_name', content: '액션제주'},
+    //             {property: 'og:type', content: 'website'},
+    //             {property: 'og:title', content: this.tourInfo.name},
+    //             {name: 'keywords', content: "액션제주"},
+    //             {property: 'og:url', content: "m.actionjeju.com"},
+    //             {property: 'og:image', content: 'http://img.actionjeju.com/data/user_route_image'+this.tourInfo.image},
+    //             {property: 'og:image:width', content: "800"},
+    //             {property: 'og:image:height', content: "400"},
+    //         ]
+    //     }
+    // },
     computed: {
-        ...mapGetters(['GET_MB_ID'])
+        ...mapGetters(['GET_MB_ID', 'GET_MB_ID_REQIRED']),
     },
     methods:{
         onClickReplyMenuOverlay() {
@@ -313,7 +338,12 @@ export default {
             this.selectedReply=null;
         },
         onClickBtnBack() {
-            this.$router.go(-1);
+            if(window.history.length < 2) {
+                this.$router.push("/");
+            }
+            else {
+                this.$router.go(-1);
+            }
         },
         setMapSetting() {
             this.mapWidth = window.innerWidth;
@@ -354,15 +384,21 @@ export default {
             this.slideChk = this.slideChk + 1;
             this.setMapSetting();
         },
+        setMetaTags(property, content) {
+            var meta = document.createElement('meta');
+            meta.setAttribute('property', property);
+            meta.setAttribute('content', content);
+            document.getElementsByTagName('head')[0].appendChild(meta);
+        },
         /*
         * getRouteList
         * 여행경로 상세정보 조회
          */
-        getRouteList() {
+        async getRouteList() {
             const postData = new FormData;
             postData.append('tour_idx', this.id);
-            postData.append('mb_id', this.GET_MB_ID);
-            Route.routeListDetail(postData).then(res => {
+            if(this.GET_MB_ID != null) postData.append('mb_id', this.GET_MB_ID);
+            await Route.routeListDetail(postData).then(res => {
                 this.tourInfo = res.data.tourInfo;
 
                 const tourDate = new Date(res.data.tourInfo.sdate);
@@ -425,17 +461,18 @@ export default {
          */
         showPhotoModal(imgData){
             this.selectedPhotoIdx = this.imageList.findIndex(function(img){ return img.idx === imgData.idx; });
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'get');
-            postData.append('type', 'route');
-            postData.append('idx', imgData.idx);
-            etc.like(postData).then(res => {
-                console.log("selected photo idx::", imgData.idx);
-                console.log("selected photo like_yn::", imgData.like_yn);
-                console.log("get like.php result ::", res.data.isLike);
-            })
+            if(this.GET_MB_ID != null){
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'get');
+                postData.append('type', 'route');
+                postData.append('idx', imgData.idx);
+                etc.like(postData);
+            }
+
+            //show photo modal
             this.isPhoto = true;
+            console.log(this.imageList);
         },
         /*
         * doViewPlace
@@ -601,16 +638,26 @@ export default {
          */
         getLike(){
             const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'get');
-            postData.append('type', 'route');
-            postData.append('idx', this.id);
-            etc.like(postData).then(res => {
-                //console.log(res.data)
-                res.data.isLike === 'N' ? this.isLike = false : this.isLike = true
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null){
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'get');
+                postData.append('type', 'route');
+                postData.append('idx', this.id);
+                etc.like(postData).then(res => {
+                    res.data.isLike === 'N' ? this.isLike = false : this.isLike = true
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+        },
+        requireAuth() {
+            if(this.GET_MB_ID == null || this.GET_MB_ID === '') {
+                this.$confirm("로그인이 필요한 기능입니다. 로그인을 하시겠습니까?").then(()=> {
+                    this.$router.push("/")
+                }).catch(()=> {
+                    //cancel
+                })
+            }
         },
         /*
         * setLike
@@ -618,16 +665,25 @@ export default {
          */
         setLike(){
             const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'set');
-            postData.append('type', 'route');
-            postData.append('idx', this.id);
-            etc.like(postData).then(res => {
-                // console.log(res.data)
-                res.data.isLike === 'N' ? this.tourInfo.user_like_count-- : this.tourInfo.user_like_count++
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null) {
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'set');
+                postData.append('type', 'route');
+                postData.append('idx', this.id);
+                etc.like(postData).then(res => {
+                    // console.log(res.data)
+                    res.data.isLike === 'N' ? this.tourInfo.user_like_count-- : this.tourInfo.user_like_count++
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+            else {
+                this.isLike = false;
+                const checkbox = this.$el.querySelector(".btn-like input");
+                checkbox.style.display = 'block';
+                checkbox.checked = false;
+                checkbox.style.display = 'none';
+            }
         },
         /*
         * getFavorites
@@ -635,16 +691,18 @@ export default {
          */
         getFavorites(){
             const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'get');
-            postData.append('type', 'route');
-            postData.append('idx', this.id);
-            etc.Favorites(postData).then(res => {
-                //console.log(res.data)
-                res.data.isZzim === 'N' ? this.isFavorites = false : this.isFavorites = true
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null){
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'get');
+                postData.append('type', 'route');
+                postData.append('idx', this.id);
+                etc.Favorites(postData).then(res => {
+                    //console.log(res.data)
+                    res.data.isZzim === 'N' ? this.isFavorites = false : this.isFavorites = true
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
         },
         /*
         * setFavorites
@@ -653,24 +711,38 @@ export default {
         setFavorites(){
             if(this.isShowMenu) this.isShowMenu=false;
 
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('action', 'set');
-            postData.append('type', 'route');
-            postData.append('idx', this.id);
-            etc.Favorites(postData).then(res => {
-                //console.log(res.data)
-                if(res.data.isZzim === 'N'){
-                    this.tourInfo.zzim_count--;
-                    this.isFavorites = false
-                }
-                else {
-                    this.tourInfo.zzim_count++;
-                    this.isFavorites = true
-                }
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null) {
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('action', 'set');
+                postData.append('type', 'route');
+                postData.append('idx', this.id);
+                etc.Favorites(postData).then(res => {
+                    //console.log(res.data)
+                    if(res.data.isZzim === 'N'){
+                        this.tourInfo.zzim_count--;
+                        this.isFavorites = false
+                    }
+                    else {
+                        this.tourInfo.zzim_count++;
+                        this.isFavorites = true
+                    }
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+            else {
+                this.isFavorites = false;
+                const checkbox = this.$el.querySelector(".btn-favorite input");
+                checkbox.style.display = 'block';
+                checkbox.checked = false;
+                checkbox.style.display = 'none';
+                this.requireAuth();
+            }
+        },
+        showSNSMenu(){
+            this.isShowMenu = false;
+            this.isShowSNSMenu = true;
         },
         /*
         * getReplyList
@@ -731,24 +803,29 @@ export default {
          */
         removeComment(){
             this.isReplyMenu=false;
-            this.$confirm("댓글을 삭제하시겠습니까?").then(result=> {
-                if(!result) return;
+            if(this.GET_MB_ID != null) {
+                this.$confirm("댓글을 삭제하시겠습니까?").then(result=> {
+                    if(!result) return;
 
-                const postData = new FormData;
-                postData.append('mb_id', this.GET_MB_ID);
-                postData.append('commentidx', this.selectedReply.idx);
-                Route.deleteReply(postData).then(res => {
-                    console.log(res.data);
-                    this.comment = null;
-                    this.replyIdx = null;
-                    this.selectedReply = null;
-                    this.getReplyList();
-                }).catch(err => {
-                    console.error(err);
-                })
-            }).catch(error => {
-                console.log(error);
-            });
+                    const postData = new FormData;
+                    postData.append('mb_id', this.GET_MB_ID);
+                    postData.append('commentidx', this.selectedReply.idx);
+                    Route.deleteReply(postData).then(res => {
+                        console.log(res.data);
+                        this.comment = null;
+                        this.replyIdx = null;
+                        this.selectedReply = null;
+                        this.getReplyList();
+                    }).catch(err => {
+                        console.error(err);
+                    })
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
+            else {
+                this.requireAuth();
+            }
         },
         /*
         * doViewReply
@@ -768,49 +845,54 @@ export default {
         * 경로 가져오기 버튼 선택. 해당 여행경로의 일정을 복사해 로그인한 사용자의 새로운 여행경로 저장
          */
         copyRoute(){
-            const postData = new FormData();
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('tourname', this.tourInfo.name);
-            postData.append('tourimg', null);
-            postData.append('adult_cnt', Number(this.tourInfo.adult_cnt));
-            postData.append('kids_cnt', Number(this.tourInfo.kids_cnt));
-            postData.append('sdate', this.days[0].date);
-            postData.append('edate', this.days[this.days.length - 1].date);
-
-            Route.saveRoute(postData).then(res => {
-                // console.log(res.data);
-                this.touridx = Number(res.data.touridx);
-
+            if(this.GET_MB_ID != null) {
                 const postData = new FormData();
                 postData.append('mb_id', this.GET_MB_ID);
-                postData.append('touridx', this.touridx);
+                postData.append('tourname', this.tourInfo.name);
+                postData.append('tourimg', null);
+                postData.append('adult_cnt', Number(this.tourInfo.adult_cnt));
+                postData.append('kids_cnt', Number(this.tourInfo.kids_cnt));
+                postData.append('sdate', this.days[0].date);
+                postData.append('edate', this.days[this.days.length - 1].date);
 
-                let detailArr = [];
-                this.days.forEach(function(dateItem){
-                    if(dateItem.path != null && dateItem.path.length > 0){
-                        dateItem.path.forEach(function(location){
-                            detailArr.push(dateItem.date + "/" + location.company_idx);
-                        })
-                    }
-                }.bind(this));
+                Route.saveRoute(postData).then(res => {
+                    // console.log(res.data);
+                    this.touridx = Number(res.data.touridx);
 
-                postData.append('details', detailArr.join("&"));
+                    const postData = new FormData();
+                    postData.append('mb_id', this.GET_MB_ID);
+                    postData.append('touridx', this.touridx);
 
-                Route.saveRouteDetail(postData).then(res => {
-                    console.log(res.data);
-                    this.$router.push({
-                        name: 'RouteMake',
-                        params: {
-                            'idx': Number(this.touridx),
-                            'isChk_flag': false
+                    let detailArr = [];
+                    this.days.forEach(function(dateItem){
+                        if(dateItem.path != null && dateItem.path.length > 0){
+                            dateItem.path.forEach(function(location){
+                                detailArr.push(dateItem.date + "/" + location.company_idx);
+                            })
                         }
-                    });
+                    }.bind(this));
+
+                    postData.append('details', detailArr.join("&"));
+
+                    Route.saveRouteDetail(postData).then(res => {
+                        console.log(res.data);
+                        this.$router.push({
+                            name: 'RouteMake',
+                            params: {
+                                'idx': Number(this.touridx),
+                                'isChk_flag': false
+                            }
+                        });
+                    }).catch(err => {
+                        console.error(err);
+                    })
                 }).catch(err => {
                     console.error(err);
                 })
-            }).catch(err => {
-                console.error(err);
-            })
+            }
+            else {
+                this.requireAuth();
+            }
         },
         /*
         * modifyRout
@@ -819,13 +901,18 @@ export default {
         modifyRout(){
             this.isShowMenu=false;
 
-            this.$router.push({
-                name: 'RouteMake',
-                params: {
-                    'idx': Number(this.id),
-                    'isChk_flag': true
-                }
-            });
+            if(this.GET_MB_ID != null) {
+                this.$router.push({
+                    name: 'RouteMake',
+                    params: {
+                        'idx': Number(this.id),
+                        'isChk_flag': true
+                    }
+                });
+            }
+            else {
+                this.requireAuth();
+            }
         },
         /*
         * removeRout
@@ -834,15 +921,20 @@ export default {
         removeRout(){
             this.isShowMenu=false;
 
-            const postData = new FormData;
-            postData.append('mb_id', this.GET_MB_ID);
-            postData.append('tour_idx', this.id);
-            Route.deleteRoute(postData).then(res => {
-                console.log(res.data);
-                history.back();
-            }).catch(err => {
-                console.error(err);
-            })
+            if(this.GET_MB_ID != null) {
+                const postData = new FormData;
+                postData.append('mb_id', this.GET_MB_ID);
+                postData.append('tour_idx', this.id);
+                Route.deleteRoute(postData).then(res => {
+                    console.log(res.data);
+                    history.back();
+                }).catch(err => {
+                    console.error(err);
+                })
+            }
+            else {
+                this.requireAuth();
+            }
         },
         setReviewTextOverflow(){
             const reviewTextBox = document.getElementsByClassName("review-text");
@@ -880,31 +972,89 @@ export default {
                 if (el.scrollWidth > el.offsetWidth) el.parentElement.classList.add("has-overflow");
             }.bind(this));
         },
-        /*
-        ,shareLink(){
-            const snsCode = "vIconTw";
+        shareLink(snsCode){
             let cUrl;
+            let url = encodeURIComponent(document.location.href);
+            let title = this.tourInfo.name;
+            let imgUrl = `http://img.actionjeju.com/data/user_route_image${this.tourInfo.image}`;
+            let likeCount = this.tourInfo.user_like_count;
+            let commentCount = this.tourInfo.reply_count;
+
             switch(snsCode){
-                case"vIconTw":
-                    //트위터
-                    cUrl = 'https://twitter.com/intent/tweet?text=페이지제목:&url='+cUrl;
+                case "naver":
+                    cUrl = "http://blog.naver.com/openapi/share?url=" + encodeURI(url) + "&title=" + encodeURI(title);
                     break;
-                case"vIconTg":
-                    //텔레그램
-                    cUrl = 'https://telegram.me/share/url?url='+cUrl;
-                    break;
-                case"vIconFb":
+                case"facebook":
                     //페이스북
-                    cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+cUrl;
+                    cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+url+'&t='+encodeURIComponent(title);
                     break;
-                case"vIconKs":
-                    //카카오스토리
-                    cUrl = 'https://story.kakao.com/share?url='+cUrl;
+                case"kakao":
+                    //카카오톡
+                    window.Kakao.Link.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                            title: title,
+                            imageUrl: imgUrl,
+                            link: {
+                                mobileWebUrl: document.location.href,
+                                webUrl: document.location.href,
+                            },
+                        },
+                        social: {
+                            likeCount: Number(likeCount),
+                            commentCount: Number(commentCount),
+                        }
+                    });
+                    break;
+                case"instagram":
+                    //인스타그램
+                    // cUrl = 'https://story.kakao.com/share?url='+cUrl;
                     break;
             }
-            window.open(cUrl,'','width=600,height=300,top=100,left=100,scrollbars=yes');
+
+            this.isShowSNSMenu = false;
+            if(cUrl != null) window.open(cUrl);
+        },
+        copyLink() {
+            var tempElem = document.createElement('textarea');
+            tempElem.value = document.location.href;
+            document.body.appendChild(tempElem);
+
+            tempElem.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempElem);
+
+            this.$alert("링크가 복사되었습니다.");
+            this.isShowSNSMenu = false;
         }
-        */
+    },
+    beforeCreate() {
+        // console.log(document.getElementsByTagName('head')[0].getElementsByTagName('meta'));
+        const metaList = document.getElementsByTagName('head')[0].getElementsByTagName('meta');
+        metaList.forEach((tag)=> {
+            if(tag.getAttribute('property') != null){
+                switch (tag.getAttribute('property')) {
+                    case "title":
+                        tag.setAttribute('content', 'aaa')
+                }
+                console.log(tag);
+            }
+        })
+    //     console.log("===================beforeCreate begin===================");
+    //     const postData = new FormData;
+    //     postData.append('tour_idx', this.$route.params.id);
+    //     if(this.GET_MB_ID != null) postData.append('mb_id', this.GET_MB_ID);
+    //     Route.routeListDetail(postData).then(res => {
+    //         this.tourInfo = res.data.tourInfo;
+    //         this.setMetaTags("og:title", res.data.tourInfo.name);
+    //         this.setMetaTags("og:image", `http://img.actionjeju.com/data/user_route_image${res.data.tourInfo.image}`);
+    //         this.setMetaTags("og:image:width", "400");
+    //         this.setMetaTags("og:image:height", "300");
+    //
+    //     }).catch(err => {
+    //         console.error(err);
+    //     })
+    //     console.log("===================beforeCreate end===================");
     },
     created() {
         window.scrollTo(0,0);
@@ -926,6 +1076,10 @@ export default {
             this.getRouteList();
             this.getReplyList();
         });
+        this.$on("close-modal", function(){
+            this.isPhoto = false;
+            this.isReply = false;
+        }.bind(this));
     },
     updated() {
         this.setReviewTextOverflow();

@@ -78,7 +78,6 @@ export const router = new VueRouter({
             component: Layout,
             children:[
                 {
-                    name: 'mapComp',
                     path: '',
                     component: Map,
                     props:true
@@ -119,7 +118,8 @@ export const router = new VueRouter({
             children:[
                 {
                     path: '',
-                    component: RouteList
+                    component: RouteList,
+                    beforeEnter: requireAuth()
                 },
                 {
                     name: 'RouteView',
@@ -127,8 +127,7 @@ export const router = new VueRouter({
                     component: RouteView,
                     props: true
                 }
-            ],
-            beforeEnter: requireAuth()
+            ]
         },
         {
             path: '/make',
