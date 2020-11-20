@@ -7,7 +7,6 @@
                         <div class="review-header">
                             <button type="button" class="btn-close" @click="close">모달닫기</button>
                             <h3 class="place-name"></h3>
-                            <div class="btn-write" @click="save">완료</div>
                         </div>
                         <div class="create-place-form">
                             <div class="surface modal-title">
