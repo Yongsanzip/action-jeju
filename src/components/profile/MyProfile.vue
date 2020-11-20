@@ -15,21 +15,33 @@
         </header>
         <div class="container con-profile">
             <div class="profile-box">
-                <div class="">
-                    <div class="profile-image">
-                        <img :src="profile.profile_img" alt="">
+                <div>
+                    <div>
+                        <div>
+                            <div class="profile-image">
+                                <img :src="profile.profile_img" alt="">
+                            </div>
+                            <label class="edit-image">
+                                <input type="file" ref="profileImg" name="profileImg" accept="image/*" @change="profileImgChanged">
+                                <div class="shape">이미지 업로드</div>
+                            </label>
+                        </div>
                     </div>
-                    <label class="edit-image">
-                        <input type="file" ref="profileImg" name="profileImg" accept="image/*" @change="profileImgChanged">
-                        <div class="shape">이미지 업로드</div>
-                    </label>
+                    <div>
+                        <div>{{myTourList.length}}</div>
+                        <div>나의 제주여행</div>
+                    </div>
+                    <div>
+                        <div>17000</div>
+                        <div>액션포인트</div>
+                    </div>
+                    <div>
+                        <router-link to="/profileMod" class="btn-white" >프로필편집</router-link>
+                    </div>
                 </div>
                 <div>
-                    <p class="nickname">{{profile.nick}}</p>
-                    <p class="email">{{GET_MB_ID}}</p>
-                </div>
-                <div>
-                    <router-link to="/profileMod" class="btn-white" >프로필편집</router-link>
+                    <p>{{profile.nick}}</p>
+                    <p>{{GET_MB_ID}}</p>
                 </div>
             </div>
             <div class="contents">
@@ -62,11 +74,17 @@
                     />
                 </div>
             </div>
+            <div class="banner-ads">
+                <a v-if="banners[showBannerIdx] != null" :href="banners[showBannerIdx].url != null? banners[showBannerIdx].url : '#'" :target="banners[showBannerIdx].url.length > 0? '_blank' : ''">
+                    <button class="btn-close"></button>
+                    <img :src="`http://img.actionjeju.com/data/banner${banners[showBannerIdx].name}`" alt="" style="width: 100%;" />
+                </a>
+            </div>
         </div>
     </section>
 </template>
 <script>
-import { profile, Route} from "@/api";
+import { profile, Route, etc } from "@/api";
 import {mapGetters} from 'vuex';
 import DynamicList from "../profile/DynamicList";
 import { EventBus } from "../../assets/event-bus";
@@ -85,6 +103,7 @@ export default {
         return{
             profile:[],
             profileList:[],
+            myTourList: [],
             type:null,
             el_Active: 0,
             noDataText:null,
@@ -97,7 +116,10 @@ export default {
                 {text: '경로댓글', type : 'reply'},
             ],
             listLimit: this.originListLimit,
-            showPhotoModal: false
+            showPhotoModal: false,
+            banners: [],
+            showBannerIdx: 0,
+            bannerTimer: null,
         }
     },
     computed: {
@@ -105,8 +127,40 @@ export default {
     },
     methods:{
         /*
-        * close
-        * 닫기 버튼 선택
+        * getBannerAds
+        * 광고 배너 조회
+         */
+        getBannerAds() {
+            const postData = new FormData();
+            postData.append('mb_id', this.GET_MB_ID);
+            etc.bannerAds_profile(postData).then(res => {
+                if(res.data.resultCode === "1000" && res.data.banner1 != null  && res.data.banner1.length > 0) {
+                    this.banners = res.data.banner1;
+                    this.$forceUpdate();
+
+                    this.setBannerRolling();
+                }
+            }).catch(err => {
+                console.error(err);
+            })
+        },
+        /*
+        * setBannerRolling
+        * 광고 배너 자동 롤링 (3초 간격)
+         */
+        setBannerRolling() {
+            if(this.bannerTimer != null) clearInterval (this.bannerTimer);
+            this.bannerTimer = setInterval(function() {
+                this.showBannerIdx = this.showBannerIdx + 1;
+                if(this.showBannerIdx >= this.banners.length) this.showBannerIdx = 0;
+
+                this.$el.querySelector(".list-contents").style.height =  document.body.offsetHeight - this.$el.querySelector(".banner-ads").clientHeight - 40 - 155 - 64 - 46 + 'px';
+            }.bind(this), 3000);
+
+        },
+        /*
+        * getProfile
+        * 사용자 정보 조회
          */
         getProfile(){
             const postData = new FormData();
@@ -164,6 +218,7 @@ export default {
 
                 Route.routeList(postData).then(res => {
                     this.profileList = res.data.tours;
+                    this.myTourList = res.data.tours;
                     this.noDataText = "작성된 제주여행이 없습니다."
                     //console.log(this.profileList)
                 }).catch(err => {
@@ -242,6 +297,7 @@ export default {
         }
     },
     created() {
+        this.getBannerAds();
         this.getProfile();
         this.getList(this.navList[this.el_Active].type);
         EventBus.$on("MyProfile", (type, idx) => {
