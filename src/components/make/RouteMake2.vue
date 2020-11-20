@@ -571,6 +571,7 @@ export default {
          */
         this.$on("Make2", function(path, item, props) {
             if(path === 'place'){
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
                 if(item != null){
                     if(this.locationList[this.selectedDateIdx] == null) this.locationList[this.selectedDateIdx] = [];
                     this.locationList[this.selectedDateIdx].push(item);
@@ -581,6 +582,7 @@ export default {
                     return;
                 }
                 this.showModal = props;
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
             }
             else if(path === 'review'){
                 this.isReview = props;
