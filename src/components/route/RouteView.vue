@@ -1,8 +1,8 @@
 <template>
     <div class="wrap">
-        <main class="con-route">
+        <main :class="{'con-route': true, 'overflow-y' : isReply || isPhoto || isShowMenu || isShowSNSMenu}">
             <!-- class:sticky toggle -->
-            <div v-if="!isReply" style="padding-bottom: 70px;">
+            <div v-if="!isReply" style="padding-bottom: 64px;">
                 <div class="post-wrap" :class="{sticky : isSticky}">
                     <div class="post-header">
                         <div class="text-box">
@@ -46,7 +46,6 @@
                         <!-- //map -->
                     </div>
                 </div>
-
                 <div class="route-wrap">
                     <div class="route-contents">
                         <div class="hashtag-list" v-if="tourInfo.hashes != null && tourInfo.hashes.length > 0">
