@@ -2495,6 +2495,22 @@
   padding: 1px 7px;
   border-radius: 10px;
 }
+
+.con-route .banner-ads {
+  background-color: #F5F5F5;
+  padding: 30px 15px;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.con-route .banner-ads a {
+  display: inline-block;
+  margin-right: 15px;
+}
+.con-route .banner-ads a:last-child {
+  margin-right: 0;
+}
+
 .con-route .overlay .place-review {
   position: fixed;
   bottom: 0;

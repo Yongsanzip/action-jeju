@@ -210,6 +210,7 @@ export default {
             Route.routeList(postData).then(res => {
                 if(res.data.tour_cnt < 1) return;
                 this.touridx = res.data.tours[0].idx;
+                this.$store.dispatch('SAVE_MAIN_TOUR_IDX', res.data.tours[0].idx);
                 this.getHomeRouteDetail();
             }).catch(err => {
                 console.error(err);
