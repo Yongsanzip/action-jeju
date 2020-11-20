@@ -11,7 +11,7 @@
                 <p class="card-writer">{{data.mb_nick}}</p>
             </div>
             <div class="list-hashtag">
-                <div class="hashtag" v-for="item in data.hashes" :key="item">
+                <div class="hashtag" v-for="(item, idx) in data.hashes" :key="idx">
                     {{item}}
                 </div>
             </div>
