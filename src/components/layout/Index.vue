@@ -12,6 +12,12 @@
                     <label>
                         <input type="search" v-on:keyup.enter="clickSearch()" class="search-field" :placeholder="searchTitle" v-model="searchText">
                     </label>
+                    <div class="favoriteKeyword" v-if="$route.query.text == null">
+                        <div>인기 검색어</div>
+                        <ul>
+                            <li v-for="(word, idx) in favoriteKeywords.slice(0, 3)" :key="idx" @click="setSearchKeyword(word.mysearchlist)">{{word.mysearchlist}}</li>
+                        </ul>
+                    </div>
                 </div>
                 <!-- search result -->
                 <div class="search-result-box" v-if="isSearch">
@@ -24,9 +30,8 @@
                         <li v-for="(item,index) in tabList"
                             :key="item.text"
                             :class="{ active : el_Active === index }"
-                            @click="el_Active = index"
                         >
-                            <button type="button" @click="doChangeSearchType(item.type)"><span>{{item.text}}</span></button>
+                            <button type="button" @click="clickSearch(item.type)"><span>{{item.text}}</span></button>
                         </li>
                     </ul>
                     <!-- search result -->
@@ -106,9 +111,15 @@ export default {
               {text: '프로필', path : '/profile', class : 'nav-profile'},
           ],
           isshowRegistPlaceModal: false,
+          favoriteKeywords: [],
       }
     },
     methods:{
+        getFavoriteKeywords() {
+            search.mySearchList().then(res=>{
+                this.favoriteKeywords = res.data.mysearchdata;
+            })
+        },
         showRegistPlaceModal(){
             this.isshowRegistPlaceModal = true;
         },
@@ -128,12 +139,14 @@ export default {
          */
         getSearchTitle(){
             if(!this.isActive){
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
                 const postData = new FormData;
                 postData.append('request_code', 'mainTitleSearch');
                 search.searchMainTitle(postData).then(res => {
                     // console.log(res.data)
                     this.searchTitle = res.data.searches.name;
                     this.isActive = true;
+                    this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
 
                     if(this.$route.query.text != null && this.$route.query.text !== ''){
                         this.searchText = this.$route.query.text;
@@ -196,11 +209,7 @@ export default {
         closeSearch(){
             if(this.$route.query.text != null && this.$route.query.text !== '') {
                 this.$router.replace({
-                    path: 'map',
-                    query: {
-                        text: this.searchText,
-                        type: this.type
-                    }
+                    path: '/map'
                 });
             }
             else{
@@ -217,8 +226,9 @@ export default {
                 this.$forceUpdate();
             }
         },
-        doChangeSearchType(type = this.tabList[this.el_Active].type){
-            this.clickSearch(type);
+        setSearchKeyword(keyword) {
+            this.searchText = keyword;
+            this.clickSearch();
         },
         /*
         * clickSearch
@@ -232,16 +242,32 @@ export default {
                 this.searchList = [];
                 this.navActive = 3;
 
-                const url = document.location.origin + "/map?text=" + this.searchText + "&type=" + type;
                 if (this.$route.fullPath.indexOf("/map") < 0){
-                    document.location.href = url;
+                    this.$router.push({
+                        path: '/map',
+                        query: {
+                            type: this.type,
+                            text: this.searchText
+                        }
+                    })
                 }
                 else if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params["id"] != null){
-                    document.location.href = url;
+                    this.$router.replace({
+                        path: '/map',
+                        query: {
+                            type: this.type,
+                            text: this.searchText,
+                        }
+                    })
                 }
                 else{
-                    if(type) this.type = type;
-                    this.doSearch(this.type);
+                    this.$router.replace({
+                        path: '/map',
+                        query: {
+                            type: type,
+                            text: this.searchText
+                        }
+                    })
                 }
             }
         },
@@ -250,12 +276,15 @@ export default {
         * 입력한 검색어를 선택된 검색 탭에서 검색
          */
         doSearch(type = this.tabList[this.el_Active].type) {
+            if (type) this.type = type;
+            this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
+
             if (this.searchText === ""){
                 this.$alert("검색어를 입력해주세요");
                 return false;
             }
             else{
-                if (type) this.type = type;
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', true);
                 this.loading = true;
                 this.searchList = [];
                 this.navActive = 3;
@@ -275,7 +304,6 @@ export default {
                             if(this.slideChk < 1) this.slideChk = 1;
                             //return false
                         }else{
-                            this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
@@ -296,6 +324,7 @@ export default {
                             });
                         }
                         this.setMapInformation();
+                        this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
                     }).catch(err => {
                         console.error(err);
                     })
@@ -314,7 +343,6 @@ export default {
                             if(this.slideChk < 1) this.slideChk = 1;
                             return false
                         }else{
-                            this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
                             this.searchList = res.data.searchList;
                             this.isSearch = true;
                             this.loading = false;
@@ -328,6 +356,7 @@ export default {
                             });
                         }
                         this.setMapInformation();
+                        this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
                     }).catch(err => {
                         console.error(err);
                     })
@@ -372,12 +401,11 @@ export default {
         }
     },
     created() {
-        if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.params.id == null){
+        this.getFavoriteKeywords();
+        if(this.$route.fullPath.indexOf("/map") > -1 && this.$route.query.type != null && this.$route.query.type !== ''){
             this.getSearchTitle();
         }
-        else if(this.$route.query.type != null && this.$route.query.type !== ''){
-            this.getSearchTitle()
-        }
+
         EventBus.$on("Index", (hashName, type, isActive) => {
             this.searchText = hashName;
             this.type = type;

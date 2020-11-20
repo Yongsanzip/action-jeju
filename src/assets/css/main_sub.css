@@ -3093,6 +3093,28 @@
   color: #888888;
 }
 
+
+.con-search .search-surface .search-form .favoriteKeyword {
+  font-size: 16px;
+  color: #646464;
+  font-weight: bold;
+  margin-left: 15px;
+}
+.con-search .search-surface .search-form .favoriteKeyword > div {
+  margin: 10px 0;
+}
+
+.con-search .search-surface .search-form .favoriteKeyword li {
+  display: block;
+  font-size: 14px;
+  color: #969696;
+  padding: 15px 0;
+}
+
+.con-search .search-surface .search-form .favoriteKeyword li:last-child {
+  padding-bottom: 0;
+}
+
 .con-search .search-surface .search-result-box {
   margin-top: 5px;
 }
