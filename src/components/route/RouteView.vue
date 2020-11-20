@@ -201,6 +201,11 @@
                         <!-- //card -->
                     </div>
                 </div>
+                <div class="banner-ads" v-if="mainTourIdx === id">
+                    <a v-for="(banner, idx) in banners" :key="idx" :href="banner.url.length > 0? banner.url : '#'" :target="banner.url.length > 0? '_blank' : ''">
+                        <img :src="`http://img.actionjeju.com/data/banner${banner.name}`" alt="">
+                    </a>
+                </div>
             </div>
             <transition name="fade">
                 <ReplyPopup v-if="isReply"
@@ -273,6 +278,8 @@ export default {
     },
     data(){
       return{
+          mainTourIdx: null,
+          banners: [],
           showReplyCnt: 0,
           mapWidth: 400,
           mapHeight: 159,
@@ -330,7 +337,7 @@ export default {
     //     }
     // },
     computed: {
-        ...mapGetters(['GET_MB_ID', 'GET_MB_ID_REQIRED']),
+        ...mapGetters(['GET_MB_ID', 'GET_MAIN_TOUR_IDX']),
     },
     methods:{
         onClickReplyMenuOverlay() {
@@ -456,6 +463,21 @@ export default {
             }.bind(this));
         },
         /*
+        * getBannerAds
+        * 광고 배너 조회
+         */
+        getBannerAds() {
+            Route.bannerAds().then(res => {
+                console.log(res.data);
+                if(res.data.resultCode === "1000" && res.data.banner2 != null  && res.data.banner2.length > 0) {
+                    this.banners = res.data.banner2;
+                    // this.setBannerRolling();
+                }
+            }).catch(err => {
+                console.error(err);
+            })
+        },
+        /*
         * showPhotoModal
         * 이미지 선택 시 해당 이미지 크게보기
          */
@@ -472,7 +494,6 @@ export default {
 
             //show photo modal
             this.isPhoto = true;
-            console.log(this.imageList);
         },
         /*
         * doViewPlace
@@ -1031,11 +1052,14 @@ export default {
     created() {
         window.scrollTo(0,0);
 
+        this.mainTourIdx = this.GET_MAIN_TOUR_IDX;
+
         this.mapHeights = [159, window.outerHeight*0.5, window.outerHeight*0.8];
         this.setMapSetting();
         window.addEventListener("resize", this.setMapSetting);
 
         this.getRouteList();
+        this.getBannerAds();
         this.getLike();
         this.getFavorites();
         this.getReplyList();

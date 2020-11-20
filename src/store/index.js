@@ -13,6 +13,7 @@ export default new Vuex.Store({
     state:{
         mb_id: null,
         is_show_loading: false,
+        mainTourIdx: null,
     },
     getters:{
         GET_MB_ID(state) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
         },
         GET_IS_SHOW_LOADING(state) {
             return state.is_show_loading;
+        },
+        GET_MAIN_TOUR_IDX(state) {
+            return state.mainTourIdx;
         }
     },
     mutations:{
@@ -28,6 +32,9 @@ export default new Vuex.Store({
         },
         SET_IS_SHOW_LOADING(state, payload){
             state.is_show_loading = payload
+        },
+        SET_MAIN_TOUR_IDX(state, payload){
+            state.mainTourIdx = payload
         }
     },
     actions:{
@@ -35,8 +42,10 @@ export default new Vuex.Store({
             commit('SET_MB_ID', payload);
         },
         SAVE_IS_SHOW_LOADING({commit}, payload) {
-            console.log("SAVE_IS_SHOW_LOADING, ", payload)
             commit('SET_IS_SHOW_LOADING', payload);
+        },
+        SAVE_MAIN_TOUR_IDX({commit}, payload) {
+            commit('SET_MAIN_TOUR_IDX', payload);
         }
     },
 

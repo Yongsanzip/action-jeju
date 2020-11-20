@@ -208,6 +208,13 @@ export const Route = {
         }
         )
     },
+    bannerAds(data){
+        return api.request({
+            method: 'get',
+            url: '/banner_list2.php',
+            data
+        })
+    }
 };
 
 export const search = {
@@ -215,6 +222,20 @@ export const search = {
         return api.request({
             method: 'post',
             url: '/main_title_searchList.php',
+            data
+        })
+    },
+    recentSearchList(data) {
+        return api.request({
+            method: 'post',
+            url: '/searchList.php',
+            data
+        })
+    },
+    mySearchList(data) {
+        return api.request({
+            method: 'post',
+            url: '/mysearchList.php',
             data
         })
     },
@@ -260,6 +281,13 @@ export const etc = {
         return api.request({
             method: 'post',
             url: '/zzim.php',
+            data
+        })
+    },
+    bannerAds_profile(data){
+        return api.request({
+            method: 'get',
+            url: '/banner_list1.php',
             data
         })
     }
