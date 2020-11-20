@@ -76,8 +76,7 @@
             </div>
             <div class="banner-ads">
                 <a v-if="banners[showBannerIdx] != null" :href="banners[showBannerIdx].url != null? banners[showBannerIdx].url : '#'" :target="banners[showBannerIdx].url.length > 0? '_blank' : ''">
-                    <button class="btn-close"></button>
-                    <img :src="`http://img.actionjeju.com/data/banner${banners[showBannerIdx].name}`" alt="" style="width: 100%;" />
+                    <img :src="`http://img.actionjeju.com/data/banner${banners[showBannerIdx].name}`" alt="" style="width: 100%;" v-on:load="loadedBannerImg" />
                 </a>
             </div>
         </div>
@@ -153,8 +152,6 @@ export default {
             this.bannerTimer = setInterval(function() {
                 this.showBannerIdx = this.showBannerIdx + 1;
                 if(this.showBannerIdx >= this.banners.length) this.showBannerIdx = 0;
-
-                this.$el.querySelector(".list-contents").style.height =  document.body.offsetHeight - this.$el.querySelector(".banner-ads").clientHeight - 40 - 155 - 64 - 46 + 'px';
             }.bind(this), 3000);
 
         },
@@ -294,6 +291,9 @@ export default {
          */
         showMoreList(){
             this.listLimit = this.listLimit + this.originListLimit;
+        },
+        loadedBannerImg() {
+            this.$el.querySelector(".list-contents").style.height =  document.body.offsetHeight - (document.body.offsetWidth * this.$el.querySelector(".banner-ads img").clientHeight/this.$el.querySelector(".banner-ads img").clientWidth) - 40 - 155 - 64 - 46 + 'px';
         }
     },
     created() {
