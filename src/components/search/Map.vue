@@ -193,7 +193,7 @@ export default {
 
             switch (category) {
                 case 'map_01':
-                    //음식점
+                    //맛집
                     val = this.restaurantIcon;
                     if(isActive) val = this.restaurantIconActive;
                     break;

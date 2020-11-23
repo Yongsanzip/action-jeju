@@ -280,6 +280,7 @@ export default {
             this.el_Active = this.tabList.findIndex(tab => tab.type === this.type);
 
             if (this.searchText === ""){
+                this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
                 this.$alert("검색어를 입력해주세요");
                 return false;
             }
@@ -341,6 +342,7 @@ export default {
                             this.isSearch = true;
                             this.loading = false;
                             if(this.slideChk < 1) this.slideChk = 1;
+                            this.$store.dispatch('SAVE_IS_SHOW_LOADING', false);
                             return false
                         }else{
                             this.searchList = res.data.searchList;
