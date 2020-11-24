@@ -409,10 +409,10 @@ export default {
         }
 
         EventBus.$on("Index", (hashName, type, isActive) => {
-            this.searchText = hashName;
-            this.type = type;
+            // console.log("click hash")
             this.isActive = isActive;
-            this.clickSearch('route');
+            this.setSearchKeyword(hashName);
+            // this.clickSearch('route');
 
             //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
             EventBus.$off("Index");
