@@ -32,7 +32,7 @@
                             <div>
                                 <select class="text-field" v-model="category">
                                     <option value="">선택</option>
-                                    <option value="01">음식점</option>
+                                    <option value="01">맛집</option>
                                     <option value="02">카페</option>
                                     <option value="03">숙박</option>
                                     <option value="04">체험</option>
