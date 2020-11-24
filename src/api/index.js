@@ -221,6 +221,13 @@ export const Route = {
             url: '/main_movie.php',
             data
         })
+    },
+    recommendedList(data){
+        return api.request({
+            method: 'get',
+            url: '/recom_route.php',
+            data
+        })
     }
 };
 
