@@ -467,7 +467,6 @@ export default {
          */
         getBannerAds() {
             Route.bannerAds().then(res => {
-                console.log(res.data);
                 if(res.data.resultCode === "1000" && res.data.banner2 != null  && res.data.banner2.length > 0) {
                     this.banners = res.data.banner2;
                     // this.setBannerRolling();
