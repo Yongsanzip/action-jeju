@@ -32,6 +32,27 @@
                         </swiper-slide>
                     </swiper>
                 </div>
+                <div class="con-main recommend-list mt25">
+                    <div class="recommend-card-list">
+                        <h2 class="section-title">이 달의 <b>추천경로</b></h2>
+                        <swiper class="swiper-container" :options="recommendedRouteSwiperOption">
+                            <swiper-slide
+                                    v-for="(route, idx) in recommendedRouteList"
+                                    :key="idx"
+                                    :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${route.image}`}"
+                            >
+                                <div @click="doView(route.idx)">
+                                    <div class="title">{{route.name}}</div>
+                                    <div>{{route.days-1}}박 {{route.days}}일 여행</div>
+                                    <div class="place">
+                                        <div>출발<span>ㆍ{{route.max_company_name}}</span></div>
+                                        <div>도착<span>ㆍ{{route.min_company_name}}</span></div>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                        </swiper>
+                    </div>
+                </div>
                 <div class="con-main mt25">
                     <div class="list-card">
                         <h2 class="section-title">{{themeRouteName}}</h2>
@@ -81,6 +102,7 @@ export default {
         return{
             hashList: [],
             routeList: [],
+            recommendedRouteList: [],
             latestList:[],
             themeRouteName: null,
             topSwiperOption: {
@@ -96,10 +118,22 @@ export default {
                 spaceBetween:22,
                 loop:false,
                 speed: 400,
+            },
+            recommendedRouteSwiperOption:{
+                slidesPerView:'auto',
+                slidesPerGroup:1,
+                spaceBetween:15,
+                loop:false,
+                speed: 400,
             }
         }
     },
     methods:{
+        getRecommendedRouteList() {
+            Route.recommendedList().then(res=>{
+                if(res.data.recom_tours != null && res.data.recom_tours.length > 0) this.recommendedRouteList = res.data.recom_tours;
+            })
+        },
         /*
         * getThemeRouteList
         * 테마경로 제목 조회
@@ -191,6 +225,7 @@ export default {
     created() {
         this.getHashList();
         this.getThemeRouteList();
+        this.getRecommendedRouteList();
         this.getRouteList();
         this.getLatest();
     }
