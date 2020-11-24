@@ -28,11 +28,11 @@
                         </div>
                     </div>
                     <div>
-                        <div>{{myTourList.length}}</div>
+                        <div>{{myTourList.length | currency}}</div>
                         <div>나의 제주여행</div>
                     </div>
                     <div>
-                        <div>17000</div>
+                        <div>{{profile.point | currency}}</div>
                         <div>액션포인트</div>
                     </div>
                     <div>
@@ -119,6 +119,11 @@ export default {
             banners: [],
             showBannerIdx: 0,
             bannerTimer: null,
+        }
+    },
+    filters: {
+        currency: function(v){
+            return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     },
     computed: {
