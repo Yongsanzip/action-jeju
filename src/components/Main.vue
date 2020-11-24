@@ -63,7 +63,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="con-main mt25">
+                <div class="main-movie mt15 ">
+                    <h2 class="section-title">오늘의 <b>제주</b></h2>
+                    <swiper class="swiper-container" :options="movieSwiperOption">
+                        <swiper-slide
+                                v-for="(movie, idx) in movieList"
+                                :key="idx"
+                                :style="`background: url(${movie.movie_thumbnail}) no-repeat;`"
+                        >
+                            <div @click="showMovie(idx)">
+                                <button class="play"></button>
+                            </div>
+                            <div class="title">{{movie.movie_hashtag}}</div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
+                <div class="con-main mt15">
                     <div class="list-card">
                         <h2 class="section-title">{{themeRouteName}}</h2>
                         <div class="card" v-for="(item, idx) in latestList.slice(0, 30)" :key="idx" @click="doView(item.idx)">
@@ -86,6 +101,12 @@
                 </div>
             </div>
         </div>
+        <transition name="fade">
+            <video-popup
+                    v-if="isShowMovie"
+                    :video="selectedMovie"
+            ></video-popup>
+        </transition>
     </section>
 </template>
 
@@ -94,15 +115,19 @@ import {swiper, swiperSlide} from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import {etc, Route} from '@/api';
 import { EventBus } from "../assets/event-bus";
+import VideoPopup from "./popup/VideoPopup";
 
 export default {
     name: 'Main',
     components: {
-        swiper, swiperSlide
+        swiper, swiperSlide, VideoPopup
     },
     data() {
         return {
             hashList: [],
+            movieList: [],
+            isShowMovie: false,
+            selectedMovie: null,
             hotList:[],
             latestList: [],
             tourInfo: [],
@@ -134,6 +159,13 @@ export default {
                 spaceBetween:7,
                 loop: false,
                 speed: 400,
+            },
+            movieSwiperOption: {
+                slidesPerView:'auto',
+                slidesPerGroup:1,
+                spaceBetween:6,
+                loop:false,
+                speed: 400,
             }
         }
     },
@@ -143,6 +175,21 @@ export default {
         }
     },
     methods: {
+        /*
+        * getMovieList
+        * 메인 동영상 목록 조회
+        */
+        getMovieList() {
+            Route.movieList().then(res=>{
+                this.movieList = res.data.moviedata;
+            })
+        },
+        showMovie(idx){
+            if(this.movieList[idx] != null){
+                this.selectedMovie = this.movieList[idx];
+                this.isShowMovie = true;
+            }
+        },
         /*
         * getThemeRouteList
         * 테마경로 제목 조회
@@ -247,10 +294,15 @@ export default {
     },
     created() {
         this.getHomeRoute();
+        this.getMovieList();
         this.getThemeRouteList();
         this.getHashList();
         this.getHotList();
         this.getLatest();
+
+        this.$on("close-modal", function(){
+            this.isShowMovie = false;
+        }.bind(this));
     },
 }
 

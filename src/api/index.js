@@ -214,6 +214,13 @@ export const Route = {
             url: '/banner_list2.php',
             data
         })
+    },
+    movieList(data){
+        return api.request({
+            method: 'get',
+            url: '/main_movie.php',
+            data
+        })
     }
 };
 
