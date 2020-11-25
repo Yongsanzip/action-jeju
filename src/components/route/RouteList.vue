@@ -45,8 +45,8 @@
                                     <div class="title">{{route.name}}</div>
                                     <div>{{route.days-1}}박 {{route.days}}일 여행</div>
                                     <div class="place">
-                                        <div>출발<span>ㆍ{{route.max_company_name}}</span></div>
-                                        <div>도착<span>ㆍ{{route.min_company_name}}</span></div>
+                                        <div>출발<span>{{route.max_company_name}}</span></div>
+                                        <div>도착<span>{{route.min_company_name}}</span></div>
                                     </div>
                                 </div>
                             </swiper-slide>

@@ -166,6 +166,9 @@
   font-weight: 500;
   color: #ffffff;
 }
+.section-wrap__main .recommend-list .swiper-slide > div >.place span:before {
+    content: 'ㆍ';
+}
 
 /* setting */
 .con-setting {
