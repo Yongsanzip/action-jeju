@@ -413,22 +413,19 @@ export default {
         }
     },
     created() {
-        try {
-            window.scrollTo(0,0);
-            this.getPlaceData();
-            EventBus.$on("PlaceView", props => {
-                if(this.showModal){
-                    this.getPlaceData();
-                }
-                this.showModal = props;
-                this.showReview = props;
-                this.mapModal = props;
-            });
-            this.getLike();
-            this.getFavorites();
-        } catch (e) {
-            console.error(e);
-        }
+        document.getElementById('app').scrollIntoView();
+
+        this.getPlaceData();
+        EventBus.$on("PlaceView", props => {
+            if(this.showModal){
+                this.getPlaceData();
+            }
+            this.showModal = props;
+            this.showReview = props;
+            this.mapModal = props;
+        });
+        this.getLike();
+        this.getFavorites();
     },
     updated() {
         const reviewTextBox = document.getElementsByClassName("review-text");

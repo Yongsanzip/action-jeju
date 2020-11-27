@@ -228,6 +228,9 @@ export default {
         this.getRecommendedRouteList();
         this.getRouteList();
         this.getLatest();
+    },
+    updated() {
+        if(this.$store.state.scrollPosition != null) document.querySelector("html").scrollTo(this.$store.state.scrollPosition);
     }
 }
 </script>

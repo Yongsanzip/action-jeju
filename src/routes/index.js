@@ -175,5 +175,17 @@ export const router = new VueRouter({
             ],
             beforeEnter: requireAuth()
         }
-    ]
+    ],
+    scrollBehavior (to, from, savedPosition) {
+        store.dispatch('SAVE_SCROLL_POSITION', {
+            top: savedPosition != null && savedPosition.y != null? savedPosition.y : 0,
+            left: 0
+        });
+
+        if (savedPosition != null) {
+            return savedPosition
+        } else {
+            return { x: 0, y: 0 }
+        }
+    }
 });

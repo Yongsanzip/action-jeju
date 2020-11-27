@@ -1048,7 +1048,7 @@ export default {
         }
     },
     created() {
-        window.scrollTo(0,0);
+        document.getElementById('app').scrollIntoView();
 
         this.mainTourIdx = this.GET_MAIN_TOUR_IDX;
 

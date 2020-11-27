@@ -14,6 +14,7 @@ export default new Vuex.Store({
         mb_id: null,
         is_show_loading: false,
         mainTourIdx: null,
+        scrollPosition: null,
     },
     getters:{
         GET_MB_ID(state) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
         },
         GET_MAIN_TOUR_IDX(state) {
             return state.mainTourIdx;
+        },
+        GET_SCROLL_POSITION(state) {
+            return state.scrollPosition;
         }
     },
     mutations:{
@@ -35,6 +39,9 @@ export default new Vuex.Store({
         },
         SET_MAIN_TOUR_IDX(state, payload){
             state.mainTourIdx = payload
+        },
+        SET_SCROLL_POSITION(state, payload) {
+            state.scrollPosition = payload
         }
     },
     actions:{
@@ -46,6 +53,9 @@ export default new Vuex.Store({
         },
         SAVE_MAIN_TOUR_IDX({commit}, payload) {
             commit('SET_MAIN_TOUR_IDX', payload);
+        },
+        SAVE_SCROLL_POSITION({commit}, payload) {
+            commit('SET_SCROLL_POSITION', payload);
         }
     },
 

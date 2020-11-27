@@ -304,6 +304,9 @@ export default {
             this.isShowMovie = false;
         }.bind(this));
     },
+    updated() {
+        if(this.$store.state.scrollPosition != null) document.querySelector("html").scrollTo(this.$store.state.scrollPosition);
+    }
 }
 
 </script>
