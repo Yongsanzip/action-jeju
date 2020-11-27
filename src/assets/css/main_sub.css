@@ -2547,6 +2547,12 @@
   padding: 0 6px;
   color: #999999;
 }
+.con-route .place-wrap .place-list > div.noResult {
+  font-size: 15px;
+  color: #888888;
+  text-align: center;
+  margin-top: 210px;
+}
 
 .con-route .comment-wrap {
   /*margin-top: -15px;*/

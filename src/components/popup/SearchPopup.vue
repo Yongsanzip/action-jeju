@@ -34,14 +34,19 @@
                                 <input name="category" type="radio" :value="category.id" :class="{'all': category.id === 'all'}" @change="changeFavoriteCategory"><div>{{category.name}}</div>
                             </label>
                         </div>
-                        <li class="" v-for="(item, idx) in searchList" :key="idx">
-                            <div class="place-icon" :style="{'background': item.company_img != null? `url(${item.company_img}) no-repeat center` : '', 'background-size': 'cover'}"></div>
-                            <div class="place-info">
-                                <p class="place-name">{{item.company_name}}</p>
-                                <p class="place-adress">{{item.company_addr}}</p>
-                            </div>
-                            <button class="btn-white" @click="doSelect(item)">선택</button>
-                        </li>
+                        <template v-if="searchList.length > 0">
+                            <li class="" v-for="(item, idx) in searchList" :key="idx">
+                                <div class="place-icon" :style="{'background': item.company_img != null? `url(${item.company_img}) no-repeat center` : '', 'background-size': 'cover'}"></div>
+                                <div class="place-info">
+                                    <p class="place-name">{{item.company_name}}</p>
+                                    <p class="place-adress">{{item.company_addr}}</p>
+                                </div>
+                                <button class="btn-white" @click="doSelect(item)">선택</button>
+                            </li>
+                        </template>
+                        <template v-else>
+                            <div class="noResult">해당 카테고리에 대한 결과가 없습니다.</div>
+                        </template>
                     </template>
                 </ul>
                 <ul class="place-list" v-else-if="!loading && isSearch">
