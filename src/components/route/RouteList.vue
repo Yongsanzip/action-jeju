@@ -122,7 +122,7 @@ export default {
             recommendedRouteSwiperOption:{
                 slidesPerView:'auto',
                 slidesPerGroup:1,
-                spaceBetween:15,
+                spaceBetween:18,
                 loop:false,
                 speed: 400,
             }
