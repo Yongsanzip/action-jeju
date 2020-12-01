@@ -127,7 +127,7 @@ export default {
             // console.log(idx);
             if(this.photoList.length-1 >= 10){
                 //최대 10장 등록 가능
-                alert("후기 사진은 최대 10장 등록 가능합니다.");
+                this.$alert("후기 사진은 최대 10장 등록 가능합니다.");
                 return false;
             }
 
@@ -149,7 +149,7 @@ export default {
                         return false;
                     }
                     if(!f.type.match("image.*")){
-                        alert("이미지만 업로드 가능합니다.");
+                        this.$alert("이미지만 업로드 가능합니다.");
                         return;
                     }
 
@@ -162,7 +162,7 @@ export default {
                 imgInput.removeEventListener('change', imgChangeEvnt);
 
                 if(isOver){
-                    alert("후기 사진은 최대 10장 등록 가능합니다.");
+                    this.$alert("후기 사진은 최대 10장 등록 가능합니다.");
                 }
 
                 const newFileEl = document.createElement("input");

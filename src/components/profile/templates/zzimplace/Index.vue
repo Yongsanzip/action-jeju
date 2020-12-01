@@ -54,7 +54,7 @@ export default {
         call(phoneNumb){
             this.isClickPlace = false;
             if(phoneNumb == null){
-                alert("전화번호가 등록되지 않은 업체입니다.")
+                this.$alert("전화번호가 등록되지 않은 업체입니다.")
             }
             location.href="tel:"+phoneNumb;
         },
