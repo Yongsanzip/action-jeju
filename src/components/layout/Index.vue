@@ -408,14 +408,13 @@ export default {
             this.getSearchTitle();
         }
 
-        EventBus.$on("Index", (hashName, type, isActive) => {
-            // console.log("click hash")
+        //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
+        EventBus.$off("Index");
+
+        EventBus.$once("Index", (hashName, type, isActive) => {
             this.isActive = isActive;
             this.setSearchKeyword(hashName);
             // this.clickSearch('route');
-
-            //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
-            EventBus.$off("Index");
         });
 
         this.$on("close-place-make", function(){
@@ -424,9 +423,6 @@ export default {
         this.$on("research", function(){
            this.doSearch();
         });
-    },
-    destroyed() {
-        EventBus.$off("Index");
     }
 }
 </script>
