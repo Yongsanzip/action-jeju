@@ -5,7 +5,7 @@
             <h1>마이 액션제주</h1>
             <ul class="header-menu">
                 <li class="notice">
-                    <a href="" class="link"></a>
+                    <router-link to="/notice" class="link"></router-link>
                     <div class="new"></div>
                 </li>
                 <li class="setting">
