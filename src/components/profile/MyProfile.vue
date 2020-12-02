@@ -52,8 +52,8 @@
                         <button type="button" @click="getList(list.type)">{{list.text}}</button>
                     </li>
                 </ul>
-                <div class="list-contents" v-if="profileList === null">
-                    <p style="font-size:13px;text-align: center;">{{noDataText}}</p>
+                <div class="list-contents" v-if="profileList === null" style="text-align: center;">
+                    <p style="font-size:13px;top: 140px;">{{noDataText}}</p>
                 </div>
                 <div class="list-contents" v-else>
                     <div v-for="(item, idx) in profileList.slice(0, this.listLimit)" :key="idx" :class="{photo__list : item.image_name}">
