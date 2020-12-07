@@ -283,10 +283,10 @@ export default {
                     }.bind(this))
                 }
             }
+            EventBus.$off("Map");
         })
     },
     destroyed() {
-        EventBus.$off("Map");
         window.removeEventListener("resize", this.setMapSetting);
     }
 }
