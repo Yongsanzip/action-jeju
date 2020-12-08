@@ -1001,7 +1001,11 @@ export default {
 
             switch(snsCode){
                 case "naver":
-                    cUrl = "http://blog.naver.com/openapi/share?url=" + encodeURI(url) + "&title=" + encodeURI(title);
+                    //2020.12.08
+                    //경로상세페이지 링크 접근 시 404 오류 발생으로 인한 링크카드 생성 불가 이슈 발생
+                    //링크 복사 기능으로 대체
+                    this.copyLink();
+                    // cUrl = "http://blog.naver.com/openapi/share?url=" + encodeURI(url) + "&title=" + encodeURI(title);
                     break;
                 case"facebook":
                     //페이스북

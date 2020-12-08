@@ -32,7 +32,18 @@
                 <ul class="overlay-menu">
                     <li><a @click="modifyRout">이 여행경로 편집</a></li>
                     <li><a @click="removeRout">이 여행일정 삭제</a></li>
-<!--                    <li><a href="">SNS 공유하기</a></li>-->
+<!--                    <li><a @click="showSNSMenu">SNS 공유하기</a></li>-->
+                </ul>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div class="overlay" v-show="isShowSNSMenu" @click.self="isShowSNSMenu=false">
+                <ul class="overlay-menu sns">
+                    <li><a @click="shareLink('facebook')" class="facebook">페이스북</a></li>
+                    <!--                <li><a @click="shareLink('instagram')" class="instagram">인스타그램</a></li>-->
+                    <li><a @click="shareLink('naver')" class="naver">네이버블로그</a></li>
+                    <li><a @click="shareLink('kakao')" class="kakao">카카오톡</a></li>
+                    <li><a @click="copyLink" class="copy">링크복사</a></li>
                 </ul>
             </div>
         </transition>
@@ -49,7 +60,8 @@ export default {
     data(){
         return{
             selectedTourIdx: null,
-            isShowMenu: false
+            isShowMenu: false,
+            isShowSNSMenu: false
         }
     },
     computed: {
@@ -110,6 +122,73 @@ export default {
                 console.error(err);
             })
             this.showMenu(false);
+        },
+        /*
+        * showSNSMenu
+        * 여행 경로 SNS 공유하기
+         */
+        showSNSMenu(){
+            this.isShowMenu = false;
+            this.isShowSNSMenu = true;
+        },
+        shareLink(snsCode){
+            let cUrl;
+            let url = document.location.origin + "/route/"+this.data.idx;
+            let title = this.data.name;
+            let imgUrl = `http://img.actionjeju.com/data/user_route_image${this.data.image}`;
+            let likeCount = this.data.user_like_point;
+            let commentCount = this.data.comment_cnt;
+
+            switch(snsCode){
+                case "naver":
+                    //2020.12.08
+                    //경로상세페이지 링크 접근 시 404 오류 발생으로 인한 링크카드 생성 불가 이슈 발생
+                    //링크 복사 기능으로 대체
+                    this.copyLink();
+                    // cUrl = "http://blog.naver.com/openapi/share?url=" + encodeURI(encodeURIComponent(url)) + "&title=" + encodeURI(title);
+                    break;
+                case"facebook":
+                    //페이스북
+                    cUrl = 'http://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url)+'&t='+encodeURIComponent(title);
+                    break;
+                case"kakao":
+                    //카카오톡
+                    window.Kakao.Link.sendDefault({
+                        objectType: 'feed',
+                        content: {
+                            title: title,
+                            imageUrl: imgUrl,
+                            link: {
+                                mobileWebUrl: url,
+                                webUrl: url,
+                            },
+                        },
+                        social: {
+                            likeCount: Number(likeCount),
+                            commentCount: Number(commentCount),
+                        }
+                    });
+                    break;
+                case"instagram":
+                    //인스타그램
+                    // cUrl = 'https://story.kakao.com/share?url='+cUrl;
+                    break;
+            }
+
+            this.isShowSNSMenu = false;
+            if(cUrl != null) window.open(cUrl);
+        },
+        copyLink() {
+            var tempElem = document.createElement('textarea');
+            tempElem.value = document.location.origin + "/route/"+this.data.idx;
+            document.body.appendChild(tempElem);
+
+            tempElem.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempElem);
+
+            this.$alert("링크가 복사되었습니다.");
+            this.isShowSNSMenu = false;
         }
     }
 }
