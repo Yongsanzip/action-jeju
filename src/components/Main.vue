@@ -5,10 +5,10 @@
             <div class="container" style="margin:0;">
                 <!-- 상단 슬라이드 -->
                 <div class="header-slide">
-                    <swiper class="swiper-container__top" :options="topSwiperOption" ref="topSwiper">
+                    <swiper class="swiper-container__top" :options="topSwiperOption">
                         <swiper-slide class="section__title"
-                                      v-for="hash in hashList"
-                                      :key="hash.name"
+                                      v-for="(hash, idx) in hashList"
+                                      :key="idx"
                         >
                             <form>
                                 <input type="hidden" v-model="hash.name">
@@ -51,11 +51,12 @@
                         </div>
                         <div class="slide-box">
                             <swiper class="swiper-container" :options="listSwiperOption" ref="mySwiper">
-                                <swiper-slide v-for="(item, idx) in tourDays" :key="idx">
-                                    <img v-if="item.path != null && item.path.length > 0 && item.path[0].images != null && item.path[0].images.length > 0"
-                                         :src="`http://img.actionjeju.com/data/user_route_after${item.path[0].images[0].name}`"
-                                         alt="">
-                                </swiper-slide>
+                                <template v-for="(item, idx) in tourDays" >
+                                    <swiper-slide v-for="(path, pathIdx) in item.path" :key="`${idx}_${pathIdx}`">
+                                        <img :src="`http://img.actionjeju.com/data/user_route_after${path.images[0].name}`"
+                                             alt="">
+                                    </swiper-slide>
+                                </template>
                             </swiper>
                         </div>
                         <div class="nickname-area">
@@ -167,11 +168,6 @@ export default {
                 loop:false,
                 speed: 400,
             }
-        }
-    },
-    computed: {
-        swiper(){
-            return this.$refs.mySwiper.swiper;
         }
     },
     methods: {
