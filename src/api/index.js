@@ -304,6 +304,13 @@ export const etc = {
             url: '/banner_list1.php',
             data
         })
+    },
+    gps_ins(data){
+        return api.request({
+            method: 'post',
+            url: '/mem_gps_ins.php',
+            data
+        })
     }
 };
 

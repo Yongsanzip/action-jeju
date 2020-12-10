@@ -65,6 +65,7 @@
 </template>
 <script>
 import { search } from "@/api";
+import {EventBus} from "../../assets/event-bus";
 
 export default {
     name: 'SearchPopup',
@@ -215,6 +216,9 @@ export default {
         * 선택 버튼 선택
          */
         doSelect(item){
+            if(this.searchText.length > 0) EventBus.$emit("insertGps", this.searchText);
+            else EventBus.$emit("insertGps", item.company_name);
+
             this.$parent.$emit('Make2', 'place', item, this.showModal);
         },
         /*

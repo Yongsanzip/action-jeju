@@ -292,6 +292,8 @@ export default {
                 if(event != null) event.preventDefault();
                 document.getElementsByClassName("search-field")[0].blur();
 
+                EventBus.$emit("insertGps", this.searchText);
+
                 const postData = new FormData();
                 postData.append('keyword', this.searchText);
                 postData.append('type', this.type);
@@ -410,7 +412,6 @@ export default {
 
         //index.vue 컴포넌트 생성시 마다 EventBus 중복 생성으로 인한 search.php api 중복 호출 방지
         EventBus.$off("Index");
-
         EventBus.$once("Index", (hashName, type, isActive) => {
             this.isActive = isActive;
             this.setSearchKeyword(hashName);

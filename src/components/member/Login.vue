@@ -18,6 +18,7 @@
 import {user} from '@/api';
 import {etc} from "../../api";
 import defaultLogo from "@/assets/images/new_logo.png";
+import {EventBus} from "../../assets/event-bus";
 
 export default {
     name: 'Login',
@@ -72,6 +73,8 @@ export default {
                     if (resultCode === '1000') { // 성공
                         this.$store.dispatch('SAVE_MB_ID', null);
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
+
+                        EventBus.$emit("insertGps", "login social");
                         this.$router.push('/main');
                     }else {
                         this.$alert(resultMsg)
