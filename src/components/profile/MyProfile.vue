@@ -17,15 +17,12 @@
             <div class="profile-box">
                 <div>
                     <div>
-                        <div>
+                        <label>
                             <div class="profile-image">
                                 <img :src="profile.profile_img" alt="">
-                            </div>
-                            <label class="edit-image">
                                 <input type="file" ref="profileImg" name="profileImg" accept="image/*" @change="profileImgChanged">
-                                <div class="shape">이미지 업로드</div>
-                            </label>
-                        </div>
+                            </div>
+                        </label>
                     </div>
                     <div>
                         <div>{{myTourList.length | currency}}</div>
