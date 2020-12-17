@@ -19,6 +19,7 @@ import {user} from '@/api';
 import {etc} from "../../api";
 import defaultLogo from "@/assets/images/new_logo.png";
 import {EventBus} from "../../assets/event-bus";
+import {mapGetters} from 'vuex';
 
 export default {
     name: 'Login',
@@ -36,6 +37,9 @@ export default {
             logoImage: defaultLogo,
             bgImage: null
         }
+    },
+    computed: {
+        ...mapGetters(['GET_MB_ID'])
     },
     created() {
         var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
@@ -65,14 +69,17 @@ export default {
         //소셜 로그인 토큰 받은 경우
         //로그인 실행
         if(this.$route.query.accessToken != null){
+            this.$cookies.set("token", this.$route.query.accessToken);
+            const token = this.$route.query.accessToken;
             const postData = new FormData();
-            postData.append('accessToken', this.$route.query.accessToken);
+            postData.append('accessToken', token);
             user.socialLogin(postData)
                 .then(res => {
                     const {resultCode, resultMsg, mb_id} = res.data;
                     if (resultCode === '1000') { // 성공
                         this.$store.dispatch('SAVE_MB_ID', null);
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
+                        this.$cookies.set("mb_id", mb_id);
 
                         EventBus.$emit("insertGps", "login social");
                         this.$router.push('/main');
@@ -82,6 +89,11 @@ export default {
                 }).catch(err => {
                 console.error(err);
             })
+        }
+        else {
+            if(this.GET_MB_ID != null && this.$cookies.get("mb_id") != null) {
+                this.$router.push('/main');
+            }
         }
     }
 }

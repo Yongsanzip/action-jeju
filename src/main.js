@@ -4,6 +4,14 @@ import { router } from './routes/index'
 import store from "./store/index";
 import axios from 'axios'
 
+//Cookies
+import VueCookies from "vue-cookies";
+Vue.use(VueCookies);
+// set secure, only https works
+Vue.$cookies.config('1d','','',false);
+// 30 day after, expire, '' current path , browser default
+// this.$cookies.config(60 * 60 * 24 * 30,'');
+
 //Validation 체크를 위한 import
 import Vuelidate from "vuelidate/src";
 Vue.use(Vuelidate);

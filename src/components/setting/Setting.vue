@@ -103,6 +103,7 @@ export default {
          */
         logOut(){
             this.$store.dispatch('SAVE_MB_ID', null);
+            this.$cookies.set("mb_id", null);
             this.$router.push('/')
         },
         /*

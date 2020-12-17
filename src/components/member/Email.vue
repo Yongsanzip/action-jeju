@@ -97,6 +97,7 @@ export default {
                     if (resultCode === '1000') { // 성공
                         this.$store.dispatch('SAVE_MB_ID', null);
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
+                        this.$cookies.set("mb_id", mb_id);
 
                         EventBus.$emit("insertGps", "login Email");
 
