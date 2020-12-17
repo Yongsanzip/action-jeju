@@ -42,6 +42,11 @@
                                 ({{sdate}} - {{this.$moment(edate).format('MM-DD')}})
                             </p>
                             <button class="btn-edit-route" @click="doEditRouteOrder">경로편집</button>
+                            <div
+                                :class="{'editRoute-guide': true, 'fadeout': !isShowGuide}"
+                            >
+                                순서를 바꾸거나 삭제할 수 있어요
+                            </div>
                         </div>
                     </div>
                     <div class="route-contents">
@@ -61,6 +66,15 @@
                                         <p class="place-time">{{item.distance_data}} {{item.duration_data}}</p>
                                         <button v-if="isEditRoute" class="btn-close" @touchstart="deletePlace($event, dateIdx, idx)" @click="deletePlace($event, dateIdx, idx)">장소제거</button>
                                         <div class="travel-contents" v-if="!isEditRoute">
+                                            <div
+                                                v-if="(item.review == null || item.review === '')
+                                                    && (item.images == null || item.images.length < 1)
+                                                    && idx === 0
+                                                    && dateIdx === 0"
+                                                :class="{'review-guide': true, 'fadeout': !isShowGuide}"
+                                            >
+                                                터치하면 상세정보를 볼 수 있어요
+                                            </div>
                                             <p class="review-text">
                                                 {{item.review}}
                                             </p>
@@ -134,6 +148,7 @@ export default {
     },
     data(){
         return{
+            isShowGuide: true,
             isDiff: false,
             isEditRoute: false,
             isReview:false,
@@ -565,6 +580,9 @@ export default {
         this.mapHeights = [159, window.outerHeight*0.5, window.outerHeight*0.8];
         this.setMapSetting();
         window.addEventListener("resize", this.setMapSetting);
+        setTimeout(function() {
+            this.isShowGuide = false;
+        }.bind(this), 5000);
 
         /*
         * 장소 검색 및 후기 작성 팝업 닫을 때 여행경로 상세 정보 재조회
