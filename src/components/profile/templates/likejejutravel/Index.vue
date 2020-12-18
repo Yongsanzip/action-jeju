@@ -16,8 +16,8 @@
                 <p class="card-tern">{{data.days}}박 {{data.days+1}}일 여행</p>
                 <p class="card-writer">{{data.nick}}</p>
             </div>
-            <div class="list-hashtag">
-                <div class="hashtag" v-for="(item, idx) in hashList.slice(0, 3)" :key="idx">{{item.name}}</div>
+            <div class="list-hashtag" v-if="data.hashes != null && data.hashes.length > 0">
+                <div class="hashtag" v-for="(hash, hashIdx) in data.hashes" :key="hashIdx">{{hash}}</div>
             </div>
         </div>
     </div>
@@ -38,21 +38,6 @@ export default {
         ...mapGetters(['GET_MB_ID'])
     },
     methods: {
-        /*
-        * getHashList
-        * 해쉬태그 조회
-        * 후에 여행경로 별 해쉬태그로 변경 필요
-         */
-        getHashList() {
-            const postData = new FormData;
-            postData.append('request_code', 'hashList');
-            etc.fetchList(postData).then(res => {
-                //console.log(res.data)
-                this.hashList = res.data.hashes;
-            }).catch(err => {
-                console.error(err);
-            })
-        },
         /*
         * doView
         * 선택한 여행경로 상세보기
@@ -79,7 +64,6 @@ export default {
         }
     },
     created() {
-        this.getHashList()
     }
 }
 </script>
