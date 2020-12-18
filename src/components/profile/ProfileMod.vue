@@ -15,7 +15,7 @@
                                 <img v-if="url" :src="url" alt="">
                             </div>
                             <label class="upload-image">
-                                <input type="file" ref="myfile" name="myfile" accept="image/*" @change="previewFile">
+                                <input type="file" ref="myfile" name="myfile" accept="image/*" :capture="mobileType === 'android'? 'camera' : null" @change="previewFile">
                                 <div class="shape">이미지 업로드</div>
                             </label>
                         </div>
@@ -128,6 +128,7 @@ export default {
     name: 'MyProfile',
     data(){
         return{
+            mobileType: null,
             url: null,
             profile:[],
             user:{
@@ -362,6 +363,10 @@ export default {
         }
     },
     created() {
+        if((/Android|webOS|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)){ //현재기기가 모바일인지 체크
+            this.mobileType = 'android';
+        }
+
         this.getProfile();
     }
 }

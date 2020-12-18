@@ -37,7 +37,7 @@
                                     <div v-if="idx === 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                         이미지 추가
                                         <div class="imageFiles" style="display: none;">
-                                            <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
+                                            <input type="file" class="imageFile" accept="image/*" :capture="mobileType === 'android'? 'camera' : null">
                                         </div>
 
                                     </div>
@@ -98,6 +98,7 @@ export default {
     },
     data() {
         return {
+            mobileType: null,
             showReview:false,
             currentRating:0,
             currentSelectedRating: "",
@@ -167,9 +168,9 @@ export default {
 
                 const newFileEl = document.createElement("input");
                 newFileEl.setAttribute("type", "file");
-                newFileEl.setAttribute("style", "display: none");
                 newFileEl.setAttribute("accept", "image/*");
                 newFileEl.setAttribute("multiple", "multiple");
+                if(this.mobileType === 'android') newFileEl.setAttribute("capture", "camera");
                 newFileEl.classList.add('imageFile');
 
                 const parentEl = document.getElementsByClassName('imageFiles')[0];
@@ -283,6 +284,10 @@ export default {
         },
     },
     created() {
+        if((/Android|webOS|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)){ //현재기기가 모바일인지 체크
+            this.mobileType = 'android';
+        }
+
         if(this.location != null) {
             this.reviewText = this.location.review;
             this.pathidx = this.location.idx;

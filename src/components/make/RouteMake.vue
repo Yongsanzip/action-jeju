@@ -10,7 +10,7 @@
                 <div class="container con-route con-route-make">
                     <div class="route-cover">
                         <label class="upload-cover">
-                            <input type="file" ref="myfile" @change="previewFile">
+                            <input type="file" ref="myfile" accept="image/*" @change="previewFile" :capture="mobileType === 'android'? 'camera' : null">
                         </label>
                         <img v-if="url === null" :src="`http://img.actionjeju.com/data/user_route_image/visit_jeju${randomIdx}.jpg`" alt="">
                         <img v-if="url" :src="url" alt="">
@@ -90,6 +90,7 @@ export default {
     data(){
         return{
             isNew: true,
+            mobileType: null,
             tourInfo: null,
             profile: null,
             ranges:{
@@ -263,6 +264,10 @@ export default {
         }
     },
     created() {
+        if((/Android|webOS|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)){ //현재기기가 모바일인지 체크
+            this.mobileType = 'android';
+        }
+
         if(this.idx != null){
             /*
             * 여행경로 수정 화면 : 여행경로 상세 정보 조회

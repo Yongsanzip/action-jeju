@@ -56,7 +56,7 @@
                                     <div v-if="idx === 0" class="add-image image-item" :class="'add-image-'+photoList.length" @click.self="addImage(photoList.length)">
                                         이미지 추가
                                         <div class="imageFiles" style="display: none;">
-                                            <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple/>
+                                            <input type="file" class="imageFile" style="display: none;" accept="image/*" multiple :capture="mobileType === 'android'? 'camera' : null"/>
                                         </div>
                                     </div>
                                     <div v-else :style="{'background-image': `url(${photoItem.src}`}" class="image-box">
@@ -94,6 +94,7 @@ import {mapGetters} from 'vuex';
         },
         data() {
             return {
+                mobileType: null,
                 name: '',
                 isOverlapChecked: false,
                 isShowAddressSearch: false,
@@ -281,6 +282,7 @@ import {mapGetters} from 'vuex';
                     newFileEl.setAttribute("type", "file");
                     newFileEl.setAttribute("style", "display: none");
                     newFileEl.setAttribute("accept", "image/*");
+                    if(this.mobileType === 'android') newFileEl.setAttribute("capture", "camera");
                     newFileEl.setAttribute("multiple", "multiple");
                     newFileEl.classList.add('imageFile');
 
@@ -304,6 +306,11 @@ import {mapGetters} from 'vuex';
                 const imgItemIdx = this.photoList.indexOf(removeimgItem);
                 if (imgItemIdx > -1) this.photoList.splice(imgItemIdx, 1);
             },
+        },
+        created() {
+            if((/Android|webOS|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)){ //현재기기가 모바일인지 체크
+                this.mobileType = 'android';
+            }
         }
     }
 </script>

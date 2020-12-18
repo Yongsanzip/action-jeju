@@ -20,7 +20,7 @@
                         <label>
                             <div class="profile-image">
                                 <img :src="profile.profile_img" alt="">
-                                <input type="file" ref="profileImg" name="profileImg" accept="image/*" @change="profileImgChanged">
+                                <input type="file" ref="profileImg" name="profileImg" accept="image/*" :capture="mobileType === 'android'? 'camera' : null" @change="profileImgChanged">
                             </div>
                         </label>
                     </div>
@@ -97,6 +97,7 @@ export default {
     },
     data(){
         return{
+            mobileType: null,
             profile:[],
             profileList:[],
             myTourList: [],
@@ -302,6 +303,11 @@ export default {
         this.getBannerAds();
         this.getProfile();
         this.getList(this.navList[this.el_Active].type);
+
+        if((/Android|webOS|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)){ //현재기기가 모바일인지 체크
+            this.mobileType = 'android';
+        }
+
         EventBus.$on("MyProfile", (type, idx) => {
             if(type === "myTravel"){
                 this.getList("mytravel", true);
