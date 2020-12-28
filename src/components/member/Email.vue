@@ -94,12 +94,14 @@ export default {
             user.login(postData)
                 .then(res => {
                     const {resultCode, resultMsg} = res.data;
+                    // this.$cookies.set("token", this.$route.query.accessToken);
+
                     if (resultCode === '1000') { // 성공
                         this.$store.dispatch('SAVE_MB_ID', null);
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
                         this.$cookies.set("mb_id", mb_id);
 
-                        EventBus.$emit("insertGps", "login Email");
+                        EventBus.$emit("insertGps");
 
                         this.$router.push('/main');
                     }else {

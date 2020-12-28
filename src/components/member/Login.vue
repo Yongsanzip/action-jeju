@@ -81,7 +81,7 @@ export default {
                         this.$store.dispatch('SAVE_MB_ID', mb_id);
                         this.$cookies.set("mb_id", mb_id);
 
-                        EventBus.$emit("insertGps", "login social");
+                        EventBus.$emit("insertGps");
                         this.$router.push('/main');
                     }else {
                         this.$alert(resultMsg)

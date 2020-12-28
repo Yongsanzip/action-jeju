@@ -23,21 +23,22 @@ export default {
     },
     methods: {
         postGpsInfo(keyword){
-            console.log("postGpsInfo::::", keyword, this.GET_MB_ID);
-            if((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent) && window.android != null){ //현재기기가 모바일인지 체크
-                const lat = window.android.myLocate('lat');
-                const lng = window.android.myLocate(null);
+            navigator.geolocation.getCurrentPosition((position) => {
+                if(position != null && position.coords != null) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
 
-                const gpsPostData = new FormData();
-                gpsPostData.append('mb_id', this.GET_MB_ID);
-                gpsPostData.append('long', lng);
-                gpsPostData.append('lat', lat);
-                if(keyword != null) gpsPostData.append('keyword', keyword);
+                    const gpsPostData = new FormData();
+                    gpsPostData.append('mb_id', this.GET_MB_ID);
+                    gpsPostData.append('long', lng);
+                    gpsPostData.append('lat', lat);
+                    if(keyword != null) gpsPostData.append('keyword', keyword);
 
-                etc.gps_ins(gpsPostData).then(res => {
-                    console.log(res);
-                });
-            }
+                    etc.gps_ins(gpsPostData).then(res => {
+                        console.log(res);
+                    });
+                }
+            });
         },
     },
     created() {
