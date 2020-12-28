@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const SETTINGS = {
-    BASIC_URL: 'http://220.90.200.93',
-    //BASIC_URL: 'http://www.actionjeju.com',
+    // BASIC_URL: 'http://220.90.200.93',
+    BASIC_URL: 'https://www.actionjeju.com',
     DOMAIN: '/api'
 };
 
