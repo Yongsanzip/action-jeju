@@ -106,7 +106,8 @@ export default {
                         this.$alert(resultMsg)
                     }
                 }).catch(err => {
-                console.error(err);
+                    this.$alert('로그인에 실패하였습니다. 다시 시도해주세요.');
+                    console.error(err);
             })
         }
     }
