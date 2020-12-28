@@ -73,7 +73,7 @@
             </div>
             <div class="banner-ads">
                 <a v-if="banners[showBannerIdx] != null" :href="banners[showBannerIdx].url != null? banners[showBannerIdx].url : '#'" :target="banners[showBannerIdx].url.length > 0? '_blank' : ''">
-                    <img :src="`http://img.actionjeju.com/data/banner${banners[showBannerIdx].name}`" alt="" style="width: 100%;" v-on:load="loadedBannerImg" />
+                    <img :src="`${$store.state.banner_img_route}${banners[showBannerIdx].name}`" alt="" style="width: 100%;" v-on:load="loadedBannerImg" />
                 </a>
             </div>
         </div>

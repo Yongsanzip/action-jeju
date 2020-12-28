@@ -3,7 +3,7 @@
         <!-- card -->
         <div class="card-route">
             <div class="route-image-box">
-                <img :src="`http://img.actionjeju.com/data/user_route_image/${data.tourimg}`" alt="">
+                <img :src="`${$store.state.user_img_route}/${data.tourimg}`" alt="">
             </div>
             <div class="route-contents-box">
                 <div>

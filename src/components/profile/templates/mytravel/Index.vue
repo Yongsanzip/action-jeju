@@ -5,7 +5,7 @@
         <div class="card">
             <div class="card-image" @click="doView(data.idx)">
                 <img v-if="data.image == null || data.image == 'null'" src="../../../../assets/images/img-dummy.png" alt="">
-                <img v-else :src="`http://img.actionjeju.com/data/user_route_image${data.image}`" alt="">
+                <img v-else :src="`${$store.state.user_img_route}${data.image}`" alt="">
             </div>
             <div class="card-contents" @click="doView(data.idx)">
                 <div class="card-title">
@@ -135,7 +135,7 @@ export default {
             let cUrl;
             let url = document.location.origin + "/route/"+this.data.idx;
             let title = this.data.name;
-            let imgUrl = `http://img.actionjeju.com/data/user_route_image${this.data.image}`;
+            let imgUrl = this.$store.state.user_img_route + this.data.image;
             let likeCount = this.data.user_like_point;
             let commentCount = this.data.comment_cnt;
 

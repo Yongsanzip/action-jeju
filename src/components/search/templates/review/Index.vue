@@ -1,7 +1,7 @@
 <template>
     <div class="comment-card">
         <div class="profile" :idx="data.tour_idx">
-            <img v-if="data.tourimg != null" :src="`http://img.actionjeju.com/data/user_route_image${data.tourimg}`" alt="">
+            <img v-if="data.tourimg != null" :src="`${$store.state.user_img_route}${data.tourimg}`" alt="">
             <img v-else src="../../../../assets/images/img-dummy.png" :alt="data.tourimg">
         </div>
         <div class="review-contents">

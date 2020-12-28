@@ -80,7 +80,7 @@
                                             </p>
                                             <div class="review-image-list" v-if="item.images != null && item.images.length > 0">
                                                 <div class="review-image" v-for="(imgItem, imgIdx) in item.images" :key="imgIdx">
-                                                    <img :src="`http://img.actionjeju.com/data/user_route_after/${imgItem.name}`" alt="">
+                                                    <img :src="`${$store.state.user_after_route}/${imgItem.name}`" alt="">
                                                 </div>
                                             </div>
                                         </div>

@@ -12,7 +12,7 @@
                         <button @click="onClickBtnBack" class="prev">이전</button>
                         <button class="btn-more" @click="isShowMenu=true">메뉴</button>
                     </div>
-                    <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: tourInfo.image != null? `url(http://img.actionjeju.com/data/user_route_image${tourInfo.image}` : ''}">
+                    <div class="post-cover" v-if="!isSticky" :style="{backgroundImage: tourInfo.image != null? `url(${$store.state.user_img_route}${tourInfo.image}` : ''}">
                         <div class="btn-map-block">
                             <button class="btn-map" @click="openMap">지도보기 <img src="../../assets/images/svg/ic-triangle-up-white.svg" alt=""></button>
                         </div>
@@ -70,7 +70,7 @@
                                         <div class="review-image-list" v-show="path.images != null">
                                             <div class="review-image" v-for="(image, imgIdx) in path.images" :key="imgIdx" @click="showPhotoModal(image)">
     <!--                                            <img src="../../assets/images/img-dummy.png" alt="">-->
-                                                <img :src="`http://img.actionjeju.com/data/user_route_after${image.name}`" alt="">
+                                                <img :src="`${$store.state.user_after_route}${image.name}`" alt="">
                                             </div>
                                         </div>
                                         <div class="hashtag-list" v-if="path.hashes != null && path.hashes.length > 0">
@@ -202,7 +202,7 @@
                 </div>
                 <div class="banner-ads" v-if="mainTourIdx === id">
                     <a v-for="(banner, idx) in banners" :key="idx" :href="banner.url.length > 0? banner.url : '#'" :target="banner.url.length > 0? '_blank' : ''">
-                        <img :src="`http://img.actionjeju.com/data/banner${banner.name}`" alt="">
+                        <img :src="`${$store.state.banner_img_route}${banner.name}`" alt="">
                     </a>
                 </div>
             </div>
@@ -995,7 +995,7 @@ export default {
             let cUrl;
             let url = encodeURIComponent(document.location.href);
             let title = this.tourInfo.name;
-            let imgUrl = `http://img.actionjeju.com/data/user_route_image${this.tourInfo.image}`;
+            let imgUrl = this.$store.state.user_img_route + this.tourInfo.image;
             let likeCount = this.tourInfo.user_like_count;
             let commentCount = this.tourInfo.reply_count;
 

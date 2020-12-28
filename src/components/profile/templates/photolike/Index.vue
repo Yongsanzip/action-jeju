@@ -1,6 +1,6 @@
 <template>
     <div style="width: 100%;height: 100%;">
-        <img :src="'http://img.actionjeju.com/data/user_route_after/'+data.image_name" @click="showDetailImgView(data.image_idx)"/>
+        <img :src="`${$store.state.user_after_route}/${data.image_name}`" @click="showDetailImgView(data.image_idx)"/>
         <div class="btn-favorite" @click="setPhotoLike(data.image_idx, $event)">찜</div>
     </div>
 </template>

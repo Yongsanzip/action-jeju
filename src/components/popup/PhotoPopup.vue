@@ -16,7 +16,7 @@
                         <div class="detail-view">
                             <swiper :options="visualOption" ref="imgSwiper" @slideChange="ChangeSwiperSlide">
                                 <swiper-slide v-for="(item, idx) in imageList" :key="idx">
-                                    <div class="place-slide" :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_after${item.name})`}">
+                                    <div class="place-slide" :style="{backgroundImage: `url(${$store.state.user_after_route}${item.name})`}">
                                     </div>
                                 </swiper-slide>
                                 <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
@@ -38,7 +38,7 @@
                 <transition name="fade">
                 <div class="image-list image-viewer-block" v-show="isShowList">
                     <div class="image-item" v-for="(item, idx) in imageList" :key="idx">
-                        <img :src="'http://img.actionjeju.com/data/user_route_after/'+item.name" @click="showDetail(idx)"/>
+                        <img :src="`${$store.state.user_after_route}/${item.name}`" @click="showDetail(idx)"/>
                         <label class="btn-like">
                             <input type="checkbox" :class="'photoLike_'+item.idx"
                                    :checked="item.checked"

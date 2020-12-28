@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card-image" @click="doView(data.idx)">
-            <img :src="`http://img.actionjeju.com/data/user_route_image${data.image}`" alt="">
+            <img :src="`${$store.state.user_img_route}${data.image}`" alt="">
         </div>
         <div class="favorite" @click.self="disZzim(data.idx, $event)">
             찜

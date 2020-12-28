@@ -15,6 +15,10 @@ export default new Vuex.Store({
         is_show_loading: false,
         mainTourIdx: null,
         scrollPosition: null,
+        user_img_route: 'http://img.actionjeju.com/data/user_route_image',
+        user_after_route: 'http://img.actionjeju.com/data/user_route_after',
+        company_img_route: 'http://img.actionjeju.com/data/company_image',
+        banner_img_route: 'http://img.actionjeju.com/data/banner',
     },
     getters:{
         GET_MB_ID(state) {

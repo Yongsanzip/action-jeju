@@ -1,6 +1,6 @@
 <template>
     <div class="route-card" @click="doView(data.tour_idx)">
-        <div class="card-image" :style="{backgroundImage: `url('http://img.actionjeju.com/data/user_route_image${data.tourimg}')`}"></div>
+        <div class="card-image" :style="{backgroundImage: `url('${$store.state.user_img_route}${data.tourimg}')`}"></div>
         <div class="card-contents">
             <div class="card-title">
                 <p>{{data.tourname}}</p>

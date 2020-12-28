@@ -12,7 +12,7 @@
                         <label class="upload-cover">
                             <input type="file" ref="myfile" accept="image/*" @change="previewFile" :capture="mobileType === 'android'? 'camera' : null">
                         </label>
-                        <img v-if="url === null" :src="`http://img.actionjeju.com/data/user_route_image/visit_jeju${randomIdx}.jpg`" alt="">
+                        <img v-if="url === null" :src="`${$store.state.user_img_route}/visit_jeju${randomIdx}.jpg`" alt="">
                         <img v-if="url" :src="url" alt="">
                     </div>
                     <div class="route-wrap">
@@ -235,7 +235,7 @@ export default {
                 this.tourInfo = res.data.tourInfo;
                 this.title = res.data.tourInfo.name;
                 if(res.data.tourInfo.image != null && res.data.tourInfo.image != "null" && res.data.tourInfo.image != ""){
-                    this.url = "http://img.actionjeju.com/data/user_route_image/"+res.data.tourInfo.image;
+                    this.url = this.$store.state.user_img_route + '/' + res.data.tourInfo.image;
                 }
                 this.ranges.start = new Date(res.data.tourInfo.sdate);
                 const edate = new Date(res.data.tourInfo.sdate);

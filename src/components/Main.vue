@@ -22,9 +22,9 @@
                     <div class="content-box__top">
                         <swiper class="swiper-container__box" :options="boxSwiperOption" ref="boxSwiper">
                             <swiper-slide v-for="(item, index) in hotList" :key="index">
-                                <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>
-<!--                                <img :src="`http://img.actionjeju.com/data/user_route_image${item.image}`" style="width:100%; height: 100%;"/>-->
-<!--                                <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}"></div>-->
+                                <div :style="{backgroundImage: `url(${$store.state.user_img_route}${item.image}`}"></div>
+<!--                                <img :src="`${$store.state.user_img_route}${item.image}`" style="width:100%; height: 100%;"/>-->
+<!--                                <div :style="{backgroundImage: `url(${$store.state.user_img_route}${item.image}`}"></div>-->
                             </swiper-slide>
                             <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
                             <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -53,7 +53,7 @@
                             <swiper class="swiper-container" :options="listSwiperOption" ref="mySwiper">
                                 <template v-for="(item, idx) in tourDays" >
                                     <swiper-slide v-for="(path, pathIdx) in item.path" :key="`${idx}_${pathIdx}`">
-                                        <img :src="`http://img.actionjeju.com/data/user_route_after${path.images[0].name}`"
+                                        <img :src="`${$store.state.user_after_route}${path.images[0].name}`"
                                              alt="">
                                     </swiper-slide>
                                 </template>
@@ -83,7 +83,7 @@
                     <div class="list-card">
                         <h2 class="section-title">{{themeRouteName}}</h2>
                         <div class="card" v-for="(item, idx) in latestList.slice(0, 30)" :key="idx" @click="doView(item.idx)">
-                            <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image/${item.image}`}">
+                            <div :style="{backgroundImage: `url(${$store.state.user_img_route}/${item.image}`}">
                                 <h3 class="card-title">{{item.name}}</h3>
                                 <label class="btn-like">
                                     <input type="checkbox">

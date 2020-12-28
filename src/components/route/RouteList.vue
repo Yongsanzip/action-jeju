@@ -21,7 +21,7 @@
                 <div class="route-main">
                     <swiper class="swiper-container" :options="routeSwiperOption">
                         <swiper-slide v-for="(item, idx) in routeList.slice(0,30)" :key="idx"
-                        :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${item.image}`}">
+                        :style="{backgroundImage: `url(${$store.state.user_img_route}${item.image}`}">
                             <div @click="doView(item.idx)">
                                 <dl>
                                     <dt>{{item.name}}</dt>
@@ -39,7 +39,7 @@
                             <swiper-slide
                                     v-for="(route, idx) in recommendedRouteList"
                                     :key="idx"
-                                    :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image${route.image}`}"
+                                    :style="{backgroundImage: `url(${$store.state.user_img_route}${route.image}`}"
                             >
                                 <div @click="doView(route.idx)">
                                     <div class="title">{{route.name}}</div>
@@ -64,7 +64,7 @@
                                        @change="setRouteLike(idx, item.idx)">
                                 <div class="shape"></div>
                             </label>
-                            <div :style="{backgroundImage: `url(http://img.actionjeju.com/data/user_route_image/${item.image}`}"
+                            <div :style="{backgroundImage: `url(${$store.state.user_img_route}/${item.image}`}"
                                  @click="doView(item.idx)"
                             >
                                 <h3 class="card-title">{{item.name}}</h3>

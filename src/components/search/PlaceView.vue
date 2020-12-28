@@ -9,7 +9,7 @@
                 <swiper :options="visualOption">
                     <swiper-slide v-for="(item, idx) in images" :key="idx">
                         <div class="place-slide"
-                             :style="{backgroundImage: `url(http://img.actionjeju.com/data/company_image${item}`}"
+                             :style="{backgroundImage: `url(${$store.state.company_img_route}${item}`}"
                         >
                         </div>
                     </swiper-slide>
@@ -92,7 +92,7 @@
                                 {{reviewImages.length - 6}}+
                             </div>
                         </div>
-                        <img :src="`http://img.actionjeju.com/data/user_route_after${item.name}`" :alt="item.idx" @click="doPhoto(idx)">
+                        <img :src="`${$store.state.user_after_route}${item.name}`" :alt="item.idx" @click="doPhoto(idx)">
                         <label class="btn-like">
                             <input type="checkbox" :class="'photoLike_'+item.idx"
                                    :checked="item.like_yn === 'Y'"

@@ -296,6 +296,7 @@ export default {
             }
             if(this.photoList == null) this.photoList = [];
             if(this.location.images != null && this.location.images.length > 0){
+                const user_after_route = this.$store.state.user_after_route;
                 this.location.images.forEach(function(image, idx){
                     if(idx === 0){
                         this.photoList.push({
@@ -306,7 +307,7 @@ export default {
                     }
                     this.photoList.push({
                         idx: idx,
-                        src: "http://img.actionjeju.com/data/user_route_after/"+image.name,
+                        src: user_after_route + image.name,
                         filename: image.name
                     });
                 }.bind(this));
