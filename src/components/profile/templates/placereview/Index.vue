@@ -3,7 +3,7 @@
         <!-- card -->
         <div class="card-review" @click="doView(data.company_idx)">
             <div class="review-image-box">
-                <img :src="`${$store.state.company_img_route}${data.company_img}`" alt="">
+                <img :src="`${$store.state.place_img_route}${data.company_img}`" alt="">
             </div>
             <div class="review-contents-box">
                 <p class="review-place">{{data.company_name}}</p>

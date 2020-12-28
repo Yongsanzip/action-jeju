@@ -9,7 +9,7 @@
                 <swiper :options="visualOption">
                     <swiper-slide v-for="(item, idx) in images" :key="idx">
                         <div class="place-slide"
-                             :style="{backgroundImage: `url(${$store.state.company_img_route}${item}`}"
+                             :style="{backgroundImage: `url(${$store.state.place_img_route}${item}`}"
                         >
                         </div>
                     </swiper-slide>

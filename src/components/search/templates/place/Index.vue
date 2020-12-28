@@ -16,7 +16,7 @@
         </div>
         <div class="list-image">
             <div class="image" v-for="(image, idx) in data.company_img" :key="idx">
-                <img :src="`${$store.state.company_img_route}${image}`">
+                <img :src="`${$store.state.place_img_route}/${image}`">
             </div>
         </div>
     </div>

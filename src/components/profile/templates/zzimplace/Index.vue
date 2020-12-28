@@ -17,7 +17,7 @@
         <div class="favorite" @click.self="disZzim(data.company_idx, $event)">찜</div>
         <div class="list-image">
             <div class="image" v-for="(item, idx) in data.images" :key="idx">
-                <img :src="`${$store.state.company_img_route}${item}`" alt="">
+                <img :src="`${$store.state.place_img_route}${item}`" alt="">
             </div>
         </div>
     </div>
