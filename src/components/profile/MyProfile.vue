@@ -33,12 +33,14 @@
                         <div>액션포인트</div>
                     </div>
                     <div>
-                        <router-link to="/profileMod" class="btn-white" >프로필편집</router-link>
                     </div>
                 </div>
                 <div>
                     <p>{{profile.nick}}</p>
                     <p>{{GET_MB_ID}}</p>
+                </div>
+                <div>
+                    <router-link to="/profileMod" class="btn-white" >프로필편집</router-link>
                 </div>
             </div>
             <div class="contents">
