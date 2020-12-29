@@ -7,23 +7,25 @@
         <div class="container">
             <main class="con-setting">
                 <!-- 서비스 설정 -->
+                <!--
                 <h3 class="overline">서비스 설정</h3>
                 <ul class="list-setting">
                     <li>
                         <p class="setting-name">위치 서비스</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" checked disabled readonly>
                             <div class="shape"></div>
                         </label>
                     </li>
                     <li>
                         <p class="setting-name">알림</p>
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" checked disabled readonly>
                             <div class="shape"></div>
                         </label>
                     </li>
                 </ul>
+                -->
                 <!-- 친구초대 -->
                 <h3 class="overline" v-if="false">친구초대</h3>
                 <ul class="list-setting" v-if="false">
