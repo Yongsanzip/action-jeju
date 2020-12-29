@@ -460,7 +460,7 @@ header .next {
 
 .overlay .overlay-menu {
   position: fixed;
-  bottom: 0;
+  bottom: -5px;
   left: 0;
   width: 100%;
   background: white;
