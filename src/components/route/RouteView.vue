@@ -103,10 +103,10 @@
                                 <p v-if="tourInfo.reply_count >= 999">999+</p>
                                 <p v-else>{{tourInfo.reply_count}}</p>
                             </li>
-<!--                            <li>-->
-<!--                                <button class="btn-share" @click="showSNSMenu">공유</button>-->
-<!--                                <p>공유하기</p>-->
-<!--                            </li>-->
+                            <li>
+                                <button class="btn-share" @click="showSNSMenu">공유</button>
+                                <p>공유하기</p>
+                            </li>
                         </ul>
                         <button @click="copyRoute" class="btn-get-route">경로 가져오기</button>
                     </div>
@@ -227,7 +227,7 @@
                 <li v-show="isMine"><a @click="modifyRout">이 여행경로 편집</a></li>
                 <li v-show="isMine"><a @click="removeRout">이 여행경로 삭제</a></li>
                 <li v-show="!isMine"><a @click="setFavorites">이 여행경로 찜하기</a></li>
-<!--                <li><a @click="showSNSMenu">SNS 공유하기</a></li>-->
+                <li><a @click="showSNSMenu">SNS 공유하기</a></li>
             </ul>
         </div>
         <div class="overlay" :style="(isShowSNSMenu)? '' : 'display:none;'" @click.self="isShowSNSMenu=false">
