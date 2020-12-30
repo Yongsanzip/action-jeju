@@ -1,6 +1,6 @@
 <template>
     <section class="wrap modal">
-        <main class="container" :style="fullScreen? 'height: 100%; margin-top: 0;' : ''">
+        <main class="container" :style="fullScreen? 'margin-top: 0;height: 100vh;' : ''">
             <div class="image-detail-view">
                 <div class="detail-header" v-if="hasListView">
                     <p class="name">{{title}}</p>
