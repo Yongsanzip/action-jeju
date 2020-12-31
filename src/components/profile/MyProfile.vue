@@ -171,6 +171,7 @@ export default {
             profile.profile(postData).then(res => {
                 const getResult = res.data;
                 this.profile = getResult;
+                this.$forceUpdate();
                 // console.log(getResult.result_code)
             }).catch(err => {
                 console.error(err);
@@ -199,7 +200,7 @@ export default {
                 .then(res => {
                     const getResult = res.data;
                     console.log(getResult);
-                    window.location.reload();
+                    this.getProfile();
                 }).catch(err => {
                 console.error(err);
             })
