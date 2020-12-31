@@ -238,6 +238,8 @@ export default {
                 this.profile.agree_email === "Y" ? this.user.chkEmail = true : this.user.chkEmail = false;
                 this.profile.agree_sms === "Y" ? this.user.chkSMS = true : this.user.chkSMS = false;
                 // console.log(getResult.result_code)
+
+                this.$forceUpdate();
             }).catch(err => {
                 console.error(err);
             })
@@ -265,7 +267,8 @@ export default {
                 .then(res => {
                     const getResult = res.data;
                     console.log(getResult);
-                    window.location.reload();
+                    // window.location.reload();
+                    this.getProfile();
                 }).catch(err => {
                 console.error(err);
             })
