@@ -73,7 +73,7 @@
                                                     && dateIdx === 0"
                                                 :class="{'review-guide': true, 'fadeout': !isShowGuide}"
                                             >
-                                                터치하면 상세정보를 볼 수 있어요
+                                                터치하면 후기를 쓸 수 있어요
                                             </div>
                                             <p class="review-text">
                                                 {{item.review}}

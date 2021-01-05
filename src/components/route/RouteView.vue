@@ -64,6 +64,9 @@
                                     <p class="place-name" @click="doViewPlace(path)">{{path.company_name}}</p>
                                     <p class="place-time">{{path.distance_data}} {{path.duration_data}}</p>
                                     <div class="travel-contents">
+                                        <div v-if="idx === 0 && pathIdx === 0" :class="{'review-guide': true, 'fadeout': !isShowGuide}">
+                                            터치하면 상세정보를 볼 수 있어요
+                                        </div>
                                         <div class="review-text" @click="doViewAllReviewText($event, idx, pathIdx)">
                                             <p v-if="path.review != null">{{path.review}}</p>
                                         </div>
@@ -277,6 +280,7 @@ export default {
     },
     data(){
       return{
+          isShowGuide: true,
           mainTourIdx: null,
           banners: [],
           showReplyCnt: 0,
@@ -1053,6 +1057,9 @@ export default {
     },
     created() {
         document.getElementById('app').scrollIntoView();
+        setTimeout(function() {
+            this.isShowGuide = false;
+        }.bind(this), 5000);
 
         this.mainTourIdx = this.GET_MAIN_TOUR_IDX;
 
