@@ -105,9 +105,13 @@ export default {
                 this.nicksubmit = false;
                 return false;
             }
-            else if( this.user.name.search(/\s/) !== -1){
+            else if( this.user.name.search(/\s/) !== -1) {
                 this.$alert(' 공백은 사용할 수 없습니다. ');
                 this.nicksubmit = false;
+                return false;
+            }
+            else if(!this.$v.user.name.maxLength || !this.$v.user.name.minLength) {
+                this.$alert('한글 또는 영문 4자 이상, 15자 이내의 닉네임을 입력해주세요.');
                 return false;
             }else{
                 postData.append('nick', this.user.name);
@@ -155,6 +159,9 @@ export default {
                 }
                 else if(!this.$v.user.password.pattern || !this.$v.user.password.minLength) {
                     this.$alert('비밀번호를 숫자, 문자 포함 6자리 이상 입력해주세요.');
+                }
+                else if(!this.$v.user.confirmPassword.required || !this.$v.user.confirmPassword.sameAsPassword) {
+                    this.$alert('비밀번호 확인을 입력해주세요.');
                 }
                 return;
             }
